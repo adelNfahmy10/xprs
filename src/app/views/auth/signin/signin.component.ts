@@ -46,13 +46,14 @@ export class SigninComponent {
   }
 
   onLogin() {
-    this.submitted = true
-    if (this.signinForm.valid) {
-      const email = this.form['email'].value // Get the username from the form
-      const password = this.form['password'].value // Get the password from the form
+    this.route.navigate(['/home'])
+    // this.submitted = true
+    // if (this.signinForm.valid) {
+    //   const email = this.form['email'].value // Get the username from the form
+    //   const password = this.form['password'].value // Get the password from the form
 
-      // Login Api
-      this.store.dispatch(login({ email: email, password: password }))
-    }
+    //   // Login Api
+    //   this.store.dispatch(login({ email: email, password: password }))
+    // }
   }
 }
