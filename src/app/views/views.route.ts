@@ -9,6 +9,14 @@ import { HomeComponent } from './home/home.component'
 
 export const VIEWS_ROUTES: Route[] = [
   {
+    path:'', redirectTo:'home', pathMatch: 'full',
+  },
+  {
+    path: 'home',
+    component: HomeComponent,
+    data: { title: 'Home' },
+  },
+  {
     path: 'dashboards',
     loadChildren: () =>
       import('./dashboards/dashboard.route').then(
@@ -29,11 +37,6 @@ export const VIEWS_ROUTES: Route[] = [
     path: 'customers',
     loadChildren: () =>
       import('./customers/customers.route').then((mod) => mod.CUSTOMER_ROUTES),
-  },
-  {
-    path: 'home',
-    component: HomeComponent,
-    data: { title: 'Home' },
   },
   {
     path: 'orders',
