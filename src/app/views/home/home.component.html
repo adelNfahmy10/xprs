@@ -1,0 +1,248 @@
+<section class="home">
+  <!-- Home Slider-->
+  <div class="row g-1">
+  <div class="col-md-3 col-12">
+    <div class="swiper home-slider rounded-4">
+      <swiper-container
+        [config]="swiperCreativeEffect"
+        class="swiper-wrapper rounded-4"
+        init="false"
+      >
+        @for (slide of homeSlider; track $index) {
+          <swiper-slide class="rounded-4">
+            <a [href]="slide.url">
+              <img
+                [routerLink]="'/products/' + slide.id"
+                [src]="slide.background_1900px_x_500px"
+                [alt]="slide.name"
+                lazyLoad="lazy"
+                class="img-fluid rounded-4 wow animate__animated animate__zoomIn"
+              />
+            </a>
+
+          </swiper-slide>
+        }
+      </swiper-container>
+      <!-- <div id="creative-pagination" class="swiper-pagination"></div> -->
+    </div>
+  </div>
+
+  <div class="col-md-9 col-12">
+    <div class="rounded-4 category-card">
+      <div class="row g-2">
+        @for (cat of categories.slice(0, 12); track $index) {
+          <div
+            class="col-md-3 col-6 cr wow animate__animated animate__fadeInDown"
+            [style.animationDelay]="($index * 0.2) + 's'"
+          >
+            <div
+              [class.d-none]="$index >= 6"
+              [class.d-md-block]="$index >= 6"
+              class="cat-card bg-black rounded-4"
+            >
+              <img
+                [routerLink]="'/products/' + cat.id"
+                [src]="cat.picture"
+                [alt]="cat.name"
+                lazyLoad="lazy"
+                class="img-fluid rounded-4"
+              />
+            </div>
+          </div>
+        }
+      </div>
+      <swiper-container
+        [config]="swiperCreativeEffect"
+        class="swiper-wrapper "
+        init="false"
+      >
+
+      </swiper-container>
+      <!-- <div id="creative-pagination" class="swiper-pagination"></div> -->
+    </div>
+  </div>
+  </div>
+
+  <!-- Categories Slider -->
+  <div class="swiper category-slider mt-4">
+    <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">Categories</h2>
+   <swiper-container [config]="swiperPagination" init="false" class="swiper-wrapper">
+    @for (cat of categories; track $index) {
+      <swiper-slide
+        class="rounded-4 wow animate__animated animate__fadeInUp my-3 cr h-100"
+        [style.animationDelay]="($index * 0.2) + 's'"
+      >
+        <div class="cat-slide bg-black rounded-4 h-100">
+          <img
+            [routerLink]="'/products/' + cat.id"
+            [src]="cat.picture"
+            [alt]="cat.name"
+            lazyLoad="lazy"
+            class="img-fluid rounded-4"
+          />
+        </div>
+      </swiper-slide>
+    }
+    </swiper-container>
+    <div class="swiper-button-next basic-next"></div>
+    <div class="swiper-button-prev basic-prev"></div>
+    <!-- <div class="swiper-pagination basic-pagination" id="basic-pagination" ></div> -->
+  </div>
+
+  <!-- Brand Slider -->
+  <div class="swiper brand-slider mt-4">
+    <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">Brands</h2>
+    <swiper-container [config]="swiperPaginationBrands" init="false" class="swiper-wrapper">
+    @for (brand of brands; track $index) {
+      <swiper-slide
+        class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 cr h-100"
+        [style.animationDelay]="($index * 0.2) + 's'"
+      >
+        <div class="brand-cart p-3 h-100">
+          @if(brand.picture){
+            <img
+              [routerLink]="'/products/' + brand.id"
+              [src]="brand.picture"
+              [alt]="brand.name"
+              lazyLoad="lazy"
+              class="rounded-4"
+            />
+          } @else {
+            <img
+              [routerLink]="'/products/' + brand.id"
+              src="assets/images/global-image/load.gif"
+              [alt]="brand.name"
+              lazyLoad="lazy"
+              class="brand-img rounded-4 d-inline-block"
+            />
+          }
+
+        </div>
+      </swiper-slide>
+    }
+    </swiper-container>
+    <div class="swiper-button-next basic-next"></div>
+    <div class="swiper-button-prev basic-prev"></div>
+    <!-- <div class="swiper-pagination basic-pagination" id="basic-pagination" ></div> -->
+  </div>
+
+  <!-- Special Offers -->
+  <div class="swiper special-slider mt-4">
+    <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">Categories</h2>
+    <swiper-container [config]="swiperPaginationOffer" init="false" class="swiper-wrapper">
+       @for (item of specialOffer?.products; track $index) {
+        <swiper-slide
+          class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 cr h-100"
+          [style.animationDelay]="($index * 0.2) + 's'"
+        >
+          <div class="card offer-cart overflow-hidden">
+            <div class="position-relative">
+              <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
+              <span class="position-absolute top-0 start-0 p-1">
+                @if (item?.availability == 'In Stock') {
+                  <button
+                    type="button"
+                    class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
+                    [ngClass]="
+                      item.save
+                        ? 'btn-success text-light'
+                        : 'bg-success-subtle text-success'
+                    "
+                  >
+                    <iconify-icon icon="solar:bookmark-broken"></iconify-icon>
+                  </button>
+                }
+              </span>
+              <span class="position-absolute top-0 end-0 p-1">
+                @if(item?.availability != 'In Stock'){
+                  <span class="badge bg-danger text-white fs-13">
+                    Sold Out
+                  </span>
+                } @else{
+                  <span class="badge bg-success text-white fs-13">
+                    In Stock
+                  </span>
+                }
+              </span>
+            </div>
+            <div class="card-body">
+              <div class="d-flex align-items-center gap-2">
+                <!-- <div class="avatar bg-light rounded">
+                  <iconify-icon
+                    [icon]="item.icon"
+                    class="fs-24 text-primary avatar-title"
+                  ></iconify-icon>
+                </div> -->
+                <div class="text-start">
+                  <h6 class="text-dark fw-medium fs-16">{{ item.name.slice(0,40) }}...</h6>
+                  <!-- <p class="text-muted mb-0">{{ item.location }}</p> -->
+                </div>
+              </div>
+              <!-- <div class="row mt-2 g-2">
+                <div class="col-lg-4 col-4">
+                  <span class="badge bg-light-subtle text-muted border fs-12">
+                    <span class="fs-16"
+                      ><iconify-icon
+                        icon="solar:bed-broken"
+                        class="align-middle"
+                      ></iconify-icon
+                    ></span>
+                    {{ item.beds }} Beds
+                  </span>
+                </div>
+                <div class="col-lg-4 col-4">
+                  <span class="badge bg-light-subtle text-muted border fs-12">
+                    <span class="fs-16"
+                      ><iconify-icon
+                        icon="solar:bath-broken"
+                        class="align-middle"
+                      ></iconify-icon
+                    ></span>
+                    {{ item.bath }} Bath
+                  </span>
+                </div>
+                <div class="col-lg-4 col-4">
+                  <span class="badge bg-light-subtle text-muted border fs-12">
+                    <span class="fs-16"
+                      ><iconify-icon
+                        icon="solar:scale-broken"
+                        class="align-middle"
+                      ></iconify-icon
+                    ></span>
+                    {{ item.size }}ft
+                  </span>
+                </div>
+                <div class="col-lg-4 col-4">
+                  <span class="badge bg-light-subtle text-muted border fs-12">
+                    <span class="fs-16"
+                      ><iconify-icon
+                        icon="solar:double-alt-arrow-up-broken"
+                        class="align-middle"
+                      ></iconify-icon
+                    ></span>
+                    {{ item.flor }} Floor
+                  </span>
+                </div>
+              </div> -->
+            </div>
+            <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top" >
+              <p class="fw-medium fs-16 mb-0 main-color">
+                {{ item.price }} EGP
+              </p>
+
+              <span class="fs-10">
+                Shop Now <i class="ri-arrow-right-line align-middle"></i>
+              </span>
+
+            </div>
+          </div>
+        </swiper-slide>
+
+        }
+    </swiper-container>
+    <div class="swiper-button-next basic-next"></div>
+    <div class="swiper-button-prev basic-prev"></div>
+    <div class="swiper-pagination basic-pagination" id="basic-pagination" ></div>
+  </div>
+
+</section>

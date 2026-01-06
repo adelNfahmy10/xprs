@@ -1,0 +1,102 @@
+$main-color: #81FB37;
+
+.swiper{
+  height: 100%;
+  swiper-slide{
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    img{
+      width: 100%;
+      height: 100%;
+      filter: drop-shadow(0 0 10px $main-color);
+      border-radius: 20px;
+    }
+  }
+}
+
+.cat-card, .cat-slide {
+  position: relative;
+  overflow: visible; // مهم عشان الصورة تطلع برّه
+  perspective: 1000px;
+  transition: transform 0.5s ease;
+  padding: 10px;
+  img {
+    display: block;
+    width: 100%;
+    transition: transform 0.6s ease;
+    transform-style: preserve-3d;
+    z-index: 9999;
+    filter: drop-shadow(0 0 8px $main-color);
+  }
+
+   &:hover {
+    transform: translateZ(-60px) scale(0.9);
+    box-shadow: 0 0 15px $main-color;
+    img {
+      transform: translateZ(140px) translateY(5px) rotateY(18deg) rotateX(10deg) scale(1.3)
+    }
+  }
+}
+
+.cat-slide {
+  &:hover {
+    transform: translateZ(-60px) scale(0.9);
+    box-shadow: 0 0 15px $main-color;
+    img {
+      transform: translateZ(140px) translateY(8px) rotateY(0) rotateX(0) scale(1.3)
+    }
+  }
+}
+
+.swiper.brand-slider{
+  .brand-cart{
+    transition: all .5s ease;
+    img{
+      transition: all .5s ease;
+      filter: none !important;
+      &.brand-img{
+        width: 100px !important;
+        margin: 0 -10px;
+      }
+    }
+
+
+    &:hover{
+      box-shadow: 0 0 10px $main-color;
+      border-radius: 50%;
+      img{
+        filter: drop-shadow(0 0 10px $main-color) !important;
+      }
+    }
+  }
+}
+
+.swiper.special-slider{
+  .offer-cart{
+    transition: all .5s ease;
+    img{
+      transition: all .5s ease;
+      filter: none !important;
+    }
+
+    &:hover{
+      box-shadow: 0 0 10px $main-color;
+    }
+  }
+}
+
+.offer-img{
+  width: 100%;
+  height:200px !important;
+  object-fit: cover;
+}
+
+@media (max-width:567px) {
+  .cat-slide {
+    img{
+      margin: 0 auto;
+      width: 75% !important;
+    }
+  }
+}
