@@ -9,12 +9,14 @@
 ></ng-progress>
 
 <ngx-spinner
-  bdColor="rgba(0, 0, 0, 0.8)"
+  bdColor="rgba(0, 0, 0)"
   size="medium"
   color="#fff"
   [fullScreen]="true">
-
-  <img src="assets/images/global-image/load.gif" alt="XPRS">
+  <div class="d-flex flex-column justify-content-center align-items-center">
+    <img src="assets/images/home-image/logo.avif" class="w-100" alt="XPRS">
+    <img src="assets/images/global-image/load.gif" alt="XPRS">
+  </div>
 </ngx-spinner>
 
 <router-outlet />
