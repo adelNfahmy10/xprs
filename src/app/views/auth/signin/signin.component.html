@@ -11,8 +11,6 @@
 
         <div class="px-4">
           <form
-            [formGroup]="signinForm"
-            (ngSubmit)="onLogin()"
             class="authentication-form"
           >
             <div class="mb-3">
@@ -20,7 +18,6 @@
               <input
                 type="email"
                 id="example-email"
-                formControlName="email"
                 [ngClass]="{ 'is-invalid': submitted && form['email'].errors }"
                 class="form-control bg-light bg-opacity-50 border-light py-2"
                 placeholder="Enter your email"
@@ -36,7 +33,6 @@
               <input
                 type="text"
                 id="example-password"
-                formControlName="password"
                 [ngClass]="{
                   'is-invalid': submitted && form['password'].errors,
                 }"
@@ -58,7 +54,7 @@
             </div>
 
             <div class="mb-1 text-center d-grid">
-              <button class="btn btn-danger py-2 fw-medium" type="submit">
+              <button class="btn btn-danger py-2 fw-medium" type="submit" (click)="onLogin()">
                 Sign In
               </button>
             </div>

@@ -1,88 +1,81 @@
-<section class="home">
+<section class="home p-3">
   <!-- Home Slider-->
   <div class="row g-1">
-  <div class="col-md-3 col-12">
-    <div class="swiper home-slider rounded-4">
-      <swiper-container
-        [config]="swiperCreativeEffect"
-        class="swiper-wrapper rounded-4"
-        init="false"
-      >
-        @for (slide of homeSlider; track $index) {
-          <swiper-slide class="rounded-4">
-            <a [href]="slide.url">
-              <img
-                [routerLink]="'/products/' + slide.id"
-                [src]="slide.background_1900px_x_500px"
-                [alt]="slide.name"
-                lazyLoad="lazy"
-                class="img-fluid rounded-4 wow animate__animated animate__zoomIn"
-              />
-            </a>
+    <div class="col-md-3 col-12">
+      <div class="swiper home-slider rounded-4">
+        <swiper-container [config]="swiperCreativeEffect" class="swiper-wrapper rounded-4" init="false" >
+          @for (slide of homeSlider; track $index) {
+            <swiper-slide class="rounded-4">
+              <a [href]="slide.url">
+                <img
+                  [routerLink]="'/products/' + slide.id"
+                  [src]="slide.background_1900px_x_500px"
+                  [alt]="slide.name"
+                  lazyLoad="lazy"
+                  class="img-fluid rounded-4 wow animate__animated animate__zoomIn"
+                />
+              </a>
 
-          </swiper-slide>
-        }
-      </swiper-container>
-      <!-- <div id="creative-pagination" class="swiper-pagination"></div> -->
-    </div>
-  </div>
-
-  <div class="col-md-9 col-12">
-    <div class="rounded-4 category-card">
-      <div class="row g-2">
-        @for (cat of categories.slice(0, 12); track $index) {
-          <div
-            class="col-md-3 col-6 cr wow animate__animated animate__fadeInDown"
-            [style.animationDelay]="($index * 0.2) + 's'"
-          >
-            <div
-              [class.d-none]="$index >= 6"
-              [class.d-md-block]="$index >= 6"
-              class="cat-card bg-black rounded-4"
-            >
-              <img
-                [routerLink]="'/products/' + cat.id"
-                [src]="cat.picture"
-                [alt]="cat.name"
-                lazyLoad="lazy"
-                class="img-fluid rounded-4"
-              />
-            </div>
-          </div>
-        }
+            </swiper-slide>
+          }
+        </swiper-container>
+        <!-- <div id="creative-pagination" class="swiper-pagination"></div> -->
       </div>
-      <swiper-container
-        [config]="swiperCreativeEffect"
-        class="swiper-wrapper "
-        init="false"
-      >
-
-      </swiper-container>
-      <!-- <div id="creative-pagination" class="swiper-pagination"></div> -->
     </div>
-  </div>
+
+    <div class="col-md-9 col-12">
+      <div class="rounded-4 category-card">
+        <div class="row g-3">
+          @for (cat of categories.slice(0, 12); track $index) {
+            <div
+              class="col-md-3 col-6 cr wow animate__animated animate__fadeInDown"
+              [style.animationDelay]="($index * 0.2) + 's'"
+            >
+              <div
+                [class.d-none]="$index >= 6"
+                [class.d-md-block]="$index >= 6"
+                class="cat-card bg-black rounded-4"
+              >
+                <img
+                  [routerLink]="'/products/' + cat.id"
+                  [src]="cat.picture"
+                  [alt]="cat.name"
+                  lazyLoad="lazy"
+                  class="img-fluid rounded-4"
+                />
+              </div>
+            </div>
+          }
+        </div>
+        <swiper-container
+          [config]="swiperCreativeEffect"
+          class="swiper-wrapper "
+          init="false"
+        >
+
+        </swiper-container>
+        <!-- <div id="creative-pagination" class="swiper-pagination"></div> -->
+      </div>
+    </div>
   </div>
 
   <!-- Categories Slider -->
   <div class="swiper category-slider mt-4">
     <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">Categories</h2>
-   <swiper-container [config]="swiperPagination" init="false" class="swiper-wrapper">
-    @for (cat of categories; track $index) {
-      <swiper-slide
-        class="rounded-4 wow animate__animated animate__fadeInUp my-3 cr h-100"
-        [style.animationDelay]="($index * 0.2) + 's'"
-      >
-        <div class="cat-slide bg-black rounded-4 h-100">
-          <img
-            [routerLink]="'/products/' + cat.id"
-            [src]="cat.picture"
-            [alt]="cat.name"
-            lazyLoad="lazy"
-            class="img-fluid rounded-4"
-          />
-        </div>
-      </swiper-slide>
-    }
+    <swiper-container [config]="swiperPagination" init="false" class="swiper-wrapper">
+      @for (cat of categories; track $index) {
+        <swiper-slide class="rounded-4 wow animate__animated animate__fadeInUp my-3 cr h-100" [style.animationDelay]="($index * 0.2) + 's'" >
+          <div class="cat-slide bg-black rounded-4 h-100">
+            <img
+              [routerLink]="'/products/' + cat.id"
+              [src]="cat.picture"
+              [alt]="cat.name"
+              lazyLoad="lazy"
+              class="img-fluid rounded-4"
+            />
+          </div>
+        </swiper-slide>
+      }
     </swiper-container>
     <div class="swiper-button-next basic-next"></div>
     <div class="swiper-button-prev basic-prev"></div>
@@ -93,51 +86,47 @@
   <div class="swiper brand-slider mt-4">
     <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">Brands</h2>
     <swiper-container [config]="swiperPaginationBrands" init="false" class="swiper-wrapper">
-    @for (brand of brands; track $index) {
-      <swiper-slide
-        class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 cr h-100"
-        [style.animationDelay]="($index * 0.2) + 's'"
-      >
-        <div class="brand-cart p-3 h-100">
-          @if(brand.picture){
-            <img
-              [routerLink]="'/products/' + brand.id"
-              [src]="brand.picture"
-              [alt]="brand.name"
-              lazyLoad="lazy"
-              class="rounded-4"
-            />
-          } @else {
-            <img
-              [routerLink]="'/products/' + brand.id"
-              src="assets/images/global-image/load.gif"
-              [alt]="brand.name"
-              lazyLoad="lazy"
-              class="brand-img rounded-4 d-inline-block"
-            />
-          }
+      @for (brand of brands; track $index) {
+        <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 cr h-100" [style.animationDelay]="($index * 0.2) + 's'" >
+          <div class="brand-cart p-3 h-100">
+            @if(brand.picture){
+              <img
+                [routerLink]="'/products/' + brand.id"
+                [src]="brand.picture"
+                [alt]="brand.name"
+                lazyLoad="lazy"
+                class="rounded-4"
+              />
+            } @else {
+              <img
+                [routerLink]="'/products/' + brand.id"
+                src="assets/images/global-image/load.gif"
+                [alt]="brand.name"
+                lazyLoad="lazy"
+                class="brand-img rounded-4 d-inline-block"
+              />
+            }
 
-        </div>
-      </swiper-slide>
-    }
+          </div>
+        </swiper-slide>
+      }
     </swiper-container>
     <div class="swiper-button-next basic-next"></div>
     <div class="swiper-button-prev basic-prev"></div>
     <!-- <div class="swiper-pagination basic-pagination" id="basic-pagination" ></div> -->
   </div>
 
-  <!-- Special Offers -->
+  <!-- Speicals Offers -->
   <div class="swiper special-slider mt-4">
-    <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">Categories</h2>
-    <swiper-container [config]="swiperPaginationOffer" init="false" class="swiper-wrapper">
-       @for (item of specialOffer?.products; track $index) {
-        <swiper-slide
-          class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 cr h-100"
-          [style.animationDelay]="($index * 0.2) + 's'"
-        >
+    <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">{{specialOffers.title}}</h2>
+    <swiper-container [config]="swiperPaginationEssentials" init="false" class="swiper-wrapper">
+      @for (item of specialOffers?.products; track $index) {
+        <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 cr h-100 px-1" [style.animationDelay]="($index * 0.2) + 's'" >
           <div class="card offer-cart overflow-hidden">
             <div class="position-relative">
               <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
+              <!-- <img [src]="item?.picture2 ? item?.picture2 : item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
+              <img [src]="item?.picture3 ? item?.picture3 : item?.picture3" [alt]="item?.picture1_alt" class="offer-img rounded-0" /> -->
               <span class="position-absolute top-0 start-0 p-1">
                 @if (item?.availability == 'In Stock') {
                   <button
@@ -149,7 +138,74 @@
                         : 'bg-success-subtle text-success'
                     "
                   >
-                    <iconify-icon icon="solar:bookmark-broken"></iconify-icon>
+                  <i class="ri-heart-2-line"></i>
+                    <!-- <iconify-icon icon="solar:bookmark-broken"></iconify-icon> -->
+                  </button>
+                }
+              </span>
+              <span class="position-absolute top-0 end-0 p-1">
+                @if(item?.availability != 'In Stock'){
+                  <span class="badge bg-danger text-white fs-13">
+                    Sold Out
+                  </span>
+                } @else{
+                  <span class="badge bg-success text-white fs-13">
+                    In Stock
+                  </span>
+                }
+              </span>
+            </div>
+            <div class="card-body">
+              <div class="d-flex align-items-center gap-2">
+                <div class="text-start">
+                  <h6 class="text-dark fw-medium fs-13">{{ item.name.slice(0,40) }}...</h6>
+                  <!-- <p class="text-muted mb-0">{{ item.location }}</p> -->
+                </div>
+              </div>
+            </div>
+            <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top" >
+              <p class="fw-medium fs-13 mb-0 main-color">
+                {{ item.price }} EGP
+              </p>
+
+              <span class="fs-10">
+                Shop Now <i class="ri-arrow-right-line align-middle"></i>
+              </span>
+
+            </div>
+          </div>
+        </swiper-slide>
+      }
+    </swiper-container>
+    <div class="swiper-button-next basic-next"></div>
+    <div class="swiper-button-prev basic-prev"></div>
+    <!-- <div class="swiper-pagination basic-pagination" id="basic-pagination" ></div> -->
+  </div>
+
+  <!-- Essentials -->
+  <div class="swiper special-slider mt-4">
+    <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">{{specialEssentials.title}}</h2>
+    <swiper-container [config]="swiperPaginationEssentials" init="false" class="swiper-wrapper">
+      @for (item of specialEssentials?.products; track $index) {
+        <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 cr h-100 px-1" [style.animationDelay]="($index * 0.2) + 's'" >
+          <div class="card offer-cart overflow-hidden">
+            <div class="position-relative">
+              <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
+              <!-- <img [src]="item?.picture2 ? item?.picture2 : item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
+              <img [src]="item?.picture3 ? item?.picture3 : item?.picture3" [alt]="item?.picture1_alt" class="offer-img rounded-0" /> -->
+              <span class="position-absolute top-0 start-0 p-1">
+                @if (item?.availability == 'In Stock') {
+                  <button
+                    type="button"
+                    class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
+                    [ngClass]="
+                      item.save
+                        ? 'btn-success text-light'
+                        : 'bg-success-subtle text-success'
+                    "
+                  >
+                  <i class="ri-heart-2-line"></i>
+                    <!-- <iconify-icon icon="solar:bookmark-broken"></iconify-icon> -->
                   </button>
                 }
               </span>
@@ -174,7 +230,7 @@
                   ></iconify-icon>
                 </div> -->
                 <div class="text-start">
-                  <h6 class="text-dark fw-medium fs-16">{{ item.name.slice(0,40) }}...</h6>
+                  <h6 class="text-dark fw-medium fs-13">{{ item.name.slice(0,40) }}...</h6>
                   <!-- <p class="text-muted mb-0">{{ item.location }}</p> -->
                 </div>
               </div>
@@ -226,7 +282,7 @@
               </div> -->
             </div>
             <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top" >
-              <p class="fw-medium fs-16 mb-0 main-color">
+              <p class="fw-medium fs-13 mb-0 main-color">
                 {{ item.price }} EGP
               </p>
 
@@ -237,12 +293,77 @@
             </div>
           </div>
         </swiper-slide>
-
-        }
+      }
     </swiper-container>
     <div class="swiper-button-next basic-next"></div>
     <div class="swiper-button-prev basic-prev"></div>
-    <div class="swiper-pagination basic-pagination" id="basic-pagination" ></div>
+    <!-- <div class="swiper-pagination basic-pagination" id="basic-pagination" ></div> -->
   </div>
 
+  <!-- Selling -->
+  <!-- @if (specialSelling?.products.length > 0) {
+    <div class="swiper special-slider mt-4">
+      <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">{{specialSelling.title}}</h2>
+      <swiper-container [config]="swiperPaginationEssentials" init="false" class="swiper-wrapper">
+        @for (item of specialSelling?.products; track $index) {
+          <swiper-slide
+            class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 cr h-100 px-1"
+            [style.animationDelay]="($index * 0.2) + 's'"
+          >
+            <div class="card offer-cart overflow-hidden">
+              <div class="position-relative">
+                <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
+                <span class="position-absolute top-0 start-0 p-1">
+                  @if (item?.availability == 'In Stock') {
+                    <button
+                      type="button"
+                      class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
+                      [ngClass]="
+                        item.save
+                          ? 'btn-success text-light'
+                          : 'bg-success-subtle text-success'
+                      "
+                    >
+                    <i class="ri-heart-2-line"></i>
+                    </button>
+                  }
+                </span>
+                <span class="position-absolute top-0 end-0 p-1">
+                  @if(item?.availability != 'In Stock'){
+                    <span class="badge bg-danger text-white fs-13">
+                      Sold Out
+                    </span>
+                  } @else{
+                    <span class="badge bg-success text-white fs-13">
+                      In Stock
+                    </span>
+                  }
+                </span>
+              </div>
+              <div class="card-body">
+                <div class="d-flex align-items-center gap-2">
+                  <div class="text-start">
+                    <h6 class="text-dark fw-medium fs-13">{{ item.name.slice(0,40) }}...</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top" >
+                <p class="fw-medium fs-13 mb-0 main-color">
+                  {{ item.price }} EGP
+                </p>
+
+                <span class="fs-10">
+                  Shop Now <i class="ri-arrow-right-line align-middle"></i>
+                </span>
+
+              </div>
+            </div>
+          </swiper-slide>
+
+          }
+      </swiper-container>
+      <div class="swiper-button-next basic-next"></div>
+      <div class="swiper-button-prev basic-prev"></div>
+    </div>
+  } -->
 </section>

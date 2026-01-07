@@ -1,19 +1,110 @@
-<footer class="footer">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-12 text-center">
-        {{ year }} &copy; XPRS. Crafted by
-        <iconify-icon
-          icon="solar:hearts-bold-duotone"
-          class="fs-18 align-middle text-danger"
-        ></iconify-icon>
-        <a
-          href="javascript:void(0);"
-          class="fw-bold footer-text"
-          target="_blank"
-          >Techzaa</a
-        >
+<section class="main-footer p-3">
+  <div class="row g-3">
+    <!-- Image Footer Logo -->
+    <div class="col-md-12">
+      <div class="text-center">
+        <img src="assets/images/home-image/logo.avif" class="footer-logo" alt="">
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="xprs-tranding">
+        <h3 class="text-white">XPRS Trending</h3>
+        <ul class="list-group list-group-flush gap-2">
+          @for (cat of allCategories; track $index) {
+            <li class="list-group-item bg-transparent text-white">{{cat.name}}</li>
+          }
+        </ul>
+      </div>
+    </div>
+
+    <hr class="d-md-none d-block">
+
+    <div class="col-md-3">
+      <div class="xprs-tranding">
+        <h3 class="text-white">Links</h3>
+        <ul class="list-group list-group-flush gap-2">
+          <li class="list-group-item bg-transparent text-white">About us</li>
+          <li class="list-group-item bg-transparent text-white">Contact us</li>
+          <li class="list-group-item bg-transparent text-white">Return Policy</li>
+          <li class="list-group-item bg-transparent text-white">Privacy Policy</li>
+          <li class="list-group-item bg-transparent text-white">Shipping Policy</li>
+          <li class="list-group-item bg-transparent text-white">FAQs</li>
+          <li class="list-group-item bg-transparent text-white"><i class="fa fa-envelope"></i> salesmyxprs.com</li>
+          <li class="list-group-item bg-transparent text-white"><i class="fa fa-envelope"></i> 19857</li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="d-md-none d-block">
+
+    <div class="col-md-3">
+      <div class="xprs-tranding">
+        <h3 class="text-white">XPRS Mobile App</h3>
+        <ul class="list-group list-group-flush gap-2">
+          <li class="list-group-item bg-transparent text-white">
+             <a href="https://apps.apple.com/us/app/xprs/id1607563237" target="blank" title="App Store"><img src="assets/images/footer-image/apple.png" alt="App Store" title="App Store"></a>
+          </li>
+          <li class="list-group-item bg-transparent text-white">
+            <a href="https://play.google.com/store/apps/details?id=com.myxprs" target="blank" title="Google Play"><img src="assets/images/footer-image/google.png" alt="Google Play" title="Google Play"></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <hr class="d-md-none d-block">
+
+    <div class="col-md-3">
+      <div class="xprs-tranding">
+        <h3 class="text-white">Newsletter</h3>
+        <form>
+          <label for="Subscribe" class="mb-1 text-white">Subscribe to our newsletter</label>
+          <input class="form-control" type="email" placeholder="Enter your email address" id="subscribe" name="email">
+        </form>
+
+        <div class="social-links d-flex flex-wrap align-items-center gap-2 mt-2">
+          <a class="icon main-border p-1 rounded-circle d-flex justify-content-center align-items-center" href="https://www.facebook.com/XPRSbyTradeline" target="_blank" title="XPRS Facebook Account">
+            <i class="ri-facebook-line"></i>
+          </a>
+
+           <a class="icon main-border p-1 rounded-circle d-flex justify-content-center align-items-center" href="https://www.instagram.com/xprsbytradeline" target="_blank" title="XPRS Instagram Account">
+            <i class="ri-instagram-line"></i>
+          </a>
+
+           <a class="icon main-border p-1 rounded-circle d-flex justify-content-center align-items-center" href="http://api.whatsapp.com/send?phone=+201011111711" target="_blank" title="Whatsapp">
+            <i class="ri-whatsapp-line"></i>
+          </a>
+
+           <a class="icon main-border p-1 rounded-circle d-flex justify-content-center align-items-center" href="https://www.youtube.com/channel/UCW9-jP7ouI9fqU_sGMn_KZg" target="_blank" title="Youtube">
+            <i class="ri-youtube-line"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="col-12 text-center text-white border-top border-light pt-2">
+        2025 &copy; XPRS. Crafted by XPRS Team
       </div>
     </div>
   </div>
-</footer>
+  <!-- <footer class="footer bg-black">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12 text-center">
+          {{ year }} &copy; XPRS. Crafted by
+          <iconify-icon
+            icon="solar:hearts-bold-duotone"
+            class="fs-18 align-middle text-danger"
+          ></iconify-icon>
+          <a
+            href="javascript:void(0);"
+            class="fw-bold footer-text"
+            target="_blank"
+            >Techzaa</a
+          >
+        </div>
+      </div>
+    </div>
+  </footer> -->
+</section>

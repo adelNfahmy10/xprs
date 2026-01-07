@@ -10,26 +10,21 @@ import { MaintenanceComponent } from '@views/extra/maintenance/maintenance.compo
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'home',
-    pathMatch: 'full',
-  },
-  {
-    path: '',
     component: MainLayoutComponent,
     loadChildren: () =>
       import('./views/views.route').then((mod) => mod.VIEWS_ROUTES),
-      canActivate: [
-        (url: any) => {
-          const router = inject(Router)
-          const authService = inject(AuthenticationService)
-          if (!authService.session) {
-            return router.createUrlTree(['/auth/sign-in'], {
-              queryParams: { returnUrl: url._routerState.url },
-            })
-          }
-          return true
-        },
-      ],
+      // canActivate: [
+      //   (url: any) => {
+      //     const router = inject(Router)
+      //     const authService = inject(AuthenticationService)
+      //     if (!authService.session) {
+      //       return router.createUrlTree(['/auth/sign-in'], {
+      //         queryParams: { returnUrl: url._routerState.url },
+      //       })
+      //     }
+      //     return true
+      //   },
+      // ],
   },
   {
     path: 'auth',

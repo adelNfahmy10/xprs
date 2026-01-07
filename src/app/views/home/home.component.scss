@@ -30,24 +30,24 @@ $main-color: #81FB37;
     filter: drop-shadow(0 0 8px $main-color);
   }
 
-   &:hover {
-    transform: translateZ(-60px) scale(0.9);
+  &:hover {
+    transform: translateZ(-60px) scale(0.3);
     box-shadow: 0 0 15px $main-color;
     img {
-      transform: translateZ(140px) translateY(5px) rotateY(18deg) rotateX(10deg) scale(1.3)
+      transform: translateZ(140px) translateY(5px) rotateX(-20deg) scale(3.4)
     }
   }
 }
 
-.cat-slide {
-  &:hover {
-    transform: translateZ(-60px) scale(0.9);
-    box-shadow: 0 0 15px $main-color;
-    img {
-      transform: translateZ(140px) translateY(8px) rotateY(0) rotateX(0) scale(1.3)
-    }
-  }
-}
+// .cat-slide {
+//   &:hover {
+//     transform: translateZ(-60px) scale(0.9);
+//     box-shadow: 0 0 15px $main-color;
+//     img {
+//       transform: translateZ(140px) translateY(8px) rotateY(0) rotateX(0) scale(1.3)
+//     }
+//   }
+// }
 
 .swiper.brand-slider{
   .brand-cart{

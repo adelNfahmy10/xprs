@@ -148,9 +148,9 @@ export const MENU_ITEMS: MenuItemType[] = [
   },
   {
     key: 'earbuds',
-    label: 'Head Phone',
+    label: 'Earbuds',
     icon: 'ri-headphone-line',
-    url: '/headphone',
+    url: '/earbuds',
   },
   // {
   //   key: 'dashboards',

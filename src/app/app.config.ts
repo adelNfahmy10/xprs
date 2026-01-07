@@ -31,6 +31,7 @@ import { provideToastr } from 'ngx-toastr'
 import { DecimalPipe } from '@angular/common'
 import { NgxSpinnerModule } from "ngx-spinner";
 import { loadingInterceptor } from '@core/interceptor/loading.interceptor'
+import { provideAnimations } from '@angular/platform-browser/animations'
 
 const scrollConfig: InMemoryScrollingOptions = {
   scrollPositionRestoration: 'top',
@@ -52,6 +53,7 @@ export const appConfig: ApplicationConfig = {
     provideEffects(AuthenticationEffects, CalendarEffects),
     provideHttpClient(withFetch(), withInterceptors([loadingInterceptor])),
     provideToastr({}),
+    provideAnimations(),
     importProvidersFrom(NgxSpinnerModule)
   ],
 }

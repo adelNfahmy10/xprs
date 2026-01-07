@@ -28,10 +28,10 @@ import { login } from '@store/authentication/authentication.actions'
 export class SigninComponent {
   signinForm!: UntypedFormGroup
   submitted: boolean = false
+  private readonly _Router = inject(Router)
 
   public fb = inject(UntypedFormBuilder)
   store = inject(Store)
-  route = inject(Router)
   service = inject(AuthenticationService)
 
   constructor() {
@@ -46,7 +46,9 @@ export class SigninComponent {
   }
 
   onLogin() {
-    this.route.navigate(['/home'])
+    console.log('res');
+    this._Router.navigate(['/home'])
+    // this.route.navigate(['/home'])
     // this.submitted = true
     // if (this.signinForm.valid) {
     //   const email = this.form['email'].value // Get the username from the form

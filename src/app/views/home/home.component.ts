@@ -21,7 +21,9 @@ export class HomeComponent implements OnInit{
   homeData:any = {}
   homeSlider:any[] = []
   brands:any[] = []
-  specialOffer:any = {}
+  specialEssentials:any = {}
+  specialOffers:any = {}
+  specialSelling:any = {}
   categories:any[] = []
 
   ngOnInit(): void {
@@ -35,9 +37,10 @@ export class HomeComponent implements OnInit{
       next:(res)=>{
         this.homeData = res
         this.homeSlider = res.slider
-        this.specialOffer = res.specialsection2.SpecialOffer_content[0]
-        console.log('Offers : ', this.specialOffer);
-
+        this.specialOffers = res.specialsection1.SpecialOffer_content[0]
+        this.specialEssentials = res.specialsection2.SpecialOffer_content[0]
+        this.specialSelling = res.specialsection3.SpecialOffer_content[0]
+        console.log(this.specialSelling);
       }
     })
   }
@@ -88,7 +91,7 @@ export class HomeComponent implements OnInit{
     modules: [Autoplay, Pagination, Navigation],
     loop: true,
 
-    slidesPerView: 6,
+    slidesPerView: 5,
     spaceBetween: 15,
 
     speed:600,
@@ -98,11 +101,14 @@ export class HomeComponent implements OnInit{
       0: {
         slidesPerView: 2,
       },
-      768: {
+      567: {
         slidesPerView: 3,
       },
+      768: {
+        slidesPerView: 4,
+      },
       1200: {
-        slidesPerView: 6,
+        slidesPerView: 5,
       },
     },
 
@@ -135,10 +141,10 @@ export class HomeComponent implements OnInit{
 
     breakpoints: {
       0: {
-        slidesPerView: 4,
+        slidesPerView: 3,
       },
       768: {
-        slidesPerView: 4,
+        slidesPerView: 6,
       },
       1200: {
         slidesPerView: 8,
@@ -161,13 +167,13 @@ export class HomeComponent implements OnInit{
     },
   }
 
-  // Special Offer Silder Config
-  swiperPaginationOffer: SwiperOptions = {
+  // Special Essentials Silder Config
+  swiperPaginationEssentials: SwiperOptions = {
     modules: [Autoplay, Pagination, Navigation],
     loop: true,
 
-    slidesPerView: 4,
-    spaceBetween: 20,
+    slidesPerView: 5,
+    spaceBetween: 10,
 
     speed:600,
     grabCursor: true,
@@ -177,10 +183,10 @@ export class HomeComponent implements OnInit{
         slidesPerView: 2,
       },
       768: {
-        slidesPerView: 2,
+        slidesPerView: 3,
       },
       1200: {
-        slidesPerView: 4,
+        slidesPerView: 5,
       },
     },
 

@@ -48,7 +48,7 @@ export class MainLayoutComponent implements OnInit {
     }
   }
 
-  @HostListener('window:resize', ['$event'])
+  // @HostListener('window:resize', ['$event'])
   onResize() {
     if (document.documentElement.clientWidth <= 1140) {
       this.store.dispatch(changesidebarsize({ size: 'hidden' }))
