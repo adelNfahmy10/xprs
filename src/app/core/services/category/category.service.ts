@@ -18,7 +18,7 @@ export class CategoryService {
     categories: string[] = [],
     brands: string[] = [],
     sort: string = '-id',
-    page_size: number = 10,
+    page_size: number = 9,
     page: number = 1,
     price_low: string = '',
     price_heigh: string = '',
@@ -44,9 +44,9 @@ export class CategoryService {
     graphicscard: string[] = [],
     processors: string[] = [],
     ram: string[] = [],
-    storage: string[] = [],
+    storage: string = '',
     sort: string = '-id',
-    page_size: number = 10,
+    page_size: number = 9,
     page: number = 1,
     price_low: string = '',
     price_heigh: string = '',
@@ -63,6 +63,6 @@ export class CategoryService {
     shoppingcategory_id: string = ''
   ): Observable<any> {
 
-   return this._HttpClient.get(`${environment.baseUrl}products/?search=${search}&price_low=${price_low}&price_heigh=${price_heigh}&sort=${sort}&categories=${categories.join(',')}&sub_categories=${subcategories.join(',')}&brands=${brands.join(',')}&graphicscard=${graphicscard.join(',')}&processors=${processors.join(',')}&ram=${ram.join(',')}&storage=${storage.join(',')}&top_offer=${top_offer}&trending=${trending}&top_selling=${top_selling}&quickly_30=${quickly_30}&magazine=${magazine}&black_friday=${black_friday}&just_arrived=${just_arrived}&specialoffer1=${specialoffer1}&specialoffer2=${specialoffer2}&specialoffer3=${specialoffer3}&shoppingcategory_id=${shoppingcategory_id}&page_size=${page_size}&page=${page}&is_website=true`);
+   return this._HttpClient.get(`${environment.baseUrl}products/?search=${search}&price_low=${price_low}&price_heigh=${price_heigh}&sort=${sort}&categories=${categories.join(',')}&sub_categories=${subcategories.join(',')}&brands=${brands.join(',')}&graphicscard=${graphicscard.join(',')}&processors=${processors.join(',')}&ram=${ram.join(',')}&storage=${storage}&top_offer=${top_offer}&trending=${trending}&top_selling=${top_selling}&quickly_30=${quickly_30}&magazine=${magazine}&black_friday=${black_friday}&just_arrived=${just_arrived}&specialoffer1=${specialoffer1}&specialoffer2=${specialoffer2}&specialoffer3=${specialoffer3}&shoppingcategory_id=${shoppingcategory_id}&page_size=${page_size}&page=${page}&is_website=true`);
   }
 }

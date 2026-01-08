@@ -27,24 +27,24 @@ export class CategoriesComponent implements OnInit{
   categoryId!: string;
   totalProducts = 0;
   page = 1;
-  pageSize = 10;
+  pageSize = 9;
 
   ngOnInit(): void {
     this.getAllProductsCategory()
   }
 
   choicesInstance!: Choices;
-  isCollapsedCategories = false
-  isCollapsedRams = false
-  isCollapsedStorage = false
-  isCollapsedProcessors = false
-  isCollapsedGraphics = false
+  isCollapsedCategories = true
+  isCollapsedRams = true
+  isCollapsedStorage = true
+  isCollapsedProcessors = true
+  isCollapsedGraphics = true
 
   selectedCategories: string[] = [];
   selectedSubCategories: string[] = [];
   selectedBrands: string[] = [];
   selectedRams: string[] = [];
-  selectedStorage: string[] = [];
+  selectedStorage: string = '';
   selectedProcessors: string[] = [];
   selectedGraphics: string[] = [];
   someRange = [6000, 100000]
@@ -142,9 +142,7 @@ export class CategoriesComponent implements OnInit{
   onStorageChange(event: any) {
   const value = event.target.value;
     if (event.target.checked) {
-      this.selectedStorage.push(value);
-    } else {
-      this.selectedStorage = this.selectedStorage.filter(x => x !== value);
+      this.selectedStorage = value
     }
   }
 

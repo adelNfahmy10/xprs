@@ -3,11 +3,11 @@
 //
 
 .noUi-connect {
-    background: $primary;
+    background: #81FB37;
 }
 
 .noUi-handle {
-    background: $primary;
+    background: #81FB37;
     border: 2px solid $card-bg;
     box-shadow: none;
 }
@@ -144,7 +144,7 @@
 
 #blue {
     .noUi-connect {
-        background: $primary;
+        background: #81FB37;
     }
 }
 
@@ -197,7 +197,7 @@
 }
 
 .c-4-color {
-    background: $primary;
+    background: #81FB37;
 }
 
 .c-5-color {
@@ -291,7 +291,7 @@ $value in $theme-colors {
 
 [data-slider-style="border"] {
     .noUi-handle {
-        border-color: $primary;
+        border-color: #81FB37;
         background-color: $card-bg;
     }
 }
@@ -303,7 +303,7 @@ $value in $theme-colors {
         height: 10px;
         width: 10px;
         top: -4px;
-        border-color: $primary;
+        border-color: #81FB37;
         background-color: $card-bg;
     }
 }
