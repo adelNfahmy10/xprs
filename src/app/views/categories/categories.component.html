@@ -1,0 +1,294 @@
+<section class="category py-2">
+  <div class="panel">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-header border-bottom">
+            <div>
+              <!-- <h4 class="card-title">Category Options</h4> -->
+              <p class="mb-0 mt-1">Show <span class="main-color fw-bold">{{totalProducts}}</span> Properties</p>
+            </div>
+          </div>
+          <div class="card-body border-light">
+            <form class="d-flex flex-column gap-2">
+              <!-- Select Categories -->
+              <div class="select-categories">
+                <label for="choices-single-groups fw-bold" class="form-label d-flex justify-content-between">
+                  <span class="fw-bold" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedCategories">Categories</span>
+                  <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedCategories"></i>
+                </label>
+                <div class="collapse" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsedCategories" id="collapseExample" >
+                  <div class="card mb-0">
+                    <div class="card-body p-2">
+                        <div class="p-0 form-check form-radio-success mb-2">
+                          @for (cat of categoriesProduct; track $index) {
+                            <h5 class="main-color fw-bold">{{cat.name}}</h5>
+                            <div class="row ps-3">
+                              @if(cat.cat_subcategories.length > 0){
+                                @for (subCat of cat.cat_subcategories; track $index) {
+                                  <div class="col-md-6">
+                                    <div class="d-flex gap-1">
+                                      <input [value]="subCat.id" (change)="onSubCategoryChange($event, cat.id)"  type="checkbox" class="form-check-input"  [id]="'category-' + subCat.id">
+                                      <label class="form-check-label" [for]="'category-' + subCat.id">{{subCat.name}}</label>
+                                    </div>
+                                  </div>
+                                }
+                              } @else {
+                                <p class="m-0">Haven't Subcategories</p>
+                              }
+                            </div>
+                          }
+                        </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Select Brands -->
+              <div class="select-brands">
+                <label for="choices-single-groups" class="form-label">
+                  <span class="fw-bold">Brands</span>
+                </label>
+                <select
+                  multiple
+                  class="form-control"
+                  id="choices-multiple-remove-button"
+                  name="choices-multiple-remove-button"
+                >
+                  <option value="" disabled hidden>
+                    Select Brands
+                  </option>
+
+                  @for (brand of catergoryBrands; track $index) {
+                    <option [value]="brand.name">{{brand.name}}</option>
+                  }
+                </select>
+              </div>
+
+              <!-- Select Rams -->
+              @if(ramsProduct.length > 0){
+                <div class="select-rams">
+                  <label for="choices-single-groups fw-bold" class="form-label d-flex justify-content-between">
+                    <span class="fw-bold" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedRams">Rams</span>
+                    <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedRams"></i>
+                  </label>
+                  <div class="collapse" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsedRams" id="collapseExample" >
+                    <div class="card mb-0">
+                      <div class="card-body p-2">
+                          <div class="form-check form-radio-success mb-2">
+                            <div class="row">
+                              @for (rams of ramsProduct; track $index) {
+                                <div class="col-md-6">
+                                  <div class="d-flex gap-1">
+                                    <input [value]="rams.id" (change)="onRamsChange($event)" type="checkbox" class="form-check-input"  [id]="'category-' + rams.id">
+                                    <label class="form-check-label"  [for]="'category-' + rams.id">{{rams.name}}</label>
+                                  </div>
+                                </div>
+                              }
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              <!-- Select Storage -->
+              @if(storageProduct.length > 0){
+                <div class="select-rams">
+                  <label for="choices-single-groups fw-bold" class="form-label d-flex justify-content-between">
+                    <span class="fw-bold" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedStorage">Storages</span>
+                    <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedStorage"></i>
+                  </label>
+                  <div class="collapse" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsedStorage" id="collapseExample" >
+                    <div class="card mb-0">
+                      <div class="card-body p-2">
+                          <div class="form-check form-radio-success mb-2">
+                            <div class="row">
+                              @for (storage of storageProduct; track $index) {
+                                <div class="col-md-6">
+                                  <div class="d-flex gap-1">
+                                    <input [value]="storage.id" (change)="onStorageChange($event)" type="checkbox" class="form-check-input"  [id]="'category-' + storage.id">
+                                    <label class="form-check-label"  [for]="'category-' + storage.id">{{storage.name}}</label>
+                                  </div>
+                                </div>
+                              }
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              <!-- Select Processors -->
+              @if(processorsProduct.length > 0){
+                <div class="select-processors">
+                  <label for="choices-single-groups fw-bold" class="form-label d-flex justify-content-between">
+                    <span class="fw-bold" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedProcessors">Processors</span>
+                    <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedProcessors"></i>
+                  </label>
+                  <div class="collapse" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsedProcessors" id="collapseExample" >
+                    <div class="card mb-0">
+                      <div class="card-body p-2">
+                          <div class="form-check form-radio-success mb-2">
+                            <div class="row">
+                              @for (processors of processorsProduct; track $index) {
+                                <div class="col-md-6">
+                                  <div class="d-flex gap-1">
+                                    <input [value]="processors.id" (change)="onProcessorChange($event)" type="checkbox" class="form-check-input"  [id]="'category-' + processors.id">
+                                    <label class="form-check-label"  [for]="'category-' + processors.id">{{processors.name}}</label>
+                                  </div>
+                                </div>
+                              }
+                            </div>
+
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              <!-- Select Graphics Cards -->
+              @if(graphicsCardsproduct.length > 0){
+                <div class="select-graphics">
+                  <label for="choices-single-groups fw-bold" class="form-label d-flex justify-content-between">
+                    <span class="fw-bold" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedGraphics">Graphics Cards</span>
+                    <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedGraphics"></i>
+                  </label>
+                  <div class="collapse" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsedGraphics" id="collapseExample" >
+                    <div class="card mb-0">
+                      <div class="card-body p-2">
+                          <div class="form-check form-radio-success mb-2">
+                            <div class="row">
+                              @for (graphics of graphicsCardsproduct; track $index) {
+                                <div class="col-md-6">
+                                  <div class="d-flex gap-1">
+                                    <input [value]="graphics.id" (change)="onGraphicChange($event)" type="checkbox" class="form-check-input"  [id]="'category-' + graphics.id">
+                                    <label class="form-check-label"  [for]="'category-' + graphics.id">{{graphics.name}}</label>
+                                  </div>
+                                </div>
+                              }
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              }
+
+            </form>
+          </div>
+
+          <!-- Price Range -->
+          <h5 class="fw-bold px-3">Price Range</h5>
+          <div class="select-price-range mx-3 p-2 card">
+            <div id="product-price-range" data-slider-size="md" class="">
+              <nouislider
+                [config]="rangeConfig"
+                [(ngModel)]="someRange"
+                class="mt-0"
+              ></nouislider>
+            </div>
+            <div class="formCost d-flex gap-2 align-items-center mt-3">
+              <input
+                class="form-control form-control-sm text-center"
+                type="text"
+                id="minCost"
+                [value]="'$' + someRange[0]"
+              />
+              <span class="fw-semibold text-muted">to</span>
+              <input
+                class="form-control form-control-sm text-center"
+                type="text"
+                id="maxCost"
+                [value]="'$' + someRange[1]"
+              />
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <a href="javascript:void(0);" class="btn btn-primary w-100" (click)="filterProducts()">Filter</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-9">
+        <div class="row">
+          @for (item of productsCategory; track $index) {
+              <div class="col-lg-4 col-md-6">
+                <div class="card offer-cart overflow-hidden">
+                  <div class="position-relative">
+                    <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
+                    <!-- <img [src]="item?.picture2 ? item?.picture2 : item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
+                    <img [src]="item?.picture3 ? item?.picture3 : item?.picture3" [alt]="item?.picture1_alt" class="offer-img rounded-0" /> -->
+                    <span class="position-absolute top-0 start-0 p-1">
+                      @if (item?.availability == 'In Stock') {
+                        <button
+                          type="button"
+                          class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
+                          [ngClass]="
+                            item.save
+                              ? 'btn-success text-light'
+                              : 'bg-success-subtle text-success'
+                          "
+                        >
+                        <i class="ri-heart-2-line"></i>
+                          <!-- <iconify-icon icon="solar:bookmark-broken"></iconify-icon> -->
+                        </button>
+                      }
+                    </span>
+                    <span class="position-absolute top-0 end-0 p-1">
+                      @if(item?.availability != 'In Stock'){
+                        <span class="badge bg-danger text-white fs-13">
+                          Sold Out
+                        </span>
+                      } @else{
+                        <span class="badge bg-success text-white fs-13">
+                          In Stock
+                        </span>
+                      }
+                    </span>
+                  </div>
+                  <div class="card-body">
+                    <div class="d-flex align-items-center gap-2">
+                      <div class="text-start">
+                        <h6 class="text-dark fw-bold fs-13">{{ item.name.slice(0,40) }}...</h6>
+                        <!-- <p class="text-muted mb-0">{{ item.location }}</p> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top" >
+                    <p class="fw-medium fs-13 mb-0 main-color">
+                      {{ item.price }} EGP
+                    </p>
+
+                    <span class="fs-10">
+                      Shop Now <i class="ri-arrow-right-line align-middle"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            }
+        </div>
+
+        <div class="p-3 border-top">
+          <nav aria-label="Page navigation example">
+            <ngb-pagination
+              [collectionSize]="totalProducts"
+              [(page)]="page"
+              [pageSize]="pageSize"
+              (pageChange)="getAllProductsCategory()"
+              class="pagination justify-content-end mb-0"
+            >
+              <ng-template ngbPaginationPrevious>Previous</ng-template>
+              <ng-template ngbPaginationNext>Next</ng-template>
+            </ngb-pagination>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>

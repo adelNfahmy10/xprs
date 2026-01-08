@@ -27,15 +27,8 @@
       <div class="rounded-4 category-card">
         <div class="row g-3">
           @for (cat of categories.slice(0, 12); track $index) {
-            <div
-              class="col-md-3 col-6 cr wow animate__animated animate__fadeInDown"
-              [style.animationDelay]="($index * 0.2) + 's'"
-            >
-              <div
-                [class.d-none]="$index >= 6"
-                [class.d-md-block]="$index >= 6"
-                class="cat-card bg-black rounded-4"
-              >
+            <div class="col-md-3 col-6 cr wow animate__animated animate__fadeInDown" [style.animationDelay]="($index * 0.2) + 's'" [routerLink]="'/category/' + cat.id" >
+              <div [class.d-none]="$index >= 6" [class.d-md-block]="$index >= 6" class="cat-card bg-black rounded-4" >
                 <img
                   [routerLink]="'/products/' + cat.id"
                   [src]="cat.picture"
@@ -65,7 +58,7 @@
     <swiper-container [config]="swiperPagination" init="false" class="swiper-wrapper">
       @for (cat of categories; track $index) {
         <swiper-slide class="rounded-4 wow animate__animated animate__fadeInUp my-3 cr h-100" [style.animationDelay]="($index * 0.2) + 's'" >
-          <div class="cat-slide bg-black rounded-4 h-100">
+          <div class="cat-slide bg-black rounded-4 h-100" [routerLink]="'/category/' + cat.id">
             <img
               [routerLink]="'/products/' + cat.id"
               [src]="cat.picture"
@@ -88,7 +81,7 @@
     <swiper-container [config]="swiperPaginationBrands" init="false" class="swiper-wrapper">
       @for (brand of brands; track $index) {
         <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 cr h-100" [style.animationDelay]="($index * 0.2) + 's'" >
-          <div class="brand-cart p-3 h-100">
+          <div class="brand-cart p-3 h-100" [routerLink]="'/brand/' + brand.id">
             @if(brand.picture){
               <img
                 [routerLink]="'/products/' + brand.id"
@@ -158,7 +151,7 @@
             <div class="card-body">
               <div class="d-flex align-items-center gap-2">
                 <div class="text-start">
-                  <h6 class="text-dark fw-medium fs-13">{{ item.name.slice(0,40) }}...</h6>
+                  <h6 class="text-dark fs-13 fw-bold">{{ item.name.slice(0,30) }}...</h6>
                   <!-- <p class="text-muted mb-0">{{ item.location }}</p> -->
                 </div>
               </div>

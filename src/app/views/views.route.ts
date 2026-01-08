@@ -6,6 +6,8 @@ import { ReviewsComponent } from './apps/reviews/reviews.component'
 import { TransactionsComponent } from './apps/transactions/transactions.component'
 import { WidgetsComponent } from './apps/widgets/widgets.component'
 import { HomeComponent } from './home/home.component'
+import { CategoriesComponent } from './categories/categories.component'
+import { ProductsComponent } from './products/products.component'
 
 export const VIEWS_ROUTES: Route[] = [
   {
@@ -15,6 +17,26 @@ export const VIEWS_ROUTES: Route[] = [
     path: 'home',
     component: HomeComponent,
     data: { title: 'Home' },
+  },
+  {
+    path: 'category',
+    component: CategoriesComponent,
+    data: { title: 'Categoreis' },
+  },
+  {
+    path: 'category/:id',
+    component: CategoriesComponent,
+    data: { title: 'Category' },
+  },
+  {
+    path: 'product',
+    component: ProductsComponent,
+    data: { title: 'Products' },
+  },
+  {
+    path: 'product/:id',
+    component: ProductsComponent,
+    data: { title: 'Product' },
   },
   {
     path: 'dashboards',
