@@ -18,6 +18,7 @@ import { DOCUMENT } from '@angular/common'
 import { logout } from '@store/authentication/authentication.actions'
 import { FormsModule } from '@angular/forms'
 import { CategoryService } from '@core/services/category/category.service'
+import { debounceTime, distinctUntilChanged, Subject, switchMap, takeUntil } from 'rxjs'
 
 type FullScreenTypes = {
   requestFullscreen?: () => Promise<void>
@@ -35,29 +36,102 @@ type FullScreenTypes = {
 
 @Component({
     selector: 'app-topbar',
-    imports: [SimplebarAngularModule, NgbDropdownModule, RouterLink, FormsModule],
+    imports: [SimplebarAngularModule, NgbDropdownModule, FormsModule, RouterLink],
     templateUrl: './topbar.component.html',
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class TopbarComponent implements OnInit{
+export class TopbarComponent{
   private readonly _CategoryService = inject(CategoryService)
+  private readonly _Router = inject(Router)
 
-  searchItem:string = ''
-  searchType: 'product' | 'category' | '' = '';
-  searchResults: any[] = [];
+    searchItem: string = '';
+    searchResults: any[] = [];
 
-  getAllPRoductsToSearch(): void {
-    this._CategoryService.getProductsCategory().subscribe({
-      next: (res) => {
-        console.log(res);
+    private searchSubject = new Subject<string>();
+    private destroy$ = new Subject<void>();
+
+    ngOnInit(): void {
+
+    this.searchSubject
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap(value =>
+          this._CategoryService.getProducts(
+            value,
+            [], [], [], [], [], [], '',
+            '-id',
+            9,
+            1,
+            '0',
+            '10000',
+            '', '', '', '', '', '', '', '', '', '', ''
+          )
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: (res) => {
+          this.searchResults = res.results;
+        }
+      });
+  }
+
+  onSearchChange(): void {
+    const value = this.searchItem.trim();
+
+    if (!value) {
+      this.searchResults = [];
+      return;
+    }
+
+    this.searchSubject.next(value);
+  }
+
+  getSearchResult():void{
+    this._CategoryService.getProducts(
+      this.searchItem, // search
+      [], // categories
+      [], // subcategories
+      [], // brands
+      [], // graphicscard
+      [], // processors
+      [], // ram
+      '', // storage
+      '-id', // sort
+      9, // page_size
+      1, // page
+      '0', // price_low
+      '10000', // price_heigh
+      '', // top_offer
+      '', // trending
+      '', // top_selling
+      '', // quickly_30
+      '', // magazine
+      '', // black_friday
+      '', // just_arrived
+      '', // specialoffer1
+      '', // specialoffer2
+      '', // specialoffer3
+      ''  // shoppingcategory_id
+    ).subscribe({
+      next:(res)=>{
+        this.searchResults = res.results
       }
-    });
+    })
   }
 
-
-  ngOnInit(): void {
-    this.getAllPRoductsToSearch()
+  goToProduct(itemId:any):void{
+    this._Router.navigate(['/product/' + itemId])
+    this.searchResults = []
+    this.searchItem = ''
   }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
 
   notificationList = notificationsData
   element!: FullScreenTypes

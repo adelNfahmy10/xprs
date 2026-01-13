@@ -1,6 +1,9 @@
 <header class="">
   <div class="topbar">
     <div class="container-fluid">
+      <div class="d-flex align-items-center gap-2 d-md-none d-block text-center">
+        <img src="assets/images/home-image/logo.avif" class="logo mx-auto" alt="xprs" routerLink="/home">
+      </div>
       <div class="navbar-header">
         <div class="d-flex align-items-center gap-2">
           <div class="topbar-item">
@@ -13,21 +16,39 @@
             </button>
           </div>
 
-          <form class="app-search d-none d-md-block me-auto">
+          <form class="app-search me-auto" autocomplete="off">
             <div class="position-relative">
               <input
                 type="search"
                 class="form-control border-0"
-                placeholder="Search..."
-                autocomplete="off"
+                placeholder="Search By Product..."
                 [(ngModel)]="searchItem"
+                (input)="onSearchChange()"
+                name="search"
               />
               <i class="ri-search-line search-widget-icon"></i>
+
+              @if(searchResults.length > 0){
+                <div class="search-items-list bg-white position-absolute">
+                  <ul class="list-unstyled m-0 py-2 d-flex flex-column gap-0 overflow-auto">
+                    @for (item of searchResults; track $index) {
+                      <li class="cr py-2 px-1" (click)="goToProduct(item.id)">
+                        <div class="d-flex align-items-center gap-2">
+                          <img class="image-item-search" [src]="item.picture1" [alt]="item.picture1_alt">
+                          <span>{{item.name}}</span>
+                        </div>
+                      </li>
+                    }
+                  </ul>
+                </div>
+              }
+
             </div>
           </form>
+
         </div>
 
-        <div class="d-flex align-items-center gap-2">
+        <div class="d-flex align-items-center gap-2 d-md-block d-none">
           <img src="assets/images/home-image/logo.avif" class="logo" alt="xprs">
         </div>
 

@@ -65,11 +65,26 @@ header {
           }
      }
 
+     .search-items-list{
+      width: 300px;
+      li{
+        transition: all .4s;
+        &:hover{
+          background-color: #81FB36;
+          color: #fff;
+          font-weight: bold;
+        }
+      }
+      .image-item-search{
+        width: 50px;
+      }
+     }
+
      .logo{
       width: 150px;
      }
-}
 
+}
 
 // fullscreen exit icon
 [data-toggle="fullscreen"] {
@@ -156,4 +171,13 @@ html[data-menu-size="hidden"] {
           margin-left: 0;
           border-radius: 0;
      }
+}
+
+@media (max-width:567px) {
+  .topbar{
+    height: 105px !important;
+    margin: 0 !important;
+    padding-inline: 0 !important;
+    padding-block: 10px !important;
+  }
 }
