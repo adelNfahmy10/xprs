@@ -90,6 +90,27 @@ header {
 
 }
 
+/* width */
+::-webkit-scrollbar {
+  width: 2px !important;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #fff !important;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #81FB37 !important;
+  border-radius: 20px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #5aaf25 !important;
+}
+
 // fullscreen exit icon
 [data-toggle="fullscreen"] {
      .fullscreen {
