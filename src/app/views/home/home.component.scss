@@ -5,13 +5,22 @@ $main-color: #81FB37;
   swiper-slide{
     width: 100%;
     height: 100%;
-    border-radius: 20px;
+    .swiper-slide {
+      transition: none;
+    }
     img{
       width: 100%;
       height: 100%;
       filter: drop-shadow(0 0 10px $main-color);
-      border-radius: 20px;
     }
+  }
+}
+
+.banner-swiper{
+  height: 70vh;
+  img{
+    width: 100%;
+    filter: drop-shadow(0 0 0 transparent) !important;
   }
 }
 
@@ -89,7 +98,7 @@ $main-color: #81FB37;
 .offer-img{
   width: 100%;
   height:200px !important;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 @media (max-width:567px) {

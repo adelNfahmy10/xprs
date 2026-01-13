@@ -2,11 +2,16 @@
 // pagination.scss
 //
 .page-link {
-    i {
-        vertical-align: middle;
-    }
+  i {
+    vertical-align: middle;
+  }
 }
-
+.page-link.active, .active > .page-link{
+  background-color: #81FB37;
+  border-color: #81FB37;
+  color: #000;
+  font-weight: bold;
+}
 // Pagination rounded (Custom)
 .pagination-rounded {
     .page-link {

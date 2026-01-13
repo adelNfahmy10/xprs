@@ -3,13 +3,14 @@ import { Component, inject, type OnInit } from '@angular/core'
 import { MENU_ITEMS, type MenuItemType } from '@common/menu-meta'
 import { SimplebarAngularModule } from 'simplebar-angular'
 import { NgbCollapseModule, type NgbCollapse } from '@ng-bootstrap/ng-bootstrap'
-import { NavigationEnd, Router, RouterModule } from '@angular/router'
+import { ActivatedRoute, NavigationEnd, Router, RouterModule } from '@angular/router'
 import { basePath } from '@common/constants'
 import { Store } from '@ngrx/store'
 import { findAllParent, findMenuItem } from '@core/helper/utils'
 import { LogoBoxComponent } from '@component/logo-box.component'
 import { changesidebarsize } from '@store/layout/layout-action'
 import { getSidebarsize } from '@store/layout/layout-selector'
+import { CategoryService } from '@core/services/category/category.service'
 
 @Component({
     selector: 'app-sidebar',
@@ -24,6 +25,12 @@ import { getSidebarsize } from '@store/layout/layout-selector'
     styles: ``
 })
 export class SidebarComponent implements OnInit {
+  private readonly _CategoryService = inject(CategoryService)
+  private readonly _ActivatedRoute = inject(ActivatedRoute)
+
+  allCategories:any[] = []
+  categoryId:string | null = null
+  subCategoryId:string | null = null
   menuItems: MenuItemType[] = []
   activeMenuItems: string[] = []
 
@@ -52,10 +59,58 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     this.initMenu()
+    this.getAllCategories()
+  }
+
+  getAllCategories():void{
+    this._CategoryService.getAllCategories().subscribe({
+      next:(res)=>{
+        this.allCategories = res
+        this.buildMenuFromCategories()
+      }
+    })
+  }
+
+  buildMenuFromCategories(): void {
+    this.menuItems = [
+      {
+        key: 'menu',
+        label: 'MENU',
+        isTitle: true,
+      },
+      ...this.allCategories.map(cat => {
+        const hasSub = cat.cat_subcategories && cat.cat_subcategories.length > 0;
+
+        if (hasSub) {
+          // لو فيها subcategories
+          return {
+            key: cat.seo_slug,
+            label: cat.name,
+            icon: 'ri-product-hunt-line',
+            collapsed: true,
+            children: cat.cat_subcategories.map((sub: any) => ({
+              key: sub.seo_slug,
+              label: sub.name,
+              url: `/category/${cat.id}/${sub.id}`,
+              parentKey: cat.seo_slug,
+            })),
+          };
+        } else {
+          // لو مفيهاش subcategories
+          return {
+            key: cat.seo_slug,
+            label: cat.name,
+            icon: cat.icon || 'ri-product-hunt-line',
+            url: `/category/${cat.id}`, // URL مباشر للـ Category
+          };
+        }
+      }),
+    ];
+
   }
 
   initMenu(): void {
-    this.menuItems = MENU_ITEMS
+    this.menuItems =  JSON.parse(JSON.stringify(MENU_ITEMS))
   }
 
   ngAfterViewInit() {

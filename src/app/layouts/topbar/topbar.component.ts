@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Inject,
   inject,
+  OnInit,
   Output,
 } from '@angular/core'
 import { Router, RouterLink } from '@angular/router'
@@ -15,6 +16,8 @@ import { SimplebarAngularModule } from 'simplebar-angular'
 import { notificationsData } from './data'
 import { DOCUMENT } from '@angular/common'
 import { logout } from '@store/authentication/authentication.actions'
+import { FormsModule } from '@angular/forms'
+import { CategoryService } from '@core/services/category/category.service'
 
 type FullScreenTypes = {
   requestFullscreen?: () => Promise<void>
@@ -32,11 +35,30 @@ type FullScreenTypes = {
 
 @Component({
     selector: 'app-topbar',
-    imports: [SimplebarAngularModule, NgbDropdownModule, RouterLink],
+    imports: [SimplebarAngularModule, NgbDropdownModule, RouterLink, FormsModule],
     templateUrl: './topbar.component.html',
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class TopbarComponent {
+export class TopbarComponent implements OnInit{
+  private readonly _CategoryService = inject(CategoryService)
+
+  searchItem:string = ''
+  searchType: 'product' | 'category' | '' = '';
+  searchResults: any[] = [];
+
+  getAllPRoductsToSearch(): void {
+    this._CategoryService.getProductsCategory().subscribe({
+      next: (res) => {
+        console.log(res);
+      }
+    });
+  }
+
+
+  ngOnInit(): void {
+    this.getAllPRoductsToSearch()
+  }
+
   notificationList = notificationsData
   element!: FullScreenTypes
 

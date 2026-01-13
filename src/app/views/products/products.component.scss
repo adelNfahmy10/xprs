@@ -1,0 +1,114 @@
+$main-color: #81FB37;
+
+.main-image {
+  width: 100%;
+  height: 400px;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.5s ease-in-out;
+  }
+}
+
+.prev,
+.next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #82fb3778;
+  color: #333333c0;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+.thumbnails img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  cursor: pointer;
+  opacity: 0.6;
+  border-radius: 4px;
+  transition: transform 0.3s, opacity 0.3s;
+
+  &.active {
+    opacity: 1;
+    transform: scale(1.05);
+    border: 2px solid $main-color;
+  }
+}
+
+.stars{
+  color: yellow;
+  font-size: 16px;
+  &.fa-regular{
+    color: rgb(115, 115, 0);
+  }
+}
+.old-price {
+  position: relative;
+  color: #888;
+  font-size: .8rem;
+  display: inline-block;
+}
+
+.old-price::after {
+  content: "";
+  position: absolute;
+  top: 60%;
+  left: 5px;
+  width: 90%;
+  height: 100%;
+  border-top: 2px solid #888;
+  transform: rotate(-15deg);
+  transform-origin: left center;
+}
+
+/* نص أسفل الـ checkbox */
+.notify p {
+  font-size: 0.875rem;
+  color: #555;
+}
+
+.quantity-selector button {
+  width: 25px;
+  height: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  font-size: 1.2rem;
+}
+
+.quantity-selector input {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  padding: 0;
+}
+/* Chrome, Edge, Safari */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+.count-btn{
+  background-color: $main-color;
+  border-radius: 50%;
+  border-color: $main-color;
+}
+.btn-outline{
+  border: 1px solid $main-color;
+}

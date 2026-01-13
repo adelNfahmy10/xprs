@@ -1,0 +1,61 @@
+<section class="shop">
+  <div class="container bg-white rounded-3">
+    <div class="brand-sliders">
+      <div class="swiper">
+        <swiper-container [config]="swiperPaginationBrands" init="false" class="swiper-wrapper d-flex justify-content-center align-items-center">
+          @for (brand of allBrands; track $index) {
+            <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp mt-4 mb-2 px-1">
+              <div class="brand-slide d-flex justify-content-center align-items-center rounded-5 gap-2 cr" [routerLink]="'/brand/' + brand.name">
+                @if(brand.picture){
+                  <img [src]="brand.picture" [alt]="brand.seo_slug">
+                }
+                <p class="m-0">{{brand.name}}</p>
+              </div>
+            </swiper-slide>
+          }
+        </swiper-container>
+        <!-- <div class="swiper-button-next basic-next"></div>
+        <div class="swiper-button-prev basic-prev"></div> -->
+        <!-- <div class="swiper-pagination basic-pagination" id="basic-pagination" ></div> -->
+      </div>
+      <hr>
+    </div>
+
+
+    <div class="brand-cards">
+      <div class="search-section position-relative  wow animate__animated animate__fadeInUp">
+        <i class="ri-search-line cr" (click)="filterBrands()"></i>
+        <input type="search" class="form-control search-input rounded-5 m-0" placeholder="Search By Brand Name..." [(ngModel)]="searchCate" (input)="filterBrands()">
+      </div>
+      <!-- <h1 class="fw-bold main-color wow animate__animated animate__fadeInUp p-2 m-0">Brands</h1> -->
+
+      <div class="row g-3 mt-1">
+        @for (brand of filteredBrands; track $index) {
+          <div class="col-lg-2 col-md-3 col-6 wow animate__animated animate__fadeInUp" [style.animationDelay]="($index * 0.1) + 's'">
+            <div class="brand-box h-100 text-center cr" [routerLink]="'/brand/' + brand.name">
+              @if(brand.picture){
+                <img
+                  [routerLink]="'/brand/' + brand.name"
+                  [src]="brand.picture"
+                  [alt]="brand.name"
+                  lazyLoad="lazy"
+                  class="img-fluid rounded-4"
+                />
+              } @else {
+                <img
+                  [routerLink]="'/brand/' + brand.name"
+                  src="assets/images/global-image/load.gif"
+                  [alt]="brand.name"
+                  lazyLoad="lazy"
+                  class="brand-img rounded-4 d-inline-block"
+                />
+              }
+
+              <h5 class="main-color mt-2 fst-italic fw-bold">{{brand.name}}</h5>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

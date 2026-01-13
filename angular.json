@@ -36,6 +36,7 @@
               "./node_modules/ngx-spinner/animations/ball-scale-multiple.css",
               "./node_modules/wowjs/css/libs/animate.css",
               "node_modules/swiper/swiper-bundle.min.css",
+              "./node_modules/@fortawesome/fontawesome-free/css/all.min.css",
               "src/styles.scss"
             ],
             "scripts": [

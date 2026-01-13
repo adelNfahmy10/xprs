@@ -216,11 +216,54 @@
           margin-left: $main-nav-width;
           border-right: 10px solid $main-nav-bg;
      }
+
+    .page-content .links{
+      width: fit-content;
+      margin: 0 auto 10px;
+      border-top-right-radius: 10px;
+      border-top-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    .page-content .list-item{
+      padding: 10px;
+      border-top-right-radius: 10px;
+      border-top-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+      position: relative;
+      overflow: hidden;
+      font-weight: 500;
+
+      &::before{
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translate(-50%, -50%);
+        height: 0;
+        width: 0;
+        background-color: #81FB37;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        transition: all .4s;
+        z-index: -1;
+      }
+
+      &:hover, &.active{
+        font-weight: 600;
+        color: #fff;
+        &::before{
+          height: 100%;
+          width: 100%;
+          left: 50%;
+        }
+      }
+    }
 }
 
 // Sidenav Condensed
 html[data-menu-size="condensed"] {
-
      .main-nav {
           position: absolute;
           width: $main-nav-width-sm;

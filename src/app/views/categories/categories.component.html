@@ -9,22 +9,23 @@
               <p class="mb-0 mt-1">Show <span class="main-color fw-bold">{{totalProducts}}</span> Properties</p>
             </div>
           </div>
+
           <div class="card-body border-light">
             <form class="d-flex flex-column gap-2">
               <!-- Select Categories -->
               <div class="select-categories">
                 <label for="choices-single-groups fw-bold" class="form-label d-flex justify-content-between">
-                  <span class="fw-bold" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedCategories">Categories</span>
-                  <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedCategories"></i>
+                  <span class="fw-bold" (click)="collapse_category.toggle()" [attr.aria-expanded]="!isCollapsedCategories">Categories</span>
+                  <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse_category.toggle()" [attr.aria-expanded]="!isCollapsedCategories"></i>
                 </label>
-                <div class="collapse" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsedCategories" id="collapseExample" >
+                <div class="collapse" #collapse_category="ngbCollapse" [(ngbCollapse)]="isCollapsedCategories" id="collapseExample" >
                   <div class="card mb-0">
                     <div class="card-body p-2">
-                        <div class="p-0 form-check form-radio-success mb-2">
+                        <div class="p-0 form-check form-radio-success">
                           @for (cat of categoriesProduct; track $index) {
                             <h5 class="main-color fw-bold">{{cat.name}}</h5>
-                            <div class="row ps-3">
-                              @if(cat.cat_subcategories.length > 0){
+                            @if(cat.cat_subcategories.length > 0){
+                              <div class="row ps-3">
                                 @for (subCat of cat.cat_subcategories; track $index) {
                                   <div class="col-md-6">
                                     <div class="d-flex gap-1">
@@ -33,10 +34,8 @@
                                     </div>
                                   </div>
                                 }
-                              } @else {
-                                <p class="m-0">Haven't Subcategories</p>
-                              }
-                            </div>
+                              </div>
+                            }
                           }
                         </div>
                     </div>
@@ -46,33 +45,38 @@
 
               <!-- Select Brands -->
               <div class="select-brands">
-                <label for="choices-single-groups" class="form-label">
-                  <span class="fw-bold">Brands</span>
+                <label for="choices-single-groups fw-bold" class="form-label d-flex justify-content-between">
+                  <span class="fw-bold" (click)="collapse_brand.toggle()" [attr.aria-expanded]="!isCollapsedBrands">Brands</span>
+                  <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse_brand.toggle()" [attr.aria-expanded]="!isCollapsedBrands"></i>
                 </label>
-                <select
-                  multiple
-                  class="form-control"
-                  id="choices-multiple-remove-button"
-                  name="choices-multiple-remove-button"
-                >
-                  <option value="" disabled hidden>
-                    Select Brands
-                  </option>
-
-                  @for (brand of catergoryBrands; track $index) {
-                    <option [value]="brand.name">{{brand.name}}</option>
-                  }
-                </select>
+                <div class="collapse" #collapse_brand="ngbCollapse" [(ngbCollapse)]="isCollapsedBrands" id="collapseExample" >
+                  <div class="card mb-0">
+                    <div class="card-body p-2">
+                      <div class="form-check form-radio-success mb-2">
+                        <div class="row">
+                          @for (brand of catergoryBrands; track $index) {
+                            <div class="col-md-6">
+                              <div class="d-flex gap-1">
+                                <input [value]="brand.name" (change)="onBrandsChange($event)" type="checkbox" [id]="'brand-' + brand.id" [name]="'brand-' + brand.name" class="form-check-input">
+                                <label class="form-check-label"  [for]="'brand-' + brand.id">{{brand.name}}</label>
+                              </div>
+                            </div>
+                          }
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
               <!-- Select Rams -->
               @if(ramsProduct.length > 0){
                 <div class="select-rams">
                   <label for="choices-single-groups fw-bold" class="form-label d-flex justify-content-between">
-                    <span class="fw-bold" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedRams">Rams</span>
-                     <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedRams"></i>
+                    <span class="fw-bold" (click)="collapse_rams.toggle()" [attr.aria-expanded]="!isCollapsedRams">Rams</span>
+                     <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse_rams.toggle()" [attr.aria-expanded]="!isCollapsedRams"></i>
                   </label>
-                  <div class="collapse" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsedRams" id="collapseExample" >
+                  <div class="collapse" #collapse_rams="ngbCollapse" [(ngbCollapse)]="isCollapsedRams" id="collapseExample" >
                     <div class="card mb-0">
                       <div class="card-body p-2">
                           <div class="form-check form-radio-success mb-2">
@@ -97,10 +101,10 @@
               @if(storageProduct.length > 0){
                 <div class="select-rams">
                   <label for="choices-single-groups fw-bold" class="form-label d-flex justify-content-between">
-                    <span class="fw-bold" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedStorage">Storages</span>
-                    <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedStorage"></i>
+                    <span class="fw-bold" (click)="collapse_storage.toggle()" [attr.aria-expanded]="!isCollapsedStorage">Storages</span>
+                    <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse_storage.toggle()" [attr.aria-expanded]="!isCollapsedStorage"></i>
                   </label>
-                  <div class="collapse" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsedStorage" id="collapseExample" >
+                  <div class="collapse" #collapse_storage="ngbCollapse" [(ngbCollapse)]="isCollapsedStorage" id="collapseExample" >
                     <div class="card mb-0">
                       <div class="card-body p-2">
                           <div class="form-check form-radio-success mb-2">
@@ -125,15 +129,15 @@
               @if(processorsProduct.length > 0){
                 <div class="select-processors">
                   <label for="choices-single-groups fw-bold" class="form-label d-flex justify-content-between">
-                    <span class="fw-bold" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedProcessors">Processors</span>
+                    <span class="fw-bold" (click)="collapse_processor.toggle()" [attr.aria-expanded]="!isCollapsedProcessors">Processors</span>
                     <!-- @if(isCollapsedProcessors){
                       <i class="ri-eye-line cr" data-bs-toggle="collapse" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedProcessors"></i>
                     }@else{
                       <i class="ri-eye-close-line cr" data-bs-toggle="collapse" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedProcessors"></i>
                     } -->
-                    <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedProcessors"></i>
+                    <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse_processor.toggle()" [attr.aria-expanded]="!isCollapsedProcessors"></i>
                   </label>
-                  <div class="collapse" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsedProcessors" id="collapseExample" >
+                  <div class="collapse" #collapse_processor="ngbCollapse" [(ngbCollapse)]="isCollapsedProcessors" id="collapseExample" >
                     <div class="card mb-0">
                       <div class="card-body p-2">
                           <div class="form-check form-radio-success mb-2">
@@ -158,15 +162,15 @@
               @if(graphicsCardsproduct.length > 0){
                 <div class="select-graphics">
                   <label for="choices-single-groups fw-bold" class="form-label d-flex justify-content-between">
-                    <span class="fw-bold" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedGraphics">Graphics Cards</span>
+                    <span class="fw-bold" (click)="collapse_graphic.toggle()" [attr.aria-expanded]="!isCollapsedGraphics">Graphics Cards</span>
                     <!-- @if(isCollapsedGraphics){
                       <i class="ri-eye-line cr" data-bs-toggle="collapse" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedGraphics"></i>
                     }@else{
                       <i class="ri-eye-close-line cr" data-bs-toggle="collapse" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedGraphics"></i>
                     } -->
-                    <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse.toggle()" [attr.aria-expanded]="!isCollapsedGraphics"></i>
+                    <i class="ri-add-large-line cr" data-bs-toggle="collapse" (click)="collapse_graphic.toggle()" [attr.aria-expanded]="!isCollapsedGraphics"></i>
                   </label>
-                  <div class="collapse" #collapse="ngbCollapse" [(ngbCollapse)]="isCollapsedGraphics" id="collapseExample" >
+                  <div class="collapse" #collapse_graphic="ngbCollapse" [(ngbCollapse)]="isCollapsedGraphics" id="collapseExample" >
                     <div class="card mb-0">
                       <div class="card-body p-2">
                           <div class="form-check form-radio-success mb-2">
@@ -226,10 +230,10 @@
       <div class="col-md-9">
         <div class="row">
           @for (item of productsCategory; track $index) {
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-4 col-6">
               <div class="card offer-cart overflow-hidden">
-                <div class="position-relative">
-                  <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
+                <div class="position-relative text-center">
+                  <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0 cr" [routerLink]="'/product/' + item.id"/>
                   <!-- <img [src]="item?.picture2 ? item?.picture2 : item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
                   <img [src]="item?.picture3 ? item?.picture3 : item?.picture3" [alt]="item?.picture1_alt" class="offer-img rounded-0" /> -->
                   <span class="position-absolute top-0 start-0 p-1">
@@ -262,7 +266,7 @@
                 </div>
                 <div class="card-body">
                   <div class="d-flex align-items-center gap-2">
-                    <div class="text-start">
+                    <div class="text-start cr" [routerLink]="'/product/' + item.id">
                       <h6 class="text-dark fw-bold fs-13">{{ item.name.slice(0,40) }}...</h6>
                       <!-- <p class="text-muted mb-0">{{ item.location }}</p> -->
                     </div>
@@ -273,8 +277,8 @@
                     {{ item.price }} EGP
                   </p>
 
-                  <span class="fs-10">
-                    Shop Now <i class="ri-arrow-right-line align-middle"></i>
+                  <span class="fs-10 cr" [routerLink]="'/product/' + item.id">
+                    Buy Now <i class="ri-arrow-right-line align-middle"></i>
                   </span>
                 </div>
               </div>

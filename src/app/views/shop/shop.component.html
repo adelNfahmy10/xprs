@@ -1,0 +1,45 @@
+<section class="shop">
+  <div class="container bg-white rounded-3">
+    <div class="category-sliders">
+      <div class="swiper">
+        <swiper-container [config]="swiperPaginationCategories" init="false" class="swiper-wrapper d-flex justify-content-center align-items-center">
+          @for (cat of allCategories; track $index) {
+            <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp mt-4 mb-2 px-1">
+              <span class="category-slide p-2 rounded-4 cr" [routerLink]="'/category/' + cat.id">{{cat.name}}</span>
+            </swiper-slide>
+          }
+        </swiper-container>
+        <!-- <div class="swiper-button-next basic-next"></div>
+        <div class="swiper-button-prev basic-prev"></div> -->
+        <!-- <div class="swiper-pagination basic-pagination" id="basic-pagination" ></div> -->
+      </div>
+      <hr>
+    </div>
+
+
+    <div class="category-cards">
+      <div class="search-section position-relative  wow animate__animated animate__fadeInUp">
+        <i class="ri-search-line cr" (click)="filterCategories()"></i>
+        <input type="search" class="form-control search-input rounded-5 m-0" placeholder="Search By Category Name..." [(ngModel)]="searchCate" (input)="filterCategories()">
+      </div>
+      <!-- <h1 class="fw-bold main-color wow animate__animated animate__fadeInUp p-2 m-0">Categories</h1> -->
+
+      <div class="row g-3">
+        @for (cat of filteredCategories; track $index) {
+          <div class="col-lg-2 col-md-3 col-6 wow animate__animated animate__fadeInUp" [style.animationDelay]="($index * 0.1) + 's'">
+            <div class="cat-box rounded-4 h-100 text-center cr" [routerLink]="'/category/' + cat.id">
+              <img
+                [routerLink]="'/products/' + cat.id"
+                [src]="cat.picture"
+                [alt]="cat.name"
+                lazyLoad="lazy"
+                class="img-fluid rounded-4"
+              />
+              <h5 class="main-color mt-2 fst-italic fw-bold">{{cat.name}}</h5>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

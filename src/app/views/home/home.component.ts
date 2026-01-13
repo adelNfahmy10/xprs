@@ -1,5 +1,5 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
-import { Autoplay, EffectCreative, Navigation, Pagination } from 'swiper/modules';
+import { Autoplay, EffectCreative, EffectFade, Navigation, Pagination } from 'swiper/modules';
 import { SwiperOptions } from 'swiper/types';
 import { SwiperDirective } from '@component/swiper-directive.component'
 import { HomeService } from '@core/services/home/home.service';
@@ -86,12 +86,31 @@ export class HomeComponent implements OnInit{
     },
   }
 
+  // Home Silder Config
+  swiperfadeEffect: SwiperOptions = {
+    modules: [Pagination, Autoplay, EffectFade],
+    loop: true,
+    effect: 'fade',
+    speed: 1200,
+
+    autoplay: {
+      delay: 3000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+
+    pagination: {
+      clickable: true,
+      el: '#effect-pagination',
+    },
+  };
+
   // Categories Silder Config
   swiperPagination: SwiperOptions = {
     modules: [Autoplay, Pagination, Navigation],
     loop: true,
 
-    slidesPerView: 5,
+    slidesPerView: 6,
     spaceBetween: 15,
 
     speed:600,
@@ -108,7 +127,7 @@ export class HomeComponent implements OnInit{
         slidesPerView: 4,
       },
       1200: {
-        slidesPerView: 5,
+        slidesPerView: 6,
       },
     },
 
@@ -122,6 +141,7 @@ export class HomeComponent implements OnInit{
       clickable: true,
       el: '#basic-pagination',
     },
+
     navigation: {
       nextEl: '.basic-next',
       prevEl: '.basic-prev',

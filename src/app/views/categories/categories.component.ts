@@ -4,12 +4,12 @@ import { NouisliderComponent } from "ng2-nouislider";
 import { NgbCollapseModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { CategoryService } from '@core/services/category/category.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import Choices from 'choices.js';
 
 @Component({
   selector: 'app-categories',
-  imports: [NouisliderComponent, FormsModule, CommonModule, NgbPaginationModule, NgbCollapseModule],
+  imports: [NouisliderComponent, FormsModule, CommonModule, NgbPaginationModule, NgbCollapseModule, RouterLink],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.scss'
 })
@@ -25,6 +25,8 @@ export class CategoriesComponent implements OnInit{
   processorsProduct:any[] = []
   graphicsCardsproduct:any[] = []
   categoryId!: string;
+  subCategoryId!: string;
+  brandId!: string;
   totalProducts = 0;
   page = 1;
   pageSize = 9;
@@ -35,6 +37,7 @@ export class CategoriesComponent implements OnInit{
 
   choicesInstance!: Choices;
   isCollapsedCategories = true
+  isCollapsedBrands = true
   isCollapsedRams = true
   isCollapsedStorage = true
   isCollapsedProcessors = true
@@ -64,36 +67,110 @@ export class CategoriesComponent implements OnInit{
     this._ActivatedRoute.paramMap.subscribe({
       next: (param) => {
         this.categoryId = param.get('id')!;
+        this.subCategoryId = param.get('subId')!;
+        this.brandId = param.get('brandId')!;
+        console.log(this.categoryId);
+        console.log(this.subCategoryId);
+        console.log(this.brandId);
 
-        this._CategoryService.getProductsCategory('',[this.categoryId],[],'-id',this.pageSize, this.page).subscribe({
-          next: (res) => {
-            this.productsCategory = res.results;
-            this.catergoryBrands = res.related_brands;
-            this.categoriesProduct = res.releated_categoreis;
-            this.ramsProduct = res.related_Rams;
-            this.storageProduct = res.related_storages;
-            this.processorsProduct = res.related_Processors;
-            this.graphicsCardsproduct = res.related_GraphicsCards;
-            this.totalProducts = res.count
+        if(!this.subCategoryId && !this.brandId){
+          this._CategoryService.getProductsCategory('',[this.categoryId],[],'-id',this.pageSize, this.page).subscribe({
+            next: (res) => {
+              this.productsCategory = res.results;
+              this.catergoryBrands = res.related_brands;
+              this.categoriesProduct = res.releated_categoreis;
+              this.ramsProduct = res.related_Rams;
+              this.storageProduct = res.related_storages;
+              this.processorsProduct = res.related_Processors;
+              this.graphicsCardsproduct = res.related_GraphicsCards;
+              this.totalProducts = res.count
 
-            setTimeout(() => {
-              const element = document.getElementById('choices-multiple-remove-button') as HTMLSelectElement;
+              setTimeout(() => {
+                const element = document.getElementById('choices-multiple-remove-button') as HTMLSelectElement;
 
-              if (!element) return;
+                if (!element) return;
 
-              if (this.choicesInstance) {
-                this.choicesInstance.destroy();
-              }
+                if (this.choicesInstance) {
+                  this.choicesInstance.destroy();
+                }
 
-              this.choicesInstance = new Choices(element, {
-                searchEnabled: false,
-                removeItemButton: true,
-                placeholder: true,
-                placeholderValue: 'Select Brands'
+                this.choicesInstance = new Choices(element, {
+                  searchEnabled: false,
+                  removeItemButton: true,
+                  placeholder: true,
+                  placeholderValue: 'Select Brands'
+                });
               });
-            });
-          }
-        });
+            }
+          });
+        } else if(this.subCategoryId) {
+          this._CategoryService.getProducts(
+            '', // search
+            [this.categoryId], // categories
+            [this.subCategoryId], // subcategories
+            [], // brands
+            this.selectedGraphics, // graphicscard
+            this.selectedProcessors, // processors
+            this.selectedRams, // ram
+            this.selectedStorage, // storage
+            '-id', // sort
+            this.pageSize, // page_size
+            this.page, // page
+            this.someRange[0].toString(), // price_low
+            this.someRange[1].toString(), // price_heigh
+            '', // top_offer
+            '', // trending
+            '', // top_selling
+            '', // quickly_30
+            '', // magazine
+            '', // black_friday
+            '', // just_arrived
+            '', // specialoffer1
+            '', // specialoffer2
+            '', // specialoffer3
+            ''  // shoppingcategory_id
+          ).subscribe({
+            next: (res) => {
+              this.productsCategory = res.results;
+              this.totalProducts = res.count || res.results.length;
+            },
+            error: (err) => console.error(err)
+          });
+        } else if(this.brandId){
+          this._CategoryService.getProducts(
+            '', // search
+            [this.categoryId], // categories
+            [this.subCategoryId], // subcategories
+            [this.brandId], // brands
+            this.selectedGraphics, // graphicscard
+            this.selectedProcessors, // processors
+            this.selectedRams, // ram
+            this.selectedStorage, // storage
+            '-id', // sort
+            this.pageSize, // page_size
+            this.page, // page
+            this.someRange[0].toString(), // price_low
+            this.someRange[1].toString(), // price_heigh
+            '', // top_offer
+            '', // trending
+            '', // top_selling
+            '', // quickly_30
+            '', // magazine
+            '', // black_friday
+            '', // just_arrived
+            '', // specialoffer1
+            '', // specialoffer2
+            '', // specialoffer3
+            ''  // shoppingcategory_id
+          ).subscribe({
+            next: (res) => {
+              this.productsCategory = res.results;
+              this.totalProducts = res.count || res.results.length;
+            },
+            error: (err) => console.error(err)
+          });
+        }
+
       }
     });
   }
@@ -124,13 +201,18 @@ export class CategoriesComponent implements OnInit{
   }
 
   // Brands Select Options
-  getSelectedBrands():any {
-    return this.choicesInstance.getValue(true);
+  onBrandsChange(event: any) {
+    const value = event.target.value;
+    if (event.target.checked) {
+      this.selectedBrands.push(value);
+    } else {
+      this.selectedBrands = this.selectedBrands.filter(x => x !== value);
+    }
   }
 
-  // Rams Select Options
+  // Brands Select Options
   onRamsChange(event: any) {
-  const value = event.target.value;
+    const value = event.target.value;
     if (event.target.checked) {
       this.selectedRams.push(value);
     } else {
@@ -168,13 +250,11 @@ export class CategoriesComponent implements OnInit{
 
   // Filter Categories
   filterProducts() {
-    const brands = this.getSelectedBrands(); // Brands from Choices.js
-
     this._CategoryService.getProducts(
       '', // search
       this.selectedCategories.length ? this.selectedCategories : [this.categoryId], // categories
       this.selectedSubCategories, // subcategories
-      brands, // brands
+      this.selectedBrands, // brands
       this.selectedGraphics, // graphicscard
       this.selectedProcessors, // processors
       this.selectedRams, // ram

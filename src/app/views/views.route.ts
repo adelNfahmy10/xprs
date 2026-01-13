@@ -8,6 +8,8 @@ import { WidgetsComponent } from './apps/widgets/widgets.component'
 import { HomeComponent } from './home/home.component'
 import { CategoriesComponent } from './categories/categories.component'
 import { ProductsComponent } from './products/products.component'
+import { ShopComponent } from './shop/shop.component'
+import { BrandComponent } from './brand/brand.component'
 
 export const VIEWS_ROUTES: Route[] = [
   {
@@ -17,6 +19,21 @@ export const VIEWS_ROUTES: Route[] = [
     path: 'home',
     component: HomeComponent,
     data: { title: 'Home' },
+  },
+  {
+    path: 'shop',
+    component: ShopComponent,
+    data: { title: 'Shop' },
+  },
+  {
+    path: 'brand',
+    component: BrandComponent,
+    data: { title: 'Brands' },
+  },
+    {
+    path: 'brand/:brandId',
+    component: CategoriesComponent,
+    data: { title: 'Brand' },
   },
   {
     path: 'category',
@@ -29,15 +46,24 @@ export const VIEWS_ROUTES: Route[] = [
     data: { title: 'Category' },
   },
   {
+    path: 'category/:id/:subId',
+    component: CategoriesComponent,
+    data: { title: 'Category' },
+  },
+  {
     path: 'product',
     component: ProductsComponent,
     data: { title: 'Products' },
   },
   {
-    path: 'product/:id',
+    path: 'product/:slug',
     component: ProductsComponent,
     data: { title: 'Product' },
   },
+
+
+
+
   {
     path: 'dashboards',
     loadChildren: () =>

@@ -1,1 +1,340 @@
-<p>products works!</p>
+<section class="products py-3" id="products">
+  <div class="row">
+    <div class="col-1"></div>
+    <div class="col-md-5">
+      <div class="gallery border p-2 rounded bg-white position-relative">
+        <!-- Main Image -->
+        @if (mainImage) {
+          <div class="main-image">
+            <img [src]="mainImage.src" [alt]="mainImage.alt" />
+          </div>
+        }
+
+        <!-- Navigation Arrows -->
+        <button class="prev" (click)="prevImage()">&#10094;</button>
+        <button class="next" (click)="nextImage()">&#10095;</button>
+      </div>
+
+      <!-- Thumbnails -->
+      <div class="thumbnails mt-2 d-flex gap-2">
+        @for (img of productImages; track $index) {
+          <img
+            [src]="img?.src"
+            [alt]="img?.alt"
+            [class.active]="$index === mainIndex"
+            (click)="changeMain($index)"
+          />
+        }
+
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex align-items-center justify-content-between">
+            <div>
+              <h3 class="card-title text-black fs-22 mb-2">{{ productData?.name }}</h3>
+              <h4 class="card-title mb-2">{{ productData?.category?.name }}</h4>
+              @if(productData?.availability == "Out Of Stock"){
+                <span class="badge badge-outline-danger">{{productData?.availability}}</span>
+              } @else if(productData?.availability == 'In Stock') {
+                <span class="badge badge-outline-success">{{productData?.availability}}</span>
+              }
+
+              <!-- Rate -->
+              @if(productData?.reviews?.length != 0){
+                @if(productData?.no_of_rating){
+                  <div class="d-flex align-items-center mt-2">
+                    @for ( rate of [].constructor(productData?.no_of_rating); track $index) {
+                      <i class="fa-solid fa-star stars"></i>
+                    }
+                  </div>
+                }
+                <div class="d-flex align-items-center mt-2">
+                  @for ( rate of [].constructor(5 - productData?.no_of_rating); track $index) {
+                    <i class="fa-regular fa-star stars"></i>
+                  }
+                  <span>({{productData?.reviews?.length}} Reviews)</span>
+                </div>
+              }
+
+              <!-- Price -->
+              <div class="price">
+                <p class="fw-medium fs-16 mt-1">
+                  Price: <br>
+                  @if(productData?.old_price){
+                    <span class="old-price me-1">{{ productData?.old_price | number}}</span>
+                  }
+                  <span class="main-color fw-bold fs-3">{{ productData?.price | number}} EGP</span>
+                </p>
+                @if(productData?.old_price){
+                  <p class="save-money">
+                    Save {{productData?.old_price - productData?.price | number}} EGP
+                  </p>
+                }
+
+                @if(productData?.price_for_installments != 0 && productData?.price_for_installments){
+                  <p>or from {{productData?.price_for_installments }}/{{productData?.month_for_instalment}} mo</p>
+                }
+
+                @if(productData?.price_for_installments == 0 && productData?.price_for_installments){
+                  <p>or from {{productData?.price_for_instalment }}/{{productData?.month_for_instalment}} mo</p>
+                }
+              </div>
+
+              <!-- Quantity -->
+              <div class="product-quantity mt-2">
+                <label class="span_bold mb-1 d-block">Quantity:</label>
+                <div class="quantity-selector d-flex align-items-center gap-2">
+                  <!-- زر النقصان -->
+                  <button type="button" (click)="decreaseQuantity()" [disabled]="quantity <= 1" class="btn count-btn">-</button>
+
+                  <!-- حقل العدد -->
+                  <input type="number" [(ngModel)]="quantity" min="1" class="form-control text-center" />
+
+                  <!-- زر الزيادة -->
+                  <button type="button" (click)="increaseQuantity()" class="btn count-btn">+</button>
+                </div>
+              </div>
+
+              <!-- Notify Me Section -->
+              @if(productData?.availability == "Out Of Stock"){
+                @if(out_of_stock){
+                  <div class="notify mt-2">
+                    <div class="form-check form-checkbox-success mb-2">
+                      <input [checked]="notify_checked" (change)="notifyMe($event)" data-bs-toggle="modal" data-bs-target="#exampleModal" type="checkbox" class="form-check-input" id="customCheckcolor2" checked>
+                      <label class="form-check-label" [class.main-color]="notify_checked" for="customCheckcolor2">Notify Me!</label>
+                    </div>
+
+                    <p>
+                      This product is currently out of stock.
+                      {{ notify_checked ? 'You will be notified once it is back in stock.' : 'Click to get notified once it is back.' }}
+                    </p>
+                  </div>
+                }
+              }
+
+               <!-- Payment Way -->
+              <div class="Payment Way">
+                <div class="btns d-flex flex-wrap justify-content-center align-items-center gap-2 mt-2">
+                  <!-- Full Price -->
+                  @if(!productData?.is_preorder){
+                    <button class="btn text-center flex-fill" type="button"
+                      [ngClass]="{
+                        'btn-outline': openSection !== 'fullPrice',
+                        'main-btn text-white': openSection === 'fullPrice'
+                      }"
+                      (click)="toggleSection('fullPrice')"
+                      [attr.aria-expanded]="openSection === 'fullPrice'">
+                      Full Price
+                    </button>
+                  }
+
+                  <!-- Installments -->
+                  <button class="btn text-center flex-fill" type="button"
+                    [ngClass]="{
+                      'btn-outline': openSection !== 'installments',
+                      'main-btn text-white': openSection === 'installments'
+                    }"
+                    (click)="toggleSection('installments'); choosePaymentType('installments')"
+                    [attr.aria-expanded]="openSection === 'installments'">
+                    Installments
+                  </button>
+
+                  <!-- Pre Order -->
+                   @if(productData?.is_preorder){
+                    <button class="btn text-center flex-fill" type="button"
+                      [ngClass]="{
+                        'btn-outline': openSection !== 'preOrder',
+                        'main-btn text-white': openSection === 'preOrder'
+                      }"
+                      (click)="toggleSection('preOrder')"
+                      [attr.aria-expanded]="openSection === 'preOrder'">
+                      Pre Order
+                    </button>
+                  }
+
+                  <!-- Pay Later -->
+                  <button class="btn text-center text-white flex-fill" type="button"
+                    [ngClass]="{
+                      'btn-outline': openSection !== 'payLater',
+                      'main-btn text-white': openSection === 'payLater'
+                    }"
+                    (click)="toggleSection('payLater'); choosePaymentType('payLater')"
+                    [attr.aria-expanded]="openSection === 'payLater'">
+                    Pay Later
+                  </button>
+                </div>
+
+
+                <div class="content">
+                  <!-- Full Price Content-->
+                  <div [ngbCollapse]="openSection !== 'fullPrice'" class="mt-2">
+                    <!-- <div class="card card-body">
+                      <p>Total price to pay immediately: <strong>$1000</strong></p>
+                      <p>Includes all taxes and fees.</p>
+                    </div> -->
+                  </div>
+
+                  <!-- Installments Content-->
+                  @if(banksInstallment?.length != 0){
+                    <div [ngbCollapse]="openSection !== 'installments'" class="mt-2">
+                      <div class="card card-body">
+                        @if(payment_type == 'installments'){
+                          <p>{{installmentMsg}}</p>
+                          <div class="banks">
+                            @for (b of filtered_banks; track $index) {
+                              @if(!b.hidden && !b.pay_later){
+                                <div class="d-flex align-items-center">
+                                  <input
+                                    type="radio"
+                                    name="method"
+                                    [value]="b.bank_key"
+                                    [id]="b.bank_key"
+                                    [(ngModel)]="bank"
+                                    (change)="calculate(down,b.months[0]?.installment_months,bank, b.months[0]?.interest)"
+                                  />
+                                  <label class="new-bank" [for]="b.bank_key">
+                                    <img [src]="b.logo" [alt]="b.bank_key" [title]="b.bank_key" class="w-25">
+                                  </label>
+                                </div>
+                              }
+                            }
+                          </div>
+                        }
+
+                        @for ( b of filtered_banks; track $index) {
+                          @if(bank == b.bank_key){
+                            @for (m of b.months; track $index) {
+                              <div class="d-flex align-items-center">
+                                <input
+                                  type="radio"
+                                  name="install"
+                                  [(ngModel)]="install"
+                                  [value]="m.installment_months"
+                                  [id]="'month_' + m.installment_months"
+                                  (change)="calculate(down,install,bank,m.interest)"
+                                />
+                                <label [for]="'month_' + m.installment_months">
+                                  {{m.installment_months}} months
+                                </label>
+                              </div>
+                            }
+                          }
+                        }
+                      </div>
+                    </div>
+                  }
+
+
+                  <!-- Pre Order Content-->
+                  <div [ngbCollapse]="openSection !== 'preOrder'" class="mt-2">
+                    <div class="card card-body">
+                      <p>Pay after 30 days: <strong>$1000</strong></p>
+                      <p>No interest if paid within the period.</p>
+                    </div>
+                  </div>
+
+                  <!-- Pay Later Content-->
+                  <div [ngbCollapse]="openSection !== 'payLater'" class="mt-2">
+                    <div class="card card-body">
+                      <p>Pay later with any bank card</p>
+                      @for (b of filtered_banks; track $index) {
+                        @if(!b.hidden && !b.pay_later){
+                          <div class="d-flex align-items-center">
+                            <input
+                              type="radio"
+                              name="method"
+                              [value]="b.bank_key"
+                              [id]="b.bank_key"
+                              [(ngModel)]="bank"
+                              (change)="calculate(down,b.months[0]?.installment_months,bank, b.months[0]?.interest)"
+                            />
+                            <label class="new-bank" [for]="b.bank_key">
+                              <img [src]="b.logo" [alt]="b.bank_key" [title]="b.bank_key" class="w-25">
+                            </label>
+                          </div>
+                        }
+                      }
+                      @if (bank != 9999) {
+                        @for ( b of filtered_banks; track $index) {
+                          @if(bank == b.bank_key){
+                            @for (m of b.months; track $index) {
+                              <div class="d-flex align-items-center">
+                                <input
+                                  type="radio"
+                                  name="install"
+                                  [(ngModel)]="install"
+                                  [value]="m.installment_months"
+                                  [id]="'month_' + m.installment_months"
+                                  (change)="calculate(down,install,bank,m.interest)"
+                                />
+                                <label [for]="'month_' + m.installment_months">
+                                  {{m.installment_months}} months
+                                </label>
+                              </div>
+                            }
+                          }
+                        }
+
+                        <!-- Price -->
+                        <div class="price bottom lh mb-3 mt-2">
+                          @if(oldDownPrice){
+                            <span class="p"><sup>EGP</sup>{{quantity * oldDownPrice || 0 | number}} </span>
+                          } @else {
+                            <span class="p"><sup>EGP</sup>{{quantity * downPrice || 0 | number}} </span>
+                          }
+                        </div>
+
+                        @if(!out_of_stock){
+                          <button (click)="addToCart()">
+                            {{productData?.is_preorder == true ? 'Pre Order' : 'Add to Cart'}}
+                          </button>
+                        }
+
+                      }
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-between mt-3">
+            <p class="mb-0">
+              vs last month
+            </p>
+            <div>
+              <a href="javascript:void(0);" class="link-primary fw-medium"
+                >See Details <i class="ri-arrow-right-line align-middle"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-1"></div>
+  </div>
+</section>
+
+<!-- Modal -->
+@if(!token){
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Notifiy Me</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}
