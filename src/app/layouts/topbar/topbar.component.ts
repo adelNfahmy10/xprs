@@ -44,37 +44,37 @@ export class TopbarComponent{
   private readonly _CategoryService = inject(CategoryService)
   private readonly _Router = inject(Router)
 
-    searchItem: string = '';
-    searchResults: any[] = [];
+  searchItem: string = '';
+  searchResults: any[] = [];
 
-    private searchSubject = new Subject<string>();
-    private destroy$ = new Subject<void>();
+  private searchSubject = new Subject<string>();
+  private destroy$ = new Subject<void>();
 
-    ngOnInit(): void {
+  ngOnInit(): void {
 
-    this.searchSubject
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        switchMap(value =>
-          this._CategoryService.getProducts(
-            value,
-            [], [], [], [], [], [], '',
-            '-id',
-            9,
-            1,
-            '0',
-            '10000',
-            '', '', '', '', '', '', '', '', '', '', ''
-          )
-        ),
-        takeUntil(this.destroy$)
-      )
-      .subscribe({
-        next: (res) => {
-          this.searchResults = res.results;
-        }
-      });
+  this.searchSubject
+    .pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+      switchMap(value =>
+        this._CategoryService.getProducts(
+          value,
+          [], [], [], [], [], [], '',
+          '-id',
+          9,
+          1,
+          '0',
+          '10000',
+          '', '', '', '', '', '', '', '', '', '', ''
+        )
+      ),
+      takeUntil(this.destroy$)
+    )
+    .subscribe({
+      next: (res) => {
+        this.searchResults = res.results;
+      }
+    });
   }
 
   onSearchChange(): void {
@@ -123,6 +123,11 @@ export class TopbarComponent{
 
   goToProduct(itemId:any):void{
     this._Router.navigate(['/product/' + itemId])
+    this.searchResults = []
+    this.searchItem = ''
+  }
+
+  closeSearch():void{
     this.searchResults = []
     this.searchItem = ''
   }

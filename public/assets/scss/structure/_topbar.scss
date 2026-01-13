@@ -179,5 +179,8 @@ html[data-menu-size="hidden"] {
     margin: 0 !important;
     padding-inline: 0 !important;
     padding-block: 10px !important;
+    .search-items-list{
+      left: -30px;
+    }
   }
 }
