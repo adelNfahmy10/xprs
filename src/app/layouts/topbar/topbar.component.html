@@ -30,12 +30,16 @@
 
               @if(searchResults.length > 0){
                 <div class="search-items-list bg-white position-absolute">
-                  <ul class="list-unstyled m-0 py-2 d-flex flex-column gap-0 overflow-auto">
-                    <i class="ri-close-circle-line fs-1 text-end cr" (click)="closeSearch()"></i>
+                  <ul class="list-unstyled m-0 py-2 d-flex flex-column gap-0">
+                    <!-- <i class="ri-close-circle-line fs-1 text-end cr" (click)="closeSearch()"></i> -->
                     @for (item of searchResults; track $index) {
                       <li class="cr py-2 px-1" (click)="goToProduct(item.id)">
                         <div class="d-flex align-items-center gap-2">
-                          <img class="image-item-search" [src]="item.picture1" [alt]="item.picture1_alt">
+                          @if(item.picture1){
+                            <img class="image-item-search" [src]="item.picture1" [alt]="item.picture1_alt">
+                          } @else {
+                            <img class="image-item-search" src="assets/images/global-image/load.gif" [alt]="item.name">
+                          }
                           <span>{{item.name}}</span>
                         </div>
                       </li>
