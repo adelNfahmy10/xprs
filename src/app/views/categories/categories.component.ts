@@ -6,6 +6,7 @@ import { CommonModule, DecimalPipe } from '@angular/common';
 import { CategoryService } from '@core/services/category/category.service';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import Choices from 'choices.js';
+import { CartService } from '@core/services/cart/cart.service';
 
 @Component({
   selector: 'app-categories',
@@ -16,6 +17,7 @@ import Choices from 'choices.js';
 export class CategoriesComponent implements OnInit{
   private readonly _CategoryService = inject(CategoryService)
   private readonly _ActivatedRoute = inject(ActivatedRoute)
+  private readonly _CartService = inject(CartService)
 
   productsCategory:any;
   catergoryBrands:any[] = []
@@ -33,6 +35,11 @@ export class CategoriesComponent implements OnInit{
 
   ngOnInit(): void {
     this.getAllProductsCategory()
+    this.getAllCart()
+    const storedFav = localStorage.getItem('myFavProduct');
+    if (storedFav) {
+      this.allFavoriteItems = JSON.parse(storedFav);
+    }
   }
 
   choicesInstance!: Choices;
@@ -282,6 +289,88 @@ export class CategoriesComponent implements OnInit{
       },
       error: (err) => console.error(err)
     });
+  }
+
+
+  allFavoriteItems:any[] = []
+  cart:any[] = []
+  cartId:string | null = localStorage.getItem('xprsCartId')
+  // للتحقق إذا العنصر موجود في المفضلة
+  isFavorite(item: any): boolean {
+    return this.allFavoriteItems.some(fav => fav.id === item.id);
+  }
+
+  // إضافة / إزالة من المفضلة
+  addToFavorite(item: any): void {
+    const index = this.allFavoriteItems.findIndex(fav => fav.id === item.id);
+
+    if (index === -1) {
+      // لو مش موجود أضفه
+      this.allFavoriteItems.push(item);
+    } else {
+      // لو موجود، ممكن نعمل toggle ونحذفه (اختياري)
+      this.allFavoriteItems.splice(index, 1);
+    }
+
+    // تحديث localStorage
+    localStorage.setItem('myFavProduct', JSON.stringify(this.allFavoriteItems));
+    console.log(this.allFavoriteItems);
+  }
+
+
+
+  isCart(item: any): boolean {
+    return this.cart.some(
+      cartItem => cartItem.product?.id === item.id
+    );
+  }
+
+  addToCart(item:any):void{
+    const cartItem = this.getCartItem(item);
+
+    // 🟥 لو موجود → احذف
+    if (cartItem) {
+      this._CartService.deleteCart(cartItem.id).subscribe({
+        next: (res) => {
+          this.getAllCart();
+        }
+      });
+      return;
+    }
+
+    const data = {
+      product: item.id,
+      cart: this.cartId,
+      quantity: item.quantity || 1,
+      product_property: null,
+      card: null,
+      branded_page_product: null,
+      insurance: null
+    };
+
+    this._CartService.addCartProduct(data).subscribe({
+      next: () => {
+        this.getAllCart();
+      }
+    });
+  }
+
+  getCartItem(item: any) {
+    return this.cart.find(
+      cartItem => cartItem.product?.id === item.id
+    );
+  }
+
+  getAllCart():void{
+    if(this.cartId){
+      this._CartService.getCart(this.cartId).subscribe({
+        next:(res)=>{
+          this.cart = res?.cartproduct || [];
+          this._CartService.cartCount.set(res.cartproduct.length)
+          this._CartService.cartProducts.set(res.cartproduct)
+        }
+      })
+    }
   }
 
 

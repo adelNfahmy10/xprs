@@ -1,10 +1,10 @@
 import {
   Component,
   CUSTOM_ELEMENTS_SCHEMA,
+  effect,
   EventEmitter,
   Inject,
   inject,
-  OnInit,
   Output,
 } from '@angular/core'
 import { Router, RouterLink } from '@angular/router'
@@ -14,11 +14,12 @@ import { changetheme } from '@store/layout/layout-action'
 import { getLayoutColor } from '@store/layout/layout-selector'
 import { SimplebarAngularModule } from 'simplebar-angular'
 import { notificationsData } from './data'
-import { DOCUMENT } from '@angular/common'
+import { CommonModule, DOCUMENT } from '@angular/common'
 import { logout } from '@store/authentication/authentication.actions'
 import { FormsModule } from '@angular/forms'
 import { CategoryService } from '@core/services/category/category.service'
 import { debounceTime, distinctUntilChanged, Subject, switchMap, takeUntil } from 'rxjs'
+import { CartService } from '@core/services/cart/cart.service'
 
 type FullScreenTypes = {
   requestFullscreen?: () => Promise<void>
@@ -36,45 +37,56 @@ type FullScreenTypes = {
 
 @Component({
     selector: 'app-topbar',
-    imports: [SimplebarAngularModule, NgbDropdownModule, FormsModule, RouterLink],
+    imports: [SimplebarAngularModule, NgbDropdownModule, FormsModule, RouterLink, CommonModule],
     templateUrl: './topbar.component.html',
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TopbarComponent{
   private readonly _CategoryService = inject(CategoryService)
+  private readonly _CartService = inject(CartService)
   private readonly _Router = inject(Router)
 
   searchItem: string = '';
   searchResults: any[] = [];
+  cartCount = this._CartService.cartCount;
+  cartProducts = this._CartService.cartProducts;
+
+  constructor(@Inject(DOCUMENT) private document: Document & FullScreenTypes) {
+    effect(() => {
+      console.log('Navbar cart count:', this.cartProducts());
+    });
+  }
 
   private searchSubject = new Subject<string>();
   private destroy$ = new Subject<void>();
+  cart:any[] = []
+  cartId:string | null = localStorage.getItem('xprsCartId')
 
   ngOnInit(): void {
 
-  this.searchSubject
-    .pipe(
-      debounceTime(500),
-      distinctUntilChanged(),
-      switchMap(value =>
-        this._CategoryService.getProducts(
-          value,
-          [], [], [], [], [], [], '',
-          '-id',
-          9,
-          1,
-          '0',
-          '10000',
-          '', '', '', '', '', '', '', '', '', '', ''
-        )
-      ),
-      takeUntil(this.destroy$)
-    )
-    .subscribe({
-      next: (res) => {
-        this.searchResults = res.results;
-      }
-    });
+    this.searchSubject
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap(value =>
+          this._CategoryService.getProducts(
+            value,
+            [], [], [], [], [], [], '',
+            '-id',
+            9,
+            1,
+            '0',
+            '10000',
+            '', '', '', '', '', '', '', '', '', '', ''
+          )
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: (res) => {
+          this.searchResults = res.results;
+        }
+      });
   }
 
   onSearchChange(): void {
@@ -127,6 +139,24 @@ export class TopbarComponent{
     this.searchItem = ''
   }
 
+  goToCart(drop:any):void{
+    drop.close();
+    this._Router.navigate(['/cart'])
+  }
+
+  getAllCart():void{
+    if(this.cartId){
+      this._CartService.getCart(this.cartId).subscribe({
+        next:(res)=>{
+          this.cart = res?.cartproduct || [];
+          this._CartService.cartCount.set(res.cartproduct.length)
+          this._CartService.cartProducts.set(res.cartproduct)
+        }
+      })
+    }
+  }
+
+
   closeSearch():void{
     this.searchResults = []
     this.searchItem = ''
@@ -147,9 +177,7 @@ export class TopbarComponent{
   router = inject(Router)
   store = inject(Store)
 
-  constructor(@Inject(DOCUMENT) private document: Document & FullScreenTypes) {
-    this.element = this.document.documentElement as FullScreenTypes
-  }
+
 
   settingMenu() {
     this.settingsButtonClicked.emit()

@@ -50,6 +50,20 @@ header {
                &:hover {
                   color: #81FB36;
                }
+
+               .cart-count{
+                position: absolute;
+                background-color: #81FB36;
+                color: #fff;
+                top: 5px;
+                right: 5px;
+                width: 20px;
+                height: 20px;
+                padding: 2px;
+                font-size: 12px;
+                border-radius: 50%;
+                font-weight: bold;
+               }
           }
      }
 
@@ -65,12 +79,17 @@ header {
           }
      }
 
-     .search-items-list{
-      width: 300px;
-      max-height: 350px;  // أقصى ارتفاع للقائمة
-      overflow-y: auto;   // عمل Scroll عمودي
+
+
+     .search-items-list, .cart-prodcuts-list{
+      max-height: 400px;
+      overflow-y: auto;
       border-radius: 6px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+     }
+
+    .search-items-list{
+      width: 300px;
       li{
         transition: all .4s;
         &:hover{
@@ -81,6 +100,12 @@ header {
       }
       .image-item-search{
         width: 50px;
+      }
+     }
+
+     .cart-product-item{
+      img{
+        width: 80px;
       }
      }
 

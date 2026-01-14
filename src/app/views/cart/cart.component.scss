@@ -1,0 +1,18 @@
+.product-image{
+  width: 180px;
+}
+@media (max-width: 991px) {
+  .product-image{
+    width: 100%;
+  }
+}
+@media (max-width:768px) {
+  .product-image{
+    width: 200px;
+  }
+}
+.availability{
+  top: 25px;
+  left: -40px;
+  transform: rotate(-40deg);
+}

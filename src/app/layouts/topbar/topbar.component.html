@@ -2,7 +2,7 @@
   <div class="topbar">
     <div class="container-fluid">
       <div class="d-flex align-items-center gap-2 d-sm-none d-block text-center">
-        <img src="assets/images/home-image/logo.avif" class="logo mx-auto" alt="xprs" routerLink="/home">
+        <img src="assets/images/home-image/logo.avif" class="logo mx-auto cr" alt="xprs" routerLink="/home">
       </div>
       <div class="navbar-header">
         <div class="d-flex align-items-center gap-2">
@@ -54,27 +54,51 @@
         </div>
 
         <div class="d-flex align-items-center gap-2 d-sm-block d-none">
-          <img src="assets/images/home-image/logo.avif" class="logo" alt="xprs">
+          <img src="assets/images/home-image/logo.avif" class="logo cr" alt="xprs" routerLink="/home">
         </div>
 
         <div class="d-flex align-items-center gap-1">
-           <div ngbDropdown class="topbar-item">
+           <div ngbDropdown #cartDrop="ngbDropdown" class="topbar-item">
             <button
               ngbDropdownToggle
               type="button"
               class="topbar-button position-relative arrow-none"
               id="page-header-notifications-dropdown"
             >
+              @if(cartCount()){
+                <span class="cart-count">{{ cartCount() }}</span>
+              }
               <i class="ri-shopping-cart-line fs-24"></i>
               <!-- <span class="position-absolute topbar-badge fs-10 translate-middle badge bg-danger rounded-pill">
                 3
                 <span class="visually-hidden">unread messages</span>
               </span> -->
             </button>
-            <div ngbDropdownMenu class="py-0 dropdown-lg dropdown-menu-end" aria-labelledby="page-header-notifications-dropdown" >
-              <div class="p-3 border-top-0 border-start-0 border-end-0 border-dashed border" >
-                <p class="text-center m-0">Cart is empty!</p>
+            <div ngbDropdownMenu class="py-0 cart-prodcuts-list dropdown-lg dropdown-menu-end" aria-labelledby="page-header-notifications-dropdown" >
+              @for (item of cartProducts().slice(0.4); track $index) {
+                <div class="cart-product-item py-2 px-1 d-flex align-items-center gap-2 border-top-0 border-start-0 border-end-0 border-dashed border" >
+                  <div class="image-product">
+                    <img [src]="item.product.picture1" [alt]="item.product.picture1_alt || item.product.name" loading="lazy">
+                  </div>
+
+                  <div class="details-product">
+                    <h5 class="main-color">{{item.product.name}}</h5>
+                    <p class="m-0 fw-bold">Price : {{item.product.price | number}} EGP</p>
+                  </div>
+                </div>
+              }
+
+              <div class="btn-buy my-2 text-center">
+                @if(cartProducts().length > 4){
+                  <p class="m-0 mb-1">Show More Products In Cart</p>
+                }
+                @if(cartProducts().length){
+                  <button class="btn btn-outline-success p-0 px-2 py-1 fw-bold" (click)="goToCart(cartDrop)">Go To Cart</button>
+                } @else {
+                  Cart Is Empty
+                }
               </div>
+
               <!-- <ngx-simplebar style="max-height: 280px">
                 @for (item of notificationList; track $index) {
                   <a
@@ -114,6 +138,7 @@
                   >View All Notification <i class="ri-arrow-right-line ms-1"></i
                 ></a>
               </div> -->
+
             </div>
           </div>
 

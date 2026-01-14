@@ -12,6 +12,8 @@ import { ShopComponent } from './shop/shop.component'
 import { BrandComponent } from './brand/brand.component'
 import { StoreComponent } from './store/store.component'
 import { FavoriteComponent } from './favorite/favorite.component'
+import { GameComponent } from './game/game.component'
+import { CartComponent } from './cart/cart.component'
 
 export const VIEWS_ROUTES: Route[] = [
   {
@@ -45,7 +47,12 @@ export const VIEWS_ROUTES: Route[] = [
   {
     path: 'favorite',
     component: FavoriteComponent,
-    data: { title: '/Favorites' },
+    data: { title: 'Favorites' },
+  },
+  {
+    path: 'game',
+    component: GameComponent,
+    data: { title: 'Game' },
   },
   {
     path: 'category',
@@ -72,7 +79,11 @@ export const VIEWS_ROUTES: Route[] = [
     component: ProductsComponent,
     data: { title: 'Product' },
   },
-
+  {
+    path: 'cart',
+    component: CartComponent,
+    data: { title: 'Cart' },
+  },
 
 
 

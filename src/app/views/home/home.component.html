@@ -89,10 +89,10 @@
       <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">{{specialOffers.title}}</h2>
       <swiper-container [config]="swiperPaginationEssentials" init="false" class="swiper-wrapper">
         @for (item of specialOffers?.products; track $index) {
-          <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 cr h-100 px-1" [style.animationDelay]="($index * 0.2) + 's'" >
+          <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 h-100 px-1" [style.animationDelay]="($index * 0.2) + 's'" >
             <div class="card offer-cart overflow-hidden">
               <div class="position-relative">
-                <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0 cr" [routerLink]="'/product/' + item.id"/>
+                <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0"/>
                 <!-- <img [src]="item?.picture2 ? item?.picture2 : item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
                 <img [src]="item?.picture3 ? item?.picture3 : item?.picture3" [alt]="item?.picture1_alt" class="offer-img rounded-0" /> -->
                 <span class="position-absolute d-flex flex-column gap-1 top-0 start-0 p-1">
@@ -142,7 +142,7 @@
                   }
                 </span>
               </div>
-              <div class="card-body cr" [routerLink]="'/product/' + item.id">
+              <div class="card-body">
                 <div class="d-flex align-items-center gap-2">
                   <div class="text-start">
                     <h6 class="text-dark fs-13 fw-bold">{{ item.name.slice(0,30) }}...</h6>
@@ -151,12 +151,12 @@
                 </div>
               </div>
               <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top" >
-                <p class="fw-medium fs-13 mb-0 main-color cr" [routerLink]="'/product/' + item.id">
+                <p class="fw-medium fs-13 mb-0 main-color">
                   {{ item.price | number }} EGP
                 </p>
 
-                <span class="fs-10">
-                  Shop Now <i class="ri-arrow-right-line align-middle"></i>
+                <span class="fs-10 cr" [routerLink]="'/product/' + item.id">
+                  Show Details <i class="ri-arrow-right-line align-middle"></i>
                 </span>
 
               </div>
@@ -174,10 +174,10 @@
       <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">{{specialEssentials.title}}</h2>
       <swiper-container [config]="swiperPaginationEssentials" init="false" class="swiper-wrapper">
         @for (item of specialEssentials?.products; track $index) {
-          <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 cr h-100 px-1" [style.animationDelay]="($index * 0.2) + 's'" >
+          <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 h-100 px-1" [style.animationDelay]="($index * 0.2) + 's'" >
             <div class="card offer-cart overflow-hidden">
               <div class="position-relative">
-                <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0"  [routerLink]="'/product/' + item.id"/>
+                <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
                 <!-- <img [src]="item?.picture2 ? item?.picture2 : item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
                 <img [src]="item?.picture3 ? item?.picture3 : item?.picture3" [alt]="item?.picture1_alt" class="offer-img rounded-0" /> -->
                 <span class="position-absolute d-flex flex-column gap-1 top-0 start-0 p-1">
@@ -227,7 +227,7 @@
                   }
                 </span>
               </div>
-              <div class="card-body" [routerLink]="'/product/' + item.id">
+              <div class="card-body">
                 <div class="d-flex align-items-center gap-2">
                   <div class="text-start">
                     <h6 class="text-dark fw-medium fs-13">{{ item.name.slice(0,40) }}...</h6>
@@ -282,12 +282,12 @@
                 </div> -->
               </div>
               <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top" >
-                <p class="fw-medium fs-13 mb-0 main-color" [routerLink]="'/product/' + item.id">
+                <p class="fw-medium fs-13 mb-0 main-color">
                   {{ item.price | number }} EGP
                 </p>
 
-                <span class="fs-10">
-                  Shop Now <i class="ri-arrow-right-line align-middle"></i>
+                <span class="fs-10 cr" [routerLink]="'/product/' + item.id">
+                  Show Details <i class="ri-arrow-right-line align-middle"></i>
                 </span>
 
               </div>
@@ -372,8 +372,8 @@
                     {{ item.price | number }} EGP
                   </p>
 
-                  <span class="fs-10">
-                    Shop Now <i class="ri-arrow-right-line align-middle"></i>
+                  <span class="fs-10" [routerLink]="'/product/' + item.id">
+                    Show Details <i class="ri-arrow-right-line align-middle"></i>
                   </span>
 
                 </div>

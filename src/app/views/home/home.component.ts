@@ -108,7 +108,7 @@ export class HomeComponent implements OnInit{
     // 🟥 لو موجود → احذف
     if (cartItem) {
       this._CartService.deleteCart(cartItem.id).subscribe({
-        next: () => {
+        next: (res) => {
           this.getAllCart();
         }
       });
@@ -127,7 +127,7 @@ export class HomeComponent implements OnInit{
 
     this._CartService.addCartProduct(data).subscribe({
       next: () => {
-        this.getAllCart(); // تحديث الكارت
+        this.getAllCart();
       }
     });
   }
@@ -143,6 +143,8 @@ export class HomeComponent implements OnInit{
       this._CartService.getCart(this.cartId).subscribe({
         next:(res)=>{
           this.cart = res?.cartproduct || [];
+          this._CartService.cartCount.set(res.cartproduct.length)
+          this._CartService.cartProducts.set(res.cartproduct)
         }
       })
     }

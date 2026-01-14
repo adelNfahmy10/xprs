@@ -1,0 +1,29 @@
+<section class="cart" id="cart">
+  <div class="container">
+    @for (item of cartProducts(); track $index) {
+      <div class="row g-1 bg-white rounded-4 shadow mb-2">
+          <div class="col-md-2 text-center position-relative overflow-hidden">
+            <img [src]="item.product.picture1" class="product-image" alt="">
+            <span class="position-absolute availability badge bg-success px-5 py-1 fs-6">{{item.product.availability}}</span>
+          </div>
+
+          <div class="col-md-10">
+            <div class="product-details py-4 px-3 px-md-0">
+              <h4 class="main-color fw-bold">{{item.product.name}}</h4>
+              <h5 class="fw-bold">{{item.product.category.name}}</h5>
+              <p class="m-0">Quantity : <span class="main-color fw-bold fs-5">({{item.product.quantity}}) Piece(s)</span></p>
+              <p class="m-0">Price : <span class="main-color fw-bold fs-5"> {{item.product.price | number}} EGP</span></p>
+              <div class="m-0 text-end px-3 text-danger">
+                <span class="cr" (click)="deleteProductInCart(item.id)"><i class="ri-delete-bin-line"></i> Delete </span>
+              </div>
+            </div>
+          </div>
+
+      </div>
+    } @empty {
+      <h3 class="text-danger text-center bg-white p-5">Cart is Empty</h3>
+    }
+  </div>
+
+
+</section>
