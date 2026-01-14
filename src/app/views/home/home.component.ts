@@ -7,7 +7,6 @@ import { RouterLink } from '@angular/router';
 import { CommonModule, NgClass } from '@angular/common';
 import { propertyData } from '@views/property/data';
 import { CartService } from '@core/services/cart/cart.service';
-import { ToastService } from '../../core/services/toast-service';
 
 @Component({
   selector: 'app-home',
@@ -91,7 +90,6 @@ export class HomeComponent implements OnInit{
 
     // تحديث localStorage
     localStorage.setItem('myFavProduct', JSON.stringify(this.allFavoriteItems));
-    console.log(this.allFavoriteItems);
   }
 
 

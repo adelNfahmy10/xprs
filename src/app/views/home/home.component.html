@@ -142,20 +142,20 @@
                   }
                 </span>
               </div>
-              <div class="card-body">
+              <div class="card-body px-1 px-md-3">
                 <div class="d-flex align-items-center gap-2">
                   <div class="text-start">
-                    <h6 class="text-dark fs-13 fw-bold">{{ item.name.slice(0,30) }}...</h6>
+                    <h6 class="text-dark fw-bold mb-0">{{ item.name.slice(0,30) }}...</h6>
                     <!-- <p class="text-muted mb-0">{{ item.location }}</p> -->
                   </div>
                 </div>
               </div>
-              <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top" >
-                <p class="fw-medium fs-13 mb-0 main-color">
+              <div class="card-footer px-1 px-sm-3 bg-light-subtle d-flex justify-content-between align-items-center border-top" >
+                <p class="fw-medium mb-0 main-color price">
                   {{ item.price | number }} EGP
                 </p>
 
-                <span class="fs-10 cr" [routerLink]="'/product/' + item.id">
+                <span class="details-link cr" [routerLink]="'/product/' + item.id">
                   Show Details <i class="ri-arrow-right-line align-middle"></i>
                 </span>
 
@@ -227,10 +227,10 @@
                   }
                 </span>
               </div>
-              <div class="card-body">
+              <div class="card-body px-2 px-sm-3">
                 <div class="d-flex align-items-center gap-2">
                   <div class="text-start">
-                    <h6 class="text-dark fw-medium fs-13">{{ item.name.slice(0,40) }}...</h6>
+                    <h6 class="text-dark fw-bold mb-0">{{ item.name.slice(0,40) }}...</h6>
                     <!-- <p class="text-muted mb-0">{{ item.location }}</p> -->
                   </div>
                 </div>
@@ -281,12 +281,12 @@
                   </div>
                 </div> -->
               </div>
-              <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top" >
-                <p class="fw-medium fs-13 mb-0 main-color">
+              <div class="card-footer px-1 px-sm-3 bg-light-subtle d-flex justify-content-between align-items-center border-top" >
+                <p class="fw-medium mb-0 main-color price">
                   {{ item.price | number }} EGP
                 </p>
 
-                <span class="fs-10 cr" [routerLink]="'/product/' + item.id">
+                <span class="details-link cr" [routerLink]="'/product/' + item.id">
                   Show Details <i class="ri-arrow-right-line align-middle"></i>
                 </span>
 
@@ -360,15 +360,15 @@
                     }
                   </span>
                 </div>
-                <div class="card-body">
+                <div class="card-body px-1 px-md-3">
                   <div class="d-flex align-items-center gap-2">
                     <div class="text-start">
                       <h6 class="text-dark fw-medium fs-13">{{ item.name.slice(0,40) }}...</h6>
                     </div>
                   </div>
                 </div>
-                <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top" >
-                  <p class="fw-medium fs-13 mb-0 main-color">
+                <div class="card-footer px-0 px-md-3 bg-light-subtle d-flex justify-content-between align-items-center border-top" >
+                  <p class="fw-medium mb-0 main-color price">
                     {{ item.price | number }} EGP
                   </p>
 
