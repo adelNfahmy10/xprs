@@ -16,6 +16,7 @@ import {
   type NgProgressRef,
 } from 'ngx-progressbar'
 import { NgxSpinnerComponent } from 'ngx-spinner'
+import { CartService } from '@core/services/cart/cart.service'
 
 
 @Component({
@@ -25,12 +26,17 @@ import { NgxSpinnerComponent } from 'ngx-spinner'
     styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit{
+  private readonly _CartService = inject(CartService)
+
+
   progressRef!: NgProgressRef
   @ViewChild(NgProgressComponent) progressBar!: NgProgressComponent
 
   private titleService = inject(TitleService)
   private router = inject(Router)
   private _NgxWowService = inject(NgwWowService)
+
+  cartId:string | null = localStorage.getItem('xprsCartId')
 
 
   constructor() {
@@ -42,6 +48,17 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     this.titleService.init()
+    if(!this.cartId){
+      this.addCart()
+    }
+  }
+
+  addCart():void{
+    this._CartService.addCart().subscribe({
+      next:(res)=>{
+        localStorage.setItem('xprsCartId', res.id)
+      }
+    })
   }
 
   checkRouteChange(routerEvent: Event) {

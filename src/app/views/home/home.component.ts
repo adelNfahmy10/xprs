@@ -4,12 +4,14 @@ import { SwiperOptions } from 'swiper/types';
 import { SwiperDirective } from '@component/swiper-directive.component'
 import { HomeService } from '@core/services/home/home.service';
 import { RouterLink } from '@angular/router';
-import { NgClass } from '@angular/common';
+import { CommonModule, NgClass } from '@angular/common';
 import { propertyData } from '@views/property/data';
+import { CartService } from '@core/services/cart/cart.service';
+import { ToastService } from '../../core/services/toast-service';
 
 @Component({
   selector: 'app-home',
-  imports: [SwiperDirective, RouterLink, NgClass],
+  imports: [SwiperDirective, RouterLink, NgClass, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
@@ -17,6 +19,8 @@ import { propertyData } from '@views/property/data';
 
 export class HomeComponent implements OnInit{
   private readonly _HomeService = inject(HomeService)
+  private readonly _CartService = inject(CartService)
+
   propertyList = propertyData
   homeData:any = {}
   homeSlider:any[] = []
@@ -25,11 +29,19 @@ export class HomeComponent implements OnInit{
   specialOffers:any = {}
   specialSelling:any = {}
   categories:any[] = []
+  allFavoriteItems:any[] = []
+  cart:any[] = []
+  cartId:string | null = localStorage.getItem('xprsCartId')
 
   ngOnInit(): void {
     this.getHomeData()
     this.getAllBrands()
     this.getAllCategories()
+    this.getAllCart()
+    const storedFav = localStorage.getItem('myFavProduct');
+    if (storedFav) {
+      this.allFavoriteItems = JSON.parse(storedFav);
+    }
   }
 
   getHomeData():void{
@@ -40,7 +52,6 @@ export class HomeComponent implements OnInit{
         this.specialOffers = res.specialsection1.SpecialOffer_content[0]
         this.specialEssentials = res.specialsection2.SpecialOffer_content[0]
         this.specialSelling = res.specialsection3.SpecialOffer_content[0]
-        console.log(this.specialSelling);
       }
     })
   }
@@ -59,6 +70,82 @@ export class HomeComponent implements OnInit{
         this.brands = res
       }
     })
+  }
+
+  // للتحقق إذا العنصر موجود في المفضلة
+  isFavorite(item: any): boolean {
+    return this.allFavoriteItems.some(fav => fav.id === item.id);
+  }
+
+  // إضافة / إزالة من المفضلة
+  addToFavorite(item: any): void {
+    const index = this.allFavoriteItems.findIndex(fav => fav.id === item.id);
+
+    if (index === -1) {
+      // لو مش موجود أضفه
+      this.allFavoriteItems.push(item);
+    } else {
+      // لو موجود، ممكن نعمل toggle ونحذفه (اختياري)
+      this.allFavoriteItems.splice(index, 1);
+    }
+
+    // تحديث localStorage
+    localStorage.setItem('myFavProduct', JSON.stringify(this.allFavoriteItems));
+    console.log(this.allFavoriteItems);
+  }
+
+
+
+  isCart(item: any): boolean {
+    return this.cart.some(
+      cartItem => cartItem.product?.id === item.id
+    );
+  }
+
+  addToCart(item:any):void{
+    const cartItem = this.getCartItem(item);
+
+    // 🟥 لو موجود → احذف
+    if (cartItem) {
+      this._CartService.deleteCart(cartItem.id).subscribe({
+        next: () => {
+          this.getAllCart();
+        }
+      });
+      return;
+    }
+
+    const data = {
+      product: item.id,
+      cart: this.cartId,
+      quantity: item.quantity || 1,
+      product_property: null,
+      card: null,
+      branded_page_product: null,
+      insurance: null
+    };
+
+    this._CartService.addCartProduct(data).subscribe({
+      next: () => {
+        this.getAllCart(); // تحديث الكارت
+      }
+    });
+  }
+
+  getCartItem(item: any) {
+    return this.cart.find(
+      cartItem => cartItem.product?.id === item.id
+    );
+  }
+
+  getAllCart():void{
+    if(this.cartId){
+      this._CartService.getCart(this.cartId).subscribe({
+        next:(res)=>{
+          this.cart = res?.cartproduct || [];
+        }
+      })
+    }
   }
 
   // Home Silder Config

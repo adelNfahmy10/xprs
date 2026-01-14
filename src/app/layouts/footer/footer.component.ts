@@ -22,7 +22,6 @@ export class FooterComponent implements OnInit {
     this._CategoryService.getAllCategories().subscribe({
       next:(res)=>{
         this.allCategories = res
-        console.log(this.allCategories);
       }
     })
   }

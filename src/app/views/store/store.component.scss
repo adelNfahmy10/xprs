@@ -1,0 +1,17 @@
+$main-color:#81FB37;
+
+img{
+  margin: 0 auto;
+  width: 100% !important;
+  height:300px !important;
+  object-fit: cover;
+}
+.card-footer {
+  a{
+    transition: all .4s;
+  }
+  &:hover a{
+    font-weight: bold;
+    color: $main-color;
+  }
+}

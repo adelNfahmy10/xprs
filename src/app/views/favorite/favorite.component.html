@@ -1,0 +1,67 @@
+<section class="favorite py-3" id="favorite">
+  <div class="container bg-white">
+     <div class="row g-3">
+      @for (item of allFavorites; track $index) {
+        <div class="col-lg-3 col-6">
+          <div class="card offer-cart overflow-hidden h-100">
+            <div class="position-relative text-center">
+              <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0 cr" [routerLink]="'/product/' + item.id"/>
+              <span class="position-absolute top-0 start-0 p-1">
+                @if (item?.availability == 'In Stock') {
+                  <button
+                    type="button"
+                    class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
+                    (click)="toggleFavorite(item)"
+                    [ngClass]="{
+                      'btn-success text-light': isFavorite(item),
+                      'bg-success-subtle text-success': !isFavorite(item)
+                    }"
+                  >
+                    <i class="main-color"
+                      [ngClass]="{
+                        'ri-heart-2-fill': isFavorite(item),
+                        'ri-heart-2-line': !isFavorite(item)
+                      }"></i>
+                  </button>
+                }
+              </span>
+              <span class="position-absolute top-0 end-0 p-1">
+                @if(item?.availability != 'In Stock'){
+                  <span class="badge bg-danger text-white fs-13">
+                    Sold Out
+                  </span>
+                } @else{
+                  <span class="badge bg-success text-white fs-13">
+                    In Stock
+                  </span>
+                }
+              </span>
+            </div>
+            <div class="card-body cr" [routerLink]="'/product/' + item.id">
+              <div class="text-start">
+                <h6 class="text-dark fw-bold fs-13">{{ item.name.slice(0,40) }}...</h6>
+              </div>
+            </div>
+            <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top" >
+              <p class="fw-medium fs-18 mb-0 main-color">
+                {{ item.price | number}} EGP
+              </p>
+
+              <span class="fs-10 cr cart-btn">
+                 Add To Cart <i class="ri-shopping-cart-line fs-18"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <div class="col-12 h-100">
+          <div class="h-100 d-flex justify-content-center align-items-center">
+            <h2 class="text-center mt-4 text-danger">Sorry, No products found for the selected filters.</h2>
+          </div>
+        </div>
+      }
+
+
+    </div>
+  </div>
+</section>

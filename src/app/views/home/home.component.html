@@ -23,70 +23,9 @@
         <div id="effect-pagination" class="swiper-pagination"></div>
       </div>
     </div>
-
-    <!-- <div class="col-md-3 col-12 d-md-none d-block">
-      <div class="swiper home-slider">
-        <swiper-container [config]="swiperCreativeEffect" class="swiper-wrapper" init="false" >
-          @for (slide of homeSlider; track $index) {
-            <swiper-slide>
-              <a [href]="slide.url">
-                <img
-                  [routerLink]="'/products/' + slide.id"
-                  [src]="slide.background_1900px_x_500px"
-                  [alt]="slide.name"
-                  lazyLoad="lazy"
-                  class="img-fluid wow animate__animated animate__zoomIn"
-                />
-              </a>
-            </swiper-slide>
-
-            <swiper-slide class="swiper-slide">
-              <img src="assets/images/home-image/home-banner-1.webp" alt="xprs" class="img-fluid" />
-            </swiper-slide>
-
-            <swiper-slide class="swiper-slide">
-              <img src="assets/images/home-image/home-banner-2.webp" alt="xprs" class="img-fluid" />
-            </swiper-slide>
-
-            <swiper-slide class="swiper-slide">
-              <img src="assets/images/home-image/home-banner-3.avif" alt="xprs" class="img-fluid" />
-            </swiper-slide>
-
-            <swiper-slide class="swiper-slide">
-              <img src="assets/images/home-image/home-banner-4.webp" alt="xprs" class="img-fluid" />
-            </swiper-slide>
-          }
-        </swiper-container>
-      </div>
-    </div>
-
-    <div class="col-md-9 col-12 d-md-none d-block">
-      <div class="category-card">
-        <div class="row g-3">
-          @for (cat of categories.slice(0, 12); track $index) {
-            <div class="col-md-3 col-6 cr wow animate__animated animate__fadeInDown" [style.animationDelay]="($index * 0.2) + 's'" [routerLink]="'/category/' + cat.id" >
-              <div [class.d-none]="$index >= 6" [class.d-md-block]="$index >= 6" class="cat-card bg-black" >
-                <img
-                  [routerLink]="'/products/' + cat.id"
-                  [src]="cat.picture"
-                  [alt]="cat.name"
-                  lazyLoad="lazy"
-                  class="img-fluid"
-                />
-              </div>
-            </div>
-          }
-        </div>
-        <swiper-container
-          [config]="swiperCreativeEffect"
-          class="swiper-wrapper "
-          init="false"
-        >
-        </swiper-container>
-      </div>
-    </div> -->
   </div>
 
+  <!-- Home Content-->
   <div class="content container">
     <!-- Categories Slider -->
     <div class="swiper category-slider mt-4">
@@ -156,19 +95,38 @@
                 <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0 cr" [routerLink]="'/product/' + item.id"/>
                 <!-- <img [src]="item?.picture2 ? item?.picture2 : item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
                 <img [src]="item?.picture3 ? item?.picture3 : item?.picture3" [alt]="item?.picture1_alt" class="offer-img rounded-0" /> -->
-                <span class="position-absolute top-0 start-0 p-1">
+                <span class="position-absolute d-flex flex-column gap-1 top-0 start-0 p-1">
                   @if (item?.availability == 'In Stock') {
                     <button
                       type="button"
                       class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
-                      [ngClass]="
-                        item.save
-                          ? 'btn-success text-light'
-                          : 'bg-success-subtle text-success'
-                      "
+                      (click)="addToFavorite(item)"
+                      [ngClass]="{
+                        'btn-success' : isFavorite(item),
+                        'bg-light text-success': !isFavorite(item)
+                      }"
                     >
-                    <i class="ri-heart-2-line"></i>
-                      <!-- <iconify-icon icon="solar:bookmark-broken"></iconify-icon> -->
+                      <i class="main-color"
+                        [ngClass]="{
+                          'ri-heart-2-fill': isFavorite(item),
+                          'ri-heart-2-line': !isFavorite(item)
+                        }"></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
+                      (click)="addToCart(item)"
+                      [ngClass]="{
+                        'btn-success' : isCart(item),
+                        'bg-light text-success': !isCart(item)
+                      }"
+                    >
+                      <i class="main-color"
+                        [ngClass]="{
+                          'ri-shopping-cart-fill': isCart(item),
+                          'ri-shopping-cart-line': !isCart(item)
+                        }"></i>
                     </button>
                   }
                 </span>
@@ -194,7 +152,7 @@
               </div>
               <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top" >
                 <p class="fw-medium fs-13 mb-0 main-color cr" [routerLink]="'/product/' + item.id">
-                  {{ item.price }} EGP
+                  {{ item.price | number }} EGP
                 </p>
 
                 <span class="fs-10">
@@ -222,19 +180,38 @@
                 <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0"  [routerLink]="'/product/' + item.id"/>
                 <!-- <img [src]="item?.picture2 ? item?.picture2 : item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
                 <img [src]="item?.picture3 ? item?.picture3 : item?.picture3" [alt]="item?.picture1_alt" class="offer-img rounded-0" /> -->
-                <span class="position-absolute top-0 start-0 p-1">
+                <span class="position-absolute d-flex flex-column gap-1 top-0 start-0 p-1">
                   @if (item?.availability == 'In Stock') {
                     <button
                       type="button"
                       class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
-                      [ngClass]="
-                        item.save
-                          ? 'btn-success text-light'
-                          : 'bg-success-subtle text-success'
-                      "
+                      (click)="addToFavorite(item)"
+                      [ngClass]="{
+                        'btn-success' : isFavorite(item),
+                        'bg-light text-success': !isFavorite(item)
+                      }"
                     >
-                    <i class="ri-heart-2-line"></i>
-                      <!-- <iconify-icon icon="solar:bookmark-broken"></iconify-icon> -->
+                      <i class="main-color"
+                        [ngClass]="{
+                          'ri-heart-2-fill': isFavorite(item),
+                          'ri-heart-2-line': !isFavorite(item)
+                        }"></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
+                      (click)="addToCart(item)"
+                      [ngClass]="{
+                        'btn-success' : isCart(item),
+                        'bg-light text-success': !isCart(item)
+                      }"
+                    >
+                      <i class="main-color"
+                        [ngClass]="{
+                          'ri-shopping-cart-fill': isCart(item),
+                          'ri-shopping-cart-line': !isCart(item)
+                        }"></i>
                     </button>
                   }
                 </span>
@@ -306,7 +283,7 @@
               </div>
               <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top" >
                 <p class="fw-medium fs-13 mb-0 main-color" [routerLink]="'/product/' + item.id">
-                  {{ item.price }} EGP
+                  {{ item.price | number }} EGP
                 </p>
 
                 <span class="fs-10">
@@ -336,20 +313,40 @@
               <div class="card offer-cart overflow-hidden">
                 <div class="position-relative">
                   <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
-                  <span class="position-absolute top-0 start-0 p-1">
-                    @if (item?.availability == 'In Stock') {
-                      <button
-                        type="button"
-                        class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
-                        [ngClass]="
-                          item.save
-                            ? 'btn-success text-light'
-                            : 'bg-success-subtle text-success'
-                        "
-                      >
-                      <i class="ri-heart-2-line"></i>
-                      </button>
-                    }
+                  <span class="position-absolute d-flex flex-column gap-1 top-0 start-0 p-1">
+                  @if (item?.availability == 'In Stock') {
+                    <button
+                      type="button"
+                      class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
+                      (click)="addToFavorite(item)"
+                      [ngClass]="{
+                        'btn-success' : isFavorite(item),
+                        'bg-light text-success': !isFavorite(item)
+                      }"
+                    >
+                      <i class="main-color"
+                        [ngClass]="{
+                          'ri-heart-2-fill': isFavorite(item),
+                          'ri-heart-2-line': !isFavorite(item)
+                        }"></i>
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
+                      (click)="addToCart(item)"
+                      [ngClass]="{
+                        'btn-success' : isCart(item),
+                        'bg-light text-success': !isCart(item)
+                      }"
+                    >
+                      <i class="main-color"
+                        [ngClass]="{
+                          'ri-shopping-cart-fill': isCart(item),
+                          'ri-shopping-cart-line': !isCart(item)
+                        }"></i>
+                    </button>
+                  }
                   </span>
                   <span class="position-absolute top-0 end-0 p-1">
                     @if(item?.availability != 'In Stock'){
@@ -372,7 +369,7 @@
                 </div>
                 <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top" >
                   <p class="fw-medium fs-13 mb-0 main-color">
-                    {{ item.price }} EGP
+                    {{ item.price | number }} EGP
                   </p>
 
                   <span class="fs-10">

@@ -10,6 +10,8 @@ import { CategoriesComponent } from './categories/categories.component'
 import { ProductsComponent } from './products/products.component'
 import { ShopComponent } from './shop/shop.component'
 import { BrandComponent } from './brand/brand.component'
+import { StoreComponent } from './store/store.component'
+import { FavoriteComponent } from './favorite/favorite.component'
 
 export const VIEWS_ROUTES: Route[] = [
   {
@@ -30,10 +32,20 @@ export const VIEWS_ROUTES: Route[] = [
     component: BrandComponent,
     data: { title: 'Brands' },
   },
-    {
+  {
     path: 'brand/:brandId',
     component: CategoriesComponent,
     data: { title: 'Brand' },
+  },
+  {
+    path: 'store',
+    component: StoreComponent,
+    data: { title: 'Store' },
+  },
+  {
+    path: 'favorite',
+    component: FavoriteComponent,
+    data: { title: '/Favorites' },
   },
   {
     path: 'category',

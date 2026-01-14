@@ -1,0 +1,35 @@
+<section class="stores py-3" id="stores">
+  <div class="container bg-white">
+   <div class="row g-3">
+      @for (store of allStores; track $index) {
+        <div class="col-lg-4 col-md-6 col-12">
+          <div class="card location-card h-100">
+            <div class="position-relative text-center">
+              <img [src]="store?.picture" [alt]="store?.name" class="offer-img rounded-0"/>
+            </div>
+            <div class="card-body">
+              <div class="d-flex align-items-center gap-2">
+                <div class="text-start">
+                  <h6 class="main-color fw-bold fs-18">{{ store.name }}</h6>
+                  <p class="text-muted mb-0">{{ store.city }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer bg-light-subtle d-flex justify-content-between align-items-center border-top cr" >
+              <a target="_blank" [href]="'https://www.google.com/maps/search/?api=1&query=' + store.coordinates">
+                Direction
+               <i class="ri-arrow-right-line align-middle"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <div class="col-12 h-100">
+          <div class="h-100 d-flex justify-content-center align-items-center">
+            <h2 class="text-center mt-4 text-danger">Sorry, No products found for the selected filters.</h2>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</section>

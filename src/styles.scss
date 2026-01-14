@@ -28,7 +28,7 @@ $second-color:#5aaf25;
   font-weight: 600;
   color: #fff;
   &:hover{
-    background-color: #559e28;
+    background-color: $second-color;
     color: #fff;
   }
 }
