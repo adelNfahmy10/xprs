@@ -1,32 +1,48 @@
-import { Directive, ElementRef, Input, type OnInit } from '@angular/core'
-import Choices, { Options as ChoiceOption } from 'choices.js'
+import {
+  Directive,
+  ElementRef,
+  Input,
+  AfterViewInit,
+  OnDestroy,
+} from '@angular/core';
 
-export type SelectOptions = Partial<ChoiceOption>
+import Choices, { Options as ChoiceOption } from 'choices.js';
+
+export type SelectOptions = Partial<ChoiceOption>;
 
 @Directive({
   selector: '[selectFormInput]',
   standalone: true,
 })
-export class SelectFormInputDirective implements OnInit {
-  @Input() className?: string
-  @Input() onChange?: (text: string) => void
-  @Input() options?: SelectOptions
+export class SelectFormInputDirective implements AfterViewInit, OnDestroy {
 
-  constructor(private eleRef: ElementRef) {}
+  @Input() className?: string;
+  @Input() onChange?: (text: string) => void;
+  @Input() options?: SelectOptions;
 
-  ngOnInit(): void {
-    const choices = new Choices(this.eleRef.nativeElement, {
-      ...this.options,
+  private choices!: Choices;
+
+  constructor(private eleRef: ElementRef<HTMLSelectElement>) {}
+
+  ngAfterViewInit(): void {
+    this.initChoices();
+  }
+
+  private initChoices(): void {
+    this.choices = new Choices(this.eleRef.nativeElement, {
       placeholder: true,
       allowHTML: true,
       shouldSort: false,
-    })
+      ...this.options,
+    });
 
-    choices.passedElement.element.addEventListener('change', (e: Event) => {
-      if (!(e.target instanceof HTMLSelectElement)) return
-      if (this.onChange) {
-        this.onChange(e.target.value)
-      }
-    })
+    this.eleRef.nativeElement.addEventListener('change', (e: Event) => {
+      const target = e.target as HTMLSelectElement;
+      this.onChange?.(target.value);
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.choices?.destroy();
   }
 }

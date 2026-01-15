@@ -2,14 +2,16 @@ import { Component } from '@angular/core'
 import { PageTitleComponent } from '@component/page-title.component'
 import { UIExamplesListComponent } from '@component/ui-examples-list/ui-examples-list.component'
 import { SelectFormInputDirective } from '@core/directive/select-form-input.directive'
+import { DropzoneModule } from "ngx-dropzone-wrapper";
 
 @Component({
     selector: 'app-choices',
     imports: [
-        PageTitleComponent,
-        SelectFormInputDirective,
-        UIExamplesListComponent,
-    ],
+    PageTitleComponent,
+    SelectFormInputDirective,
+    UIExamplesListComponent,
+    DropzoneModule
+],
     templateUrl: './choices.component.html',
     styles: ``
 })

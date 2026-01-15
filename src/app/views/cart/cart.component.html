@@ -1,28 +1,92 @@
-<section class="cart" id="cart">
+<section class="cart py-3" id="cart">
   <div class="container">
-    @for (item of cartProducts(); track $index) {
-      <div class="row g-1 bg-white rounded-4 shadow mb-2">
-          <div class="col-md-2 text-center position-relative overflow-hidden">
-            <img [src]="item.product.picture1" class="product-image" alt="">
-            <span class="position-absolute availability badge bg-success px-5 py-1 fs-6">{{item.product.availability}}</span>
-          </div>
+    <div class="row">
+      <div class="col-md-8">
+        @for (item of cartProducts(); track $index) {
+          <div class="row bg-white rounded-2 shadow mb-2 product-cart">
+            <div class="col-md-3 text-center d-flex justify-content-center align-items-center position-relative overflow-hidden">
+              <img [src]="item.product.picture1" class="product-image" [alt]="item.product.picturealt1">
+              <span class="position-absolute availability badge bg-success px-5 py-1 fs-6">{{item.product.availability}}</span>
+            </div>
 
-          <div class="col-md-10">
-            <div class="product-details py-4 px-3 px-md-0">
-              <h4 class="main-color fw-bold">{{item.product.name}}</h4>
-              <h5 class="fw-bold">{{item.product.category.name}}</h5>
-              <p class="m-0">Quantity : <span class="main-color fw-bold fs-5">({{item.product.quantity}}) Piece(s)</span></p>
-              <p class="m-0">Price : <span class="main-color fw-bold fs-5"> {{item.product.price | number}} EGP</span></p>
-              <div class="m-0 text-end px-3 text-danger">
-                <span class="cr" (click)="deleteProductInCart(item.id)"><i class="ri-delete-bin-line"></i> Delete </span>
+            <div class="col-md-9">
+              <div class="product-details py-4 px-3 px-md-0">
+                <h4 class="main-color fw-bold">{{item.product.name}}</h4>
+                <h5 class="fw-bold">{{item.product.category.name}}</h5>
+                <p class="m-0">Quantity : <span class="main-color fw-bold fs-5">({{item.product.quantity}}) Piece(s)</span></p>
+                <p class="m-0">Price : <span class="main-color fw-bold fs-5"> {{item.product.price | number}} EGP</span></p>
+                <!-- Quantity -->
+                <div class="product-quantity mt-2">
+                  <label class="span_bold mb-1 d-block">Quantity:</label>
+                  <div class="quantity-selector d-flex align-items-center gap-2">
+                    <!-- زر النقصان -->
+                    <button type="button" (click)="decreaseQuantity(item)" [disabled]="quantity <= 1" class="btn count-btn">-</button>
+
+                    <!-- حقل العدد -->
+                    <input type="number" [(ngModel)]="quantity" min="1" class="form-control text-center" />
+
+                    <!-- زر الزيادة -->
+                    <button type="button" (click)="increaseQuantity(item)" class="btn count-btn">+</button>
+                  </div>
+                </div>
+                <div class="m-0 text-end px-3 text-danger">
+                  <span class="cr" (click)="deleteProductInCart(item.id)"><i class="ri-delete-bin-line"></i> Delete </span>
+                </div>
               </div>
             </div>
           </div>
-
+        }
       </div>
-    } @empty {
-      <h3 class="text-danger text-center bg-white p-5">Cart is Empty</h3>
-    }
+
+      <div class="col-md-4 mb-2">
+        @if(cartProducts().length){
+          <div class="card h-100">
+            <div class="xprs-logo text-center">
+              <img src="assets/images/home-image/logo.avif" class="w-75 py-4 border-bottom" alt="">
+            </div>
+
+
+            <div class="card-body">
+              <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+                <li class="d-flex justify-content-between align-items-center">
+                  <h5 class="m-0">Quntity</h5>
+                  <span class="main-color fw-bold fs-15">{{cartCount()}} Piece(s)</span>
+                </li>
+
+                <li class="d-flex justify-content-between align-items-center">
+                  <h5 class="m-0">Sipping Fees</h5>
+                  <span class="main-color fs-20">{{shippingValue()}}</span>
+                </li>
+
+                <li class="d-flex justify-content-between align-items-center">
+                  <h5 class="m-0">SubTotal</h5>
+                  <span class="main-color fw-bold fs-20">{{subTotal()}}</span>
+                </li>
+
+                <li class="d-flex justify-content-between align-items-start border-top pt-2">
+                  <div class="d-flex flex-column">
+                    <h5 class="m-0">Total</h5>
+                    <span class="text-danger fw-medium">including 14% Taxes</span>
+                  </div>
+                  <span class="main-color fw-bold fs-20">{{subTotal() + shippingValue()}}</span>
+                </li>
+              </ul>
+              <div class="btn-checkout text-center mt-2">
+                <button class="btn fw-bold fs-15" routerLink="/checkout">Checkout</button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      @if(cartProducts().length == 0){
+        <div class="col-12 text-center bg-white p-5 rounded-2 shadow">
+          <h3 class="text-danger">Cart is Empty</h3>
+        </div>
+      }
+    </div>
+
+
   </div>
 
 

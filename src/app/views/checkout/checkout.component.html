@@ -1,0 +1,192 @@
+<section class="checkout" id="checkout">
+  <div class="container">
+    <div class="bg-white p-3">
+      <div class="row">
+        <div class="col-md-6">
+          <div class="card shadow-none">
+          <div class="card-body p-0 pt-3">
+            <p class="title-form fw-bold mb-1">Shipping</p>
+            <form class="d-flex flex-column gap-2">
+              <!-- Name -->
+              <div class="fullName">
+                <input id="fullName" name="fullName" type="text" class="form-control w-100" placeholder="*Name...">
+              </div>
+
+              <!-- Email -->
+              <div class="email">
+                <input id="email" name="email" type="email" class="form-control w-100" placeholder="*Email...">
+              </div>
+
+              <!-- Phone -->
+              <div class="phone">
+                <input id="phone" name="phone" type="tel" class="form-control w-100" placeholder="*Phone Number...">
+              </div>
+
+              <!-- Address -->
+              <div class="address">
+                <input id="address" name="address" type="text" class="form-control w-100" placeholder="*Address...">
+              </div>
+
+              <!-- City -->
+              <div class="city">
+                <select
+                  selectFormInput
+                  class="form-control"
+                  id="choices-country"
+                  placeholder="Select Country"
+                  name="choices-country"
+                >
+                  <option value="" selected disabled>Choose a city</option>
+                  @for (city of cities; track $index) {
+                    <option [value]="city">{{city}}</option>
+                  }
+                </select>
+              </div>
+
+              <!-- Check Biling Address-->
+              <p class="title-biling fw-bold mt-1 mb-0">Biling</p>
+              <div class="checkBiling w-100 d-flex gap-1">
+                <input
+                  (click)="toggleBilingAddress()"
+                  type="checkbox"
+                  class="form-check-input"
+                  id="customCheckcolor2"
+                />
+                <label class="form-check-label" for="customCheckcolor2">Use the same as above </label>
+              </div>
+
+              @if(showBilingAddress){
+                <!-- Biling City -->
+                <div class="city">
+                  <select
+                    selectFormInput
+                    class="form-control"
+                    id="choices-country"
+                    placeholder="Select Country"
+                    name="choices-country"
+                  >
+                    <option value="" selected disabled>Choose a city</option>
+                    @for (city of cities; track $index) {
+                      <option [value]="city">{{city}}</option>
+                    }
+                  </select>
+                </div>
+
+                <!-- Biling Address -->
+                <div class="address">
+                  <input id="address" name="address" type="text" class="form-control w-100" placeholder="*Address...">
+                </div>
+              }
+              <hr>
+
+              <!-- Hear Us -->
+              <div class="hear-us">
+                 <select
+                  selectFormInput
+                  class="form-control"
+                  id="Hear About Us"
+                  name="Hear About Us"
+                >
+                  <option value="" selected disabled>How did you hear about us?</option>
+                  @for (hear of hearAboutUs; track $index) {
+                    <option [value]="hear">{{hear}}</option>
+                  }
+                </select>
+              </div>
+
+              @if(step == 1){
+                <button type="button" class="btn btn-outline-success w-25" (click)="nextStep(2)">
+                  Next
+                </button>
+              }
+
+              @if(step == 2){
+                <div class="payments">
+                  @for (pay of payments_arr_avail; track $index) {
+                    @if(pay.code == 1){
+                      <div class="form-check form-check-inline d-flex align-items-center gap-2">
+                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" [value]="pay">
+                        <div>
+                          <img src="assets/images/checkout-image/cash.png" class="payment-image" [alt]="pay.name">
+                          <label class="form-check-label" for="inlineRadio1">{{pay.name}}</label>
+                        </div>
+                      </div>
+                    }
+
+                  }
+                </div>
+
+                <div class="btn-checkout text-center mt-2 d-flex justify-content-between align-items-center">
+                  <button type="button" class="btn btn-outline-success w-25" (click)="nextStep(1)">Back</button>
+
+                  <button class="btn checkout fw-bold fs-15" routerLink="/checkout">Checkout</button>
+                </div>
+              }
+            </form>
+          </div>
+        </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card h-100">
+            <!-- <div class="xprs-logo text-center">
+              <img src="assets/images/home-image/logo.avif" class="w-75 py-4 border-bottom" alt="">
+            </div> -->
+
+            <div class="card-body">
+               @for (item of cartProducts(); track $index) {
+                <div class="row bg-white rounded-2 shadow mb-2 product-cart">
+                  <div class="col-md-3 text-center d-flex justify-content-center align-items-center position-relative overflow-hidden">
+                    <img [src]="item.product.picture1" class="product-image" [alt]="item.product.picturealt1">
+                    <span class="position-absolute availability badge bg-success px-5 py-1 fs-6">{{item.product.availability}}</span>
+                  </div>
+
+                  <div class="col-md-9">
+                    <div class="product-details py-4 px-3 px-md-0">
+                      <h4 class="main-color fw-bold">{{item.product.name}}</h4>
+                      <h5 class="fw-bold">{{item.product.category.name}}</h5>
+                      <p class="m-0">Quantity : <span class="main-color fw-bold fs-5">({{item.product.quantity}}) Piece(s)</span></p>
+                      <p class="m-0">Price : <span class="main-color fw-bold fs-5"> {{item.product.price | number}} EGP</span></p>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              <ul class="list-unstyled d-flex flex-column gap-2 mb-0">
+                <li class="mb-3">
+                  <h5 class="mb-1">Promo Code :</h5>
+                  <input type="text" class="form-control" placeholder="Promo code" id="promo_code" name="promo_code">
+                </li>
+
+                <li class="d-flex justify-content-between align-items-center">
+                  <h5 class="m-0">Quntity</h5>
+                  <span class="main-color fw-bold fs-15">{{cartCount()}} Piece(s)</span>
+                </li>
+
+                <li class="d-flex justify-content-between align-items-center">
+                  <h5 class="m-0">Sipping Fees</h5>
+                  <span class="main-color fs-20">{{shippingValue()}}</span>
+                </li>
+
+                <li class="d-flex justify-content-between align-items-center">
+                  <h5 class="m-0">SubTotal</h5>
+                  <span class="main-color fw-bold fs-20">{{subTotal()}}</span>
+                </li>
+
+                <li class="d-flex justify-content-between align-items-start border-top pt-2">
+                  <div class="d-flex flex-column">
+                    <h5 class="m-0">Total</h5>
+                    <span class="text-danger fw-medium">including 14% Taxes</span>
+                  </div>
+                  <span class="main-color fw-bold fs-20">{{subTotal() + shippingValue()}}</span>
+                </li>
+              </ul>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

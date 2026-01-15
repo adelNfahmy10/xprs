@@ -14,6 +14,7 @@ import { StoreComponent } from './store/store.component'
 import { FavoriteComponent } from './favorite/favorite.component'
 import { GameComponent } from './game/game.component'
 import { CartComponent } from './cart/cart.component'
+import { CheckoutComponent } from './checkout/checkout.component'
 
 export const VIEWS_ROUTES: Route[] = [
   {
@@ -83,6 +84,11 @@ export const VIEWS_ROUTES: Route[] = [
     path: 'cart',
     component: CartComponent,
     data: { title: 'Cart' },
+  },
+  {
+    path: 'checkout',
+    component: CheckoutComponent,
+    data: { title: 'Checkout' },
   },
 
 
