@@ -11,11 +11,62 @@
       <div class="xprs-tranding">
         <h3 class="text-white">XPRS Trending</h3>
         <ul class="list-group list-group-flush gap-2">
-          @for (cat of allCategories; track $index) {
-            <li class="list-group-item bg-transparent text-white">{{cat.name}}</li>
+          <!-- Stage 1: أول 5 -->
+          @for (cat of allCategories.slice(0,8); track $index) {
+            <li class="list-group-item bg-transparent text-white">
+              {{ cat.name }}
+            </li>
           }
+
+          <!-- Stage 2: من 5 لـ 12 -->
+          @if(stage >= 2){
+            @for (cat of allCategories.slice(8,15); track $index) {
+              <li class="list-group-item bg-transparent text-white">
+                {{ cat.name }}
+              </li>
+            }
+          }
+
+
+          <!-- Stage 3: الباقي -->
+          @if (stage === 3) {
+            @for (cat of allCategories.slice(15); track $index) {
+              <li class="list-group-item bg-transparent text-white">
+                {{ cat.name }}
+              </li>
+            }
+          }
+
+          <!-- Button -->
+          <div class="btn-toggle d-flex justify-content-between align-items-center">
+            <!-- Show More / Show All -->
+            @if (stage < 3) {
+            <span
+              class="main-color cursor-pointer d-flex align-items-center gap-1"
+              (click)="showMore()"
+            >
+              {{ stage === 1 ? 'Show More' : 'Show All' }}
+              <i class="fa-solid fa-chevron-down"></i>
+            </span>
+
+            }
+
+            <!-- Show Less -->
+            @if (stage > 1) {
+              <span
+                class="main-color cursor-pointer d-flex align-items-center gap-1"
+                (click)="showLess()"
+              >
+                Show Less
+                <i class="fa-solid fa-chevron-up"></i>
+              </span>
+            }
+          </div>
+
         </ul>
-      </div>
+
+
+        </div>
     </div>
 
     <hr class="d-md-none d-block">
