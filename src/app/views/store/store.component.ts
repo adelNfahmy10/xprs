@@ -20,7 +20,6 @@ export class StoreComponent implements OnInit{
     this._StoreService.getStores().subscribe({
       next:(res)=>{
         this.allStores = res
-        console.log(this.allStores);
       }
     })
   }

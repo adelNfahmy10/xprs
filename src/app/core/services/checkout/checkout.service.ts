@@ -22,7 +22,6 @@ export class CheckoutService {
     return this._HttpClient.get(`${environment.baseUrl}shipping-value/`).pipe(
       tap((res: any) => {
         this.shippingValue.set(res[0].shipping);
-        console.log(this.shippingValue());
       })
     );
   }

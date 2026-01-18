@@ -52,7 +52,7 @@ export const appConfig: ApplicationConfig = {
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideEffects(AuthenticationEffects, CalendarEffects),
     provideHttpClient(withFetch(), withInterceptors([loadingInterceptor])),
-    provideToastr({}),
+    provideToastr(),
     provideAnimations(),
     importProvidersFrom(NgxSpinnerModule)
   ],

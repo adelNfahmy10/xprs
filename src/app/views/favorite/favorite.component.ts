@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CartService } from '@core/services/cart/cart.service';
 import { FavoriteService } from '@core/services/favorite/favorite.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-favorite',
@@ -12,6 +13,7 @@ import { FavoriteService } from '@core/services/favorite/favorite.service';
 })
 export class FavoriteComponent implements OnInit{
   private readonly _FavoriteService = inject(FavoriteService)
+  private readonly _ToastrService = inject(ToastrService)
     private readonly _CartService = inject(CartService)
 
   allFavorites: any[] = [];
@@ -62,6 +64,7 @@ export class FavoriteComponent implements OnInit{
       this._CartService.deleteCart(cartItem.id).subscribe({
         next: (res) => {
           this.getAllCart();
+          this._ToastrService.warning('Product removed from cart successfully');
         }
       });
       return;
@@ -80,6 +83,7 @@ export class FavoriteComponent implements OnInit{
     this._CartService.addCartProduct(data).subscribe({
       next: () => {
         this.getAllCart();
+        this._ToastrService.success('Product added to cart successfully');
       }
     });
   }

@@ -1,4 +1,4 @@
-<section class="home overflow-hidden">
+<section class="home">
   <!-- Home Slider-->
   <div class="row g-1">
     <div class="col-12">
@@ -20,17 +20,20 @@
             <img src="assets/images/home-image/home-banner-4.webp" alt="xprs" class="img-fluid" />
           </swiper-slide>
         </swiper-container>
-        <div id="effect-pagination" class="swiper-pagination"></div>
+        <div class="swiper-button-next creative-next"></div>
+        <div class="swiper-button-prev creative-prev"></div>
+        <div class="swiper-pagination" id="creative-pagination"></div>
       </div>
     </div>
   </div>
 
   <!-- Home Content-->
   <div class="content container">
+
     <!-- Categories Slider -->
     <div class="swiper category-slider mt-4">
       <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">Categories</h2>
-      <swiper-container [config]="swiperPagination" init="false" class="swiper-wrapper">
+      <swiper-container [config]="swiperPaginationCategory" init="false" class="swiper-wrapper">
         @for (cat of categories; track $index) {
           <swiper-slide class="rounded-4 wow animate__animated animate__fadeInUp cr h-100">
             <div class="cat-slide rounded-4 h-100" [routerLink]="'/category/' + cat.id">
@@ -46,9 +49,9 @@
           </swiper-slide>
         }
       </swiper-container>
-      <div class="swiper-button-next basic-next"></div>
-      <div class="swiper-button-prev basic-prev"></div>
-      <!-- <div class="swiper-pagination basic-pagination" id="basic-pagination" ></div> -->
+      <div class="swiper-button-next category-next"></div>
+      <div class="swiper-button-prev category-prev"></div>
+      <!-- <div class="swiper-pagination category-pagination" id="category-pagination" ></div> -->
     </div>
 
     <!-- Brand Slider -->
@@ -80,20 +83,20 @@
           </swiper-slide>
         }
       </swiper-container>
-      <div class="swiper-button-next basic-next"></div>
-      <div class="swiper-button-prev basic-prev"></div>
-      <!-- <div class="swiper-pagination basic-pagination" id="basic-pagination" ></div> -->
+      <div class="swiper-button-next brand-next"></div>
+      <div class="swiper-button-prev brand-prev"></div>
+      <!-- <div class="swiper-pagination brand-pagination" id="brand-pagination" ></div> -->
     </div>
 
     <!-- Speicals Offers -->
     <div class="swiper special-slider mt-4">
       <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">{{specialOffers.title}}</h2>
-      <swiper-container [config]="swiperPaginationEssentials" init="false" class="swiper-wrapper">
+      <swiper-container [config]="swiperPaginationOffers" init="false" class="swiper-wrapper">
         @for (item of specialOffers?.products; track $index) {
           <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 h-100 px-1" > <!-- [style.animationDelay]="($index * 0.2) + 's'"  -->
             <div class="card offer-cart overflow-hidden">
               <div class="position-relative">
-                <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0"/>
+                <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0 cr" [routerLink]="'/product/' + item.id"/>
                 <!-- <img [src]="item?.picture2 ? item?.picture2 : item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
                 <img [src]="item?.picture3 ? item?.picture3 : item?.picture3" [alt]="item?.picture1_alt" class="offer-img rounded-0" /> -->
                 <span class="position-absolute d-flex flex-column gap-1 top-0 start-0 p-1">
@@ -141,6 +144,10 @@
                       In Stock
                     </span>
                   }
+                </span>
+
+                <span class="main-color fade-fave" [ngClass]="{'animate-fade': showFadeAnimation(item)}">
+                  <i class="ri-heart-2-fill"></i>
                 </span>
               </div>
               <div class="card-body px-1 px-md-3">
@@ -165,9 +172,9 @@
           </swiper-slide>
         }
       </swiper-container>
-      <div class="swiper-button-next basic-next"></div>
-      <div class="swiper-button-prev basic-prev"></div>
-      <!-- <div class="swiper-pagination basic-pagination" id="basic-pagination" ></div> -->
+      <div class="swiper-button-next offer-next"></div>
+      <div class="swiper-button-prev offer-prev"></div>
+      <!-- <div class="swiper-pagination offer-pagination" id="offer-pagination" ></div> -->
     </div>
 
     <!-- Essentials -->
@@ -178,7 +185,7 @@
           <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 h-100 px-1"> <!--  [style.animationDelay]="($index * 0.2) + 's'" -->
             <div class="card offer-cart overflow-hidden">
               <div class="position-relative">
-                <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
+                <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0 cr" [routerLink]="'/product/' + item.id"/>
                 <!-- <img [src]="item?.picture2 ? item?.picture2 : item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
                 <img [src]="item?.picture3 ? item?.picture3 : item?.picture3" [alt]="item?.picture1_alt" class="offer-img rounded-0" /> -->
                 <span class="position-absolute d-flex flex-column gap-1 top-0 start-0 p-1">
@@ -227,6 +234,15 @@
                     </span>
                   }
                 </span>
+                <i class="main-color fade-fave"
+                  [ngClass]="{'animate-fade': showFadeAnimation(item)}">
+                  <i class="ri-heart-2-fill"></i>
+                </i>
+
+                <i class="main-color fade-fave"
+                  [ngClass]="{'animate-fade': showFadeAnimation(item)}">
+                  <i class="ri-heart-2-fill"></i>
+                </i>
               </div>
               <div class="card-body px-2 px-sm-3">
                 <div class="d-flex align-items-center gap-2">
@@ -296,9 +312,9 @@
           </swiper-slide>
         }
       </swiper-container>
-      <div class="swiper-button-next basic-next"></div>
-      <div class="swiper-button-prev basic-prev"></div>
-      <!-- <div class="swiper-pagination basic-pagination" id="basic-pagination" ></div> -->
+      <div class="swiper-button-next essentials-next"></div>
+      <div class="swiper-button-prev essentials-prev"></div>
+      <!-- <div class="swiper-pagination essentials-pagination" id="essentials-pagination" ></div> -->
     </div>
 
     <!-- Selling -->

@@ -76,9 +76,6 @@ export class CategoriesComponent implements OnInit{
         this.categoryId = param.get('id')!;
         this.subCategoryId = param.get('subId')!;
         this.brandId = param.get('brandId')!;
-        console.log(this.categoryId);
-        console.log(this.subCategoryId);
-        console.log(this.brandId);
 
         if(!this.subCategoryId && !this.brandId){
           this._CategoryService.getProductsCategory('',[this.categoryId],[],'-id',this.pageSize, this.page).subscribe({
@@ -314,7 +311,6 @@ export class CategoriesComponent implements OnInit{
 
     // تحديث localStorage
     localStorage.setItem('myFavProduct', JSON.stringify(this.allFavoriteItems));
-    console.log(this.allFavoriteItems);
   }
 
 

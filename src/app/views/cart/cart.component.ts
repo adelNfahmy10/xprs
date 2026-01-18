@@ -24,9 +24,9 @@ export class CartComponent{
 
   constructor(){
     effect(()=>{
-      console.log(this.cartProducts());
-      console.log(this.cartCount());
-      console.log(this.shippingValue());
+      // console.log(this.cartProducts());
+      // console.log(this.cartCount());
+      // console.log(this.shippingValue());
     })
   }
 
@@ -74,7 +74,7 @@ export class CartComponent{
       switchMap(() => this._CartService.getCartCount(this.cartId()!))
     ).subscribe({
       next: (res) => {
-        console.log(res);
+        // console.log(res);
       },
       error: (err) => {
         this.quantity = 1

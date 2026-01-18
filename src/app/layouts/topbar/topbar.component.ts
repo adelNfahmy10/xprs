@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms'
 import { CategoryService } from '@core/services/category/category.service'
 import { debounceTime, distinctUntilChanged, Subject, switchMap, takeUntil } from 'rxjs'
 import { CartService } from '@core/services/cart/cart.service'
+import { ToastrService } from 'ngx-toastr'
 
 type FullScreenTypes = {
   requestFullscreen?: () => Promise<void>
@@ -44,16 +45,18 @@ type FullScreenTypes = {
 export class TopbarComponent{
   private readonly _CategoryService = inject(CategoryService)
   private readonly _CartService = inject(CartService)
+  private readonly _ToastrService = inject(ToastrService)
   private readonly _Router = inject(Router)
 
   searchItem: string = '';
+  noResults:string = '';
   searchResults: any[] = [];
   cartCount = this._CartService.cartCount;
   cartProducts = this._CartService.cartProducts;
 
   constructor(@Inject(DOCUMENT) private document: Document & FullScreenTypes) {
     effect(() => {
-      console.log('Navbar cart count:', this.cartProducts());
+      // console.log('Navbar cart count:', this.cartProducts());
     });
   }
 
@@ -66,7 +69,7 @@ export class TopbarComponent{
 
     this.searchSubject
       .pipe(
-        debounceTime(500),
+        debounceTime(300),
         distinctUntilChanged(),
         switchMap(value =>
           this._CategoryService.getProducts(
@@ -84,7 +87,10 @@ export class TopbarComponent{
       )
       .subscribe({
         next: (res) => {
-          this.searchResults = res.results;
+          this.searchResults = res.results
+          if(this.searchResults.length == 0){
+            this._ToastrService.warning('No Results')
+          }
         }
       });
   }

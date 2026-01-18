@@ -7,6 +7,7 @@ import { RouterLink } from '@angular/router';
 import { CommonModule, NgClass } from '@angular/common';
 import { propertyData } from '@views/property/data';
 import { CartService } from '@core/services/cart/cart.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ import { CartService } from '@core/services/cart/cart.service';
 
 export class HomeComponent implements OnInit{
   private readonly _HomeService = inject(HomeService)
+  private readonly _ToastrService = inject(ToastrService)
   private readonly _CartService = inject(CartService)
 
   propertyList = propertyData
@@ -71,6 +73,8 @@ export class HomeComponent implements OnInit{
     })
   }
 
+  // حفظ العناصر اللي عليها animation
+  fadeItems: Set<number> = new Set();
   // للتحقق إذا العنصر موجود في المفضلة
   isFavorite(item: any): boolean {
     return this.allFavoriteItems.some(fav => fav.id === item.id);
@@ -83,15 +87,24 @@ export class HomeComponent implements OnInit{
     if (index === -1) {
       // لو مش موجود أضفه
       this.allFavoriteItems.push(item);
+      this._ToastrService.success('Product added to favorites successfully');
+      // تشغيل animation
+      this.fadeItems.add(item.id);
+      setTimeout(() => this.fadeItems.delete(item.id), 1000); // مدة الfade CSS
+
     } else {
       // لو موجود، ممكن نعمل toggle ونحذفه (اختياري)
       this.allFavoriteItems.splice(index, 1);
+      this._ToastrService.warning('Product removed from favorites successfully');
     }
 
     // تحديث localStorage
     localStorage.setItem('myFavProduct', JSON.stringify(this.allFavoriteItems));
   }
 
+  showFadeAnimation(item: any): boolean {
+    return this.fadeItems.has(item.id);
+  }
 
 
   isCart(item: any): boolean {
@@ -108,6 +121,7 @@ export class HomeComponent implements OnInit{
       this._CartService.deleteCart(cartItem.id).subscribe({
         next: (res) => {
           this.getAllCart();
+          this._ToastrService.warning('Product removed from cart successfully');
         }
       });
       return;
@@ -126,6 +140,7 @@ export class HomeComponent implements OnInit{
     this._CartService.addCartProduct(data).subscribe({
       next: () => {
         this.getAllCart();
+        this._ToastrService.success('Product added to cart successfully');
       }
     });
   }
@@ -150,7 +165,7 @@ export class HomeComponent implements OnInit{
 
   // Home Silder Config
   swiperCreativeEffect: SwiperOptions = {
-    modules: [Autoplay, Pagination, EffectCreative],
+    modules: [Autoplay, Pagination, EffectCreative, Navigation],
     loop: true,
     // grabCursor: true,
     effect: 'creative',
@@ -168,33 +183,21 @@ export class HomeComponent implements OnInit{
       disableOnInteraction: false,
       pauseOnMouseEnter: true,
     },
+
     pagination: {
       el: '#creative-pagination',
       clickable: true,
     },
+
+    navigation: {
+      nextEl: '.creative-next',
+      prevEl: '.creative-prev',
+    },
+
   }
 
-  // Home Silder Config
-  swiperfadeEffect: SwiperOptions = {
-    modules: [Pagination, Autoplay, EffectFade],
-    loop: true,
-    effect: 'fade',
-    speed: 1200,
-
-    autoplay: {
-      delay: 3000,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
-    },
-
-    pagination: {
-      clickable: true,
-      el: '#effect-pagination',
-    },
-  };
-
   // Categories Silder Config
-  swiperPagination: SwiperOptions = {
+  swiperPaginationCategory: SwiperOptions = {
     modules: [Autoplay, Pagination, Navigation],
     loop: true,
 
@@ -219,20 +222,20 @@ export class HomeComponent implements OnInit{
       },
     },
 
-    // autoplay: {
-    //   delay: 1500,
-    //   disableOnInteraction: false,
-    //   pauseOnMouseEnter: true,
-    // },
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
 
     pagination: {
       clickable: true,
-      el: '#basic-pagination',
+      el: '#category-pagination',
     },
 
     navigation: {
-      nextEl: '.basic-next',
-      prevEl: '.basic-prev',
+      nextEl: '.category-next',
+      prevEl: '.category-prev',
     },
   }
 
@@ -259,23 +262,62 @@ export class HomeComponent implements OnInit{
       },
     },
 
-    // autoplay: {
-    //   delay: 1500,
-    //   disableOnInteraction: false,
-    //   pauseOnMouseEnter: true,
-    // },
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
 
     pagination: {
       clickable: true,
-      el: '#basic-pagination',
+      el: '#brand-pagination',
     },
     navigation: {
-      nextEl: '.basic-next',
-      prevEl: '.basic-prev',
+      nextEl: '.brand-next',
+      prevEl: '.brand-prev',
     },
   }
 
-  // Special Essentials Silder Config
+  // Special Offers Silder Config
+  swiperPaginationOffers: SwiperOptions = {
+    modules: [Autoplay, Pagination, Navigation],
+    loop: true,
+
+    slidesPerView: 8,
+    spaceBetween: 10,
+
+    speed:600,
+    grabCursor: true,
+
+    breakpoints: {
+      0: {
+        slidesPerView: 2,
+      },
+      768: {
+        slidesPerView: 3,
+      },
+      1200: {
+        slidesPerView: 5,
+      },
+    },
+
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+
+    pagination: {
+      clickable: true,
+      el: '#offer-pagination',
+    },
+    navigation: {
+      nextEl: '.offer-next',
+      prevEl: '.offer-prev',
+    },
+  }
+
+   // Special Essentials Silder Config
   swiperPaginationEssentials: SwiperOptions = {
     modules: [Autoplay, Pagination, Navigation],
     loop: true,
@@ -299,18 +341,18 @@ export class HomeComponent implements OnInit{
     },
 
     autoplay: {
-      delay: 10000,
+      delay: 5000,
       disableOnInteraction: false,
       pauseOnMouseEnter: true,
     },
 
     pagination: {
       clickable: true,
-      el: '#basic-pagination',
+      el: '#essentials-pagination',
     },
     navigation: {
-      nextEl: '.basic-next',
-      prevEl: '.basic-prev',
+      nextEl: '.essentials-next',
+      prevEl: '.essentials-prev',
     },
   }
 

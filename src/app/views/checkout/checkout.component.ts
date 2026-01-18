@@ -203,7 +203,6 @@ export class CheckoutComponent implements OnInit{
 
       /** 3️⃣ Final available payments */
       this.payments_arr_avail = visiblePayments.filter(p => p.is_allowed);
-      console.log(this.payments_arr_avail);
     });
   }
 

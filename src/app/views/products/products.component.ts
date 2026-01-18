@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { CartService } from '@core/services/cart/cart.service';
 import { ProductService } from '@core/services/product/product.service';
 import { NgbCollapse } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from 'ngx-toastr';
@@ -17,9 +18,14 @@ export class ProductsComponent implements OnInit{
   private readonly _ProductService = inject(ProductService)
   private readonly _ActivatedRoute = inject(ActivatedRoute)
   private readonly _ToastrService = inject(ToastrService)
+  private readonly _CartService = inject(CartService)
+
+  cart:any[] = []
+  cartId:string | null = localStorage.getItem('xprsCartId')
 
   productData:any;
   productSlug:any;
+  isCheckProduct:boolean = false
 
   productImages: { src: string; alt: string }[] = [];
   mainIndex = 0;
@@ -41,6 +47,8 @@ export class ProductsComponent implements OnInit{
         this._ProductService.getProductDetails(this.productSlug).subscribe({
           next: (res) => {
             this.productData = res;
+            this.getAllCart()
+
             this.productImages = [
               { src: this.productData.picture1, alt: this.productData.picture1_alt },
               { src: this.productData.picture2, alt: this.productData.picture2_alt },
@@ -63,6 +71,48 @@ export class ProductsComponent implements OnInit{
       },
     });
   }
+
+
+  addToCart():void{
+    const data = {
+      product: this.productSlug,
+      cart: this.cartId,
+      quantity: this.productData.quantity || 1,
+      product_property: null,
+      card: null,
+      branded_page_product: null,
+      insurance: null
+    };
+
+    this._CartService.addCartProduct(data).subscribe({
+      next: () => {
+        this.getAllCart();
+        this.isCheckProduct = true
+        this._ToastrService.success('Product added to cart successfully');
+      },
+      error:(err)=>{
+        this._ToastrService.warning(err.error.detail);
+      }
+    });
+  }
+
+  getAllCart():void{
+    if(this.cartId){
+      this._CartService.getCart(this.cartId).subscribe({
+        next:(res)=>{
+          this.cart = res?.cartproduct || [];
+          this._CartService.cartCount.set(res.cartproduct.length)
+          this._CartService.cartProducts.set(res.cartproduct)
+          let isCheckProduct = this.cart.some(
+            product => product.product.id == this.productSlug
+          );
+
+          console.log(isCheckProduct); // true أو false
+        }
+      })
+    }
+  }
+
 
   changeMain(index: number) {
     this.mainIndex = index;
@@ -148,7 +198,6 @@ export class ProductsComponent implements OnInit{
     this._ProductService.insuranceTerms().subscribe({
       next:(res)=>{
         this.insurance_terms = res.data;
-        console.log(this.insurance_terms);
       }
     })
   }
@@ -162,16 +211,10 @@ export class ProductsComponent implements OnInit{
           this.filtered_banks.push(element.bank);
         }
 
-        console.log(this.filtered_banks);
-
-
         this.filtered_banks = this.filtered_banks.filter(
           (tag:any, index:any, array:any) =>
             array.findIndex((t:any) => t.id == tag.id) == index
         );
-
-        console.log(this.filtered_banks);
-
 
         for ( let banksInstallment_index = 0; banksInstallment_index < this.banksInstallment.length; banksInstallment_index++) {
           const banksInstallment_element = this.banksInstallment[banksInstallment_index];
@@ -261,8 +304,5 @@ export class ProductsComponent implements OnInit{
     }
   }
 
-  addToCart():void{
-    console.log('cart');
 
-  }
 }

@@ -30,7 +30,7 @@
 
               @if(searchResults.length > 0){
                 <div class="search-items-list bg-white position-absolute">
-                  <ul class="list-unstyled m-0 py-2 d-flex flex-column gap-0">
+                  <ul class="list-unstyled m-0 d-flex flex-column gap-0">
                     <!-- <i class="ri-close-circle-line fs-1 text-end cr" (click)="closeSearch()"></i> -->
                     @for (item of searchResults; track $index) {
                       <li class="cr py-2 px-1" (click)="goToProduct(item.id)">
@@ -40,7 +40,11 @@
                           } @else {
                             <img class="image-item-search" src="assets/images/global-image/load.gif" [alt]="item.name">
                           }
-                          <span>{{item.name}}</span>
+                          <div class="d-flex flex-column">
+                            <span class="fw-bold">{{item.name.slice(0,25)}}...</span>
+                            <span class="catName-search fw-medium">{{item.category.name}}</span>
+                            <span class="price-search fw-medium">{{item.price | number}} EGP</span>
+                          </div>
                         </div>
                       </li>
                     }
@@ -82,8 +86,11 @@
                   </div>
 
                   <div class="details-product">
-                    <h5 class="main-color">{{item.product.name}}</h5>
-                    <p class="m-0 fw-bold">Price : {{item.product.price | number}} EGP</p>
+                    <h5 class="main-color m-0">{{item.product.name.slice(0,25)}}....</h5>
+                    <div class="d-flex flex-column">
+                      <span class="fw-medium catName-cart">{{item.product.category.name}}</span>
+                      <span class="fw-medium price-cart">Price : {{item.product.price | number}} EGP</span>
+                    </div>
                   </div>
                 </div>
               }
