@@ -46,14 +46,14 @@ $main-color: #81FB37;
     transition: transform 0.6s ease;
     transform-style: preserve-3d;
     z-index: 9999;
-    filter: drop-shadow(0 0 8px $main-color);
+    // filter: drop-shadow(0 0 8px $main-color);
   }
 
   &:hover {
-    transform: translateZ(-60px) scale(0.3);
-    box-shadow: 0 0 15px $main-color;
+    // transform: translateZ(-60px) scale(0.3);
+    // box-shadow: 0 0 15px $main-color;
     img {
-      transform: translateZ(140px) translateY(5px) rotateX(-10deg) scale(3.4)
+      transform: translateZ(140px) translateY(5px) rotateX(-10deg)
     }
   }
 }

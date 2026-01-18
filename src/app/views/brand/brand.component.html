@@ -31,7 +31,7 @@
 
       <div class="row g-3 mt-1">
         @for (brand of filteredBrands; track $index) {
-          <div class="col-lg-2 col-md-3 col-6 wow animate__animated animate__fadeInUp" [style.animationDelay]="($index * 0.1) + 's'">
+          <div class="col-lg-2 col-md-3 col-6 wow animate__animated animate__fadeInUp"> <!--  [style.animationDelay]="($index * 0.1) + 's'" -->
             <div class="brand-box h-100 text-center cr" [routerLink]="'/brand/' + brand.name">
               @if(brand.picture){
                 <img

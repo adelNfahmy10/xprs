@@ -3,7 +3,7 @@
   <div class="row g-1">
     <div class="col-12">
       <div class="swiper banner-swiper">
-        <swiper-container [config]="swiperfadeEffect" init="false" class="swiper-wrapper" >
+        <swiper-container [config]="swiperCreativeEffect" init="false" class="swiper-wrapper" >
           <swiper-slide class="swiper-slide">
             <img src="assets/images/home-image/home-banner-1.webp" alt="xprs" class="img-fluid" />
           </swiper-slide>
@@ -32,8 +32,8 @@
       <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">Categories</h2>
       <swiper-container [config]="swiperPagination" init="false" class="swiper-wrapper">
         @for (cat of categories; track $index) {
-          <swiper-slide class="rounded-4 wow animate__animated animate__fadeInUp my-3 cr h-100" [style.animationDelay]="($index * 0.2) + 's'" >
-            <div class="cat-slide bg-black rounded-4 h-100" [routerLink]="'/category/' + cat.id">
+          <swiper-slide class="rounded-4 wow animate__animated animate__fadeInUp cr h-100">
+            <div class="cat-slide rounded-4 h-100" [routerLink]="'/category/' + cat.id">
               <img
                 [routerLink]="'/products/' + cat.id"
                 [src]="cat.picture"
@@ -41,6 +41,7 @@
                 lazyLoad="lazy"
                 class="img-fluid rounded-4"
               />
+              <h5 class="text-center fw-bold mt-2">{{cat.name}}</h5>
             </div>
           </swiper-slide>
         }
@@ -55,7 +56,7 @@
       <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">Brands</h2>
       <swiper-container [config]="swiperPaginationBrands" init="false" class="swiper-wrapper">
         @for (brand of brands; track $index) {
-          <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 cr h-100" [style.animationDelay]="($index * 0.2) + 's'" >
+          <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 cr h-100">
             <div class="brand-cart p-3 h-100" [routerLink]="'/brand/' + brand.name">
               @if(brand.picture){
                 <img
@@ -63,7 +64,7 @@
                   [src]="brand.picture"
                   [alt]="brand.name"
                   lazyLoad="lazy"
-                  class="rounded-4"
+                  class="rounded-4 brand-img"
                 />
               } @else {
                 <img
@@ -89,7 +90,7 @@
       <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">{{specialOffers.title}}</h2>
       <swiper-container [config]="swiperPaginationEssentials" init="false" class="swiper-wrapper">
         @for (item of specialOffers?.products; track $index) {
-          <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 h-100 px-1" [style.animationDelay]="($index * 0.2) + 's'" >
+          <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 h-100 px-1" > <!-- [style.animationDelay]="($index * 0.2) + 's'"  -->
             <div class="card offer-cart overflow-hidden">
               <div class="position-relative">
                 <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0"/>
@@ -174,7 +175,7 @@
       <h2 class="m-0 main-color fw-bold wow animate__animated animate__fadeInUp">{{specialEssentials.title}}</h2>
       <swiper-container [config]="swiperPaginationEssentials" init="false" class="swiper-wrapper">
         @for (item of specialEssentials?.products; track $index) {
-          <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 h-100 px-1" [style.animationDelay]="($index * 0.2) + 's'" >
+          <swiper-slide class="rounded-4 text-center wow animate__animated animate__fadeInUp my-3 h-100 px-1"> <!--  [style.animationDelay]="($index * 0.2) + 's'" -->
             <div class="card offer-cart overflow-hidden">
               <div class="position-relative">
                 <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />

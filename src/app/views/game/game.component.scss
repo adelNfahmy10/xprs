@@ -1,4 +1,9 @@
 .game-frame{
-  background-color: red;
+  background-color: none;
   height: 500px;
+}
+@media (max-width:768px) {
+  .game-frame{
+    height: auto;
+  }
 }

@@ -26,7 +26,7 @@
 
       <div class="row g-3">
         @for (cat of filteredCategories; track $index) {
-          <div class="col-lg-2 col-md-3 col-6 wow animate__animated animate__fadeInUp" [style.animationDelay]="($index * 0.1) + 's'">
+          <div class="col-lg-2 col-md-3 col-6 wow animate__animated animate__fadeInUp" > <!-- [style.animationDelay]="($index * 0.1) + 's'" -->
             <div class="cat-box rounded-4 h-100 text-center cr" [routerLink]="'/category/' + cat.id">
               <img
                 [routerLink]="'/products/' + cat.id"

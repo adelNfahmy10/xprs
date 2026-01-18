@@ -152,7 +152,7 @@ export class HomeComponent implements OnInit{
   swiperCreativeEffect: SwiperOptions = {
     modules: [Autoplay, Pagination, EffectCreative],
     loop: true,
-    grabCursor: true,
+    // grabCursor: true,
     effect: 'creative',
     creativeEffect: {
       prev: {
@@ -164,8 +164,9 @@ export class HomeComponent implements OnInit{
       },
     },
     autoplay: {
-      delay: 2500,
+      delay: 5000,
       disableOnInteraction: false,
+      pauseOnMouseEnter: true,
     },
     pagination: {
       el: '#creative-pagination',
@@ -218,11 +219,11 @@ export class HomeComponent implements OnInit{
       },
     },
 
-    autoplay: {
-      delay: 1500,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
-    },
+    // autoplay: {
+    //   delay: 1500,
+    //   disableOnInteraction: false,
+    //   pauseOnMouseEnter: true,
+    // },
 
     pagination: {
       clickable: true,
@@ -258,11 +259,11 @@ export class HomeComponent implements OnInit{
       },
     },
 
-    autoplay: {
-      delay: 1500,
-      disableOnInteraction: false,
-      pauseOnMouseEnter: true,
-    },
+    // autoplay: {
+    //   delay: 1500,
+    //   disableOnInteraction: false,
+    //   pauseOnMouseEnter: true,
+    // },
 
     pagination: {
       clickable: true,
@@ -279,7 +280,7 @@ export class HomeComponent implements OnInit{
     modules: [Autoplay, Pagination, Navigation],
     loop: true,
 
-    slidesPerView: 5,
+    slidesPerView: 8,
     spaceBetween: 10,
 
     speed:600,
@@ -298,7 +299,7 @@ export class HomeComponent implements OnInit{
     },
 
     autoplay: {
-      delay: 1500,
+      delay: 10000,
       disableOnInteraction: false,
       pauseOnMouseEnter: true,
     },

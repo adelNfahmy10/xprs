@@ -4,11 +4,12 @@
 
 .swiper-button-next,
 .swiper-button-prev {
-     height: 32px;
-     width: 32px;
-     background-color: rgba(#81FB37, 0.2);
-     backdrop-filter: blur(2px);
-     border-radius: 8px;
+     height: 40px;
+     width: 40px;
+    //  background-color: rgba(#81FB37, 0.2);
+     backdrop-filter: blur(20px);
+     border-radius: 50%;
+     border: 2px solid #81FB37;
 
      &::after {
           font-family: "boxicons";
