@@ -38,4 +38,8 @@ export class CheckoutService {
     return this._HttpClient.get(`${environment.baseUrl}promo-codes/?from_mobile=0&code=${code}&cart=${this.cartId()}`);
   }
 
+  getInfo(token:any):Observable<any> {
+    return this._HttpClient.get(`${environment.baseUrl}users/me/${token}`);
+  }
+
 }

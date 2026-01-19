@@ -79,7 +79,6 @@ export class HomeComponent implements OnInit{
   isFavorite(item: any): boolean {
     return this.allFavoriteItems.some(fav => fav.id === item.id);
   }
-
   // إضافة / إزالة من المفضلة
   addToFavorite(item: any): void {
     const index = this.allFavoriteItems.findIndex(fav => fav.id === item.id);
@@ -101,18 +100,16 @@ export class HomeComponent implements OnInit{
     // تحديث localStorage
     localStorage.setItem('myFavProduct', JSON.stringify(this.allFavoriteItems));
   }
-
   showFadeAnimation(item: any): boolean {
     return this.fadeItems.has(item.id);
   }
-
 
   isCart(item: any): boolean {
     return this.cart.some(
       cartItem => cartItem.product?.id === item.id
     );
   }
-
+  
   addToCart(item:any):void{
     const cartItem = this.getCartItem(item);
 
@@ -317,7 +314,7 @@ export class HomeComponent implements OnInit{
     },
   }
 
-   // Special Essentials Silder Config
+  // Special Essentials Silder Config
   swiperPaginationEssentials: SwiperOptions = {
     modules: [Autoplay, Pagination, Navigation],
     loop: true,

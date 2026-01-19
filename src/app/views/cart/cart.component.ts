@@ -12,22 +12,27 @@ import { RouterLink } from "@angular/router";
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.scss'
 })
-export class CartComponent{
+export class CartComponent implements OnInit{
   private readonly _CartService = inject(CartService)
   private readonly _CheckoutService = inject(CheckoutService)
 
-  cartCount = this._CartService.cartCount
-  cartProducts = this._CartService.cartProducts
-  subTotal = this._CartService.subTotal
-  shippingValue = this._CheckoutService.shippingValue
-  cartId = this._CartService.cartId
+  cartCount = this._CartService.cartCount;
+  cartProducts = this._CartService.cartProducts;
+  subTotal = this._CartService.subTotal;
+  shippingValue = this._CheckoutService.shippingValue;
+  cartId = this._CartService.cartId;
 
   constructor(){
     effect(()=>{
-      // console.log(this.cartProducts());
-      // console.log(this.cartCount());
-      // console.log(this.shippingValue());
+      console.log(this.cartProducts());
+      console.log(this.cartCount());
+      console.log(this.shippingValue());
+      console.log(this.subTotal());
     })
+  }
+
+  ngOnInit(): void {
+    this.getAllCart()
   }
 
   getAllCart():void{
@@ -36,6 +41,7 @@ export class CartComponent{
         next:(res)=>{
           this._CartService.cartCount.set(res.cartproduct.length)
           this._CartService.cartProducts.set(res.cartproduct)
+          this._CartService.subTotal.set(res.total)
         }
       })
     }

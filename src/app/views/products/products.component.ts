@@ -1,15 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
+import { SwiperDirective } from '@component/swiper-directive.component';
 import { CartService } from '@core/services/cart/cart.service';
+import { CategoryService } from '@core/services/category/category.service';
 import { ProductService } from '@core/services/product/product.service';
 import { NgbCollapse } from "@ng-bootstrap/ng-bootstrap";
 import { ToastrService } from 'ngx-toastr';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { SwiperOptions } from 'swiper/types';
 
 @Component({
   selector: 'app-products',
-  imports: [CommonModule, FormsModule, NgbCollapse],
+  imports: [CommonModule, FormsModule, NgbCollapse, RouterLink, SwiperDirective],
   templateUrl: './products.component.html',
   styleUrl: './products.component.scss',
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
@@ -19,6 +23,7 @@ export class ProductsComponent implements OnInit{
   private readonly _ActivatedRoute = inject(ActivatedRoute)
   private readonly _ToastrService = inject(ToastrService)
   private readonly _CartService = inject(CartService)
+  private readonly _CategoryService = inject(CategoryService)
 
   cart:any[] = []
   cartId:string | null = localStorage.getItem('xprsCartId')
@@ -48,6 +53,7 @@ export class ProductsComponent implements OnInit{
           next: (res) => {
             this.productData = res;
             this.getAllCart()
+            this.getRelatedProducts()
 
             this.productImages = [
               { src: this.productData.picture1, alt: this.productData.picture1_alt },
@@ -71,7 +77,6 @@ export class ProductsComponent implements OnInit{
       },
     });
   }
-
 
   addToCart():void{
     const data = {
@@ -303,6 +308,135 @@ export class ProductsComponent implements OnInit{
         );
     }
   }
+
+  productsRelated:any[] = []
+
+  // get related products
+  getRelatedProducts():void{
+    this._CategoryService.getProductsCategory( '', [this.productData.category.id], [], '-id', 10, 1).subscribe({
+      next:(res)=>{
+        this.productsRelated = res.results.filter(
+          (product:any) => this.productSlug != product.id
+        );
+        console.log(this.productsRelated);
+
+      }
+    })
+  }
+
+  // حفظ العناصر اللي عليها animation
+  allFavoriteItems:any[] = []
+  fadeItems: Set<number> = new Set();
+  // للتحقق إذا العنصر موجود في المفضلة
+  isFavorite(item: any): boolean {
+    return this.allFavoriteItems.some(fav => fav.id === item.id);
+  }
+  // إضافة / إزالة من المفضلة
+  addToFavorite(item: any): void {
+    const index = this.allFavoriteItems.findIndex(fav => fav.id === item.id);
+
+    if (index === -1) {
+      // لو مش موجود أضفه
+      this.allFavoriteItems.push(item);
+      this._ToastrService.success('Product added to favorites successfully');
+      // تشغيل animation
+      this.fadeItems.add(item.id);
+      setTimeout(() => this.fadeItems.delete(item.id), 1000); // مدة الfade CSS
+
+    } else {
+      // لو موجود، ممكن نعمل toggle ونحذفه (اختياري)
+      this.allFavoriteItems.splice(index, 1);
+      this._ToastrService.warning('Product removed from favorites successfully');
+    }
+
+    // تحديث localStorage
+    localStorage.setItem('myFavProduct', JSON.stringify(this.allFavoriteItems));
+  }
+  showFadeAnimation(item: any): boolean {
+    return this.fadeItems.has(item.id);
+  }
+
+  isCart(item: any): boolean {
+    return this.cart.some(
+      cartItem => cartItem.product?.id === item.id
+    );
+  }
+  addProductRelatedToCart(item:any):void{
+    const cartItem = this.getCartItem(item);
+
+    // 🟥 لو موجود → احذف
+    if (cartItem) {
+      this._CartService.deleteCart(cartItem.id).subscribe({
+        next: (res) => {
+          this.getAllCart();
+          this._ToastrService.warning('Product removed from cart successfully');
+        }
+      });
+      return;
+    }
+
+    const data = {
+      product: item.id,
+      cart: this.cartId,
+      quantity: item.quantity || 1,
+      product_property: null,
+      card: null,
+      branded_page_product: null,
+      insurance: null
+    };
+
+    this._CartService.addCartProduct(data).subscribe({
+      next: () => {
+        this.getAllCart();
+        this._ToastrService.success('Product added to cart successfully');
+      }
+    });
+  }
+  getCartItem(item: any) {
+    return this.cart.find(
+      cartItem => cartItem.product?.id === item.id
+    );
+  }
+
+  // Special Essentials Silder Config
+  swiperPaginationEssentials: SwiperOptions = {
+    modules: [Autoplay, Pagination, Navigation],
+    loop: true,
+
+    slidesPerView: 8,
+    spaceBetween: 10,
+
+    speed:600,
+    grabCursor: true,
+
+    breakpoints: {
+      0: {
+        slidesPerView: 2,
+      },
+      768: {
+        slidesPerView: 3,
+      },
+      1200: {
+        slidesPerView: 5,
+      },
+    },
+
+    autoplay: {
+      delay: 5000,
+      disableOnInteraction: false,
+      pauseOnMouseEnter: true,
+    },
+
+    pagination: {
+      clickable: true,
+      el: '#essentials-pagination',
+    },
+    navigation: {
+      nextEl: '.essentials-next',
+      prevEl: '.essentials-prev',
+    },
+  }
+
 
 
 }

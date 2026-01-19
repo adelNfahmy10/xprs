@@ -1,7 +1,7 @@
 import type { Route } from '@angular/router'
 import { InboxComponent } from './apps/inbox/inbox.component'
 import { MessagesComponent } from './apps/messages/messages.component'
-import { OrdersComponent } from './apps/orders/orders.component'
+import { OrderComponent } from './order/order.component';
 import { ReviewsComponent } from './apps/reviews/reviews.component'
 import { TransactionsComponent } from './apps/transactions/transactions.component'
 import { WidgetsComponent } from './apps/widgets/widgets.component'
@@ -15,6 +15,9 @@ import { FavoriteComponent } from './favorite/favorite.component'
 import { GameComponent } from './game/game.component'
 import { CartComponent } from './cart/cart.component'
 import { CheckoutComponent } from './checkout/checkout.component'
+import { OrdersComponent } from './apps/orders/orders.component';
+import { SigninComponent } from './authentication/signin/signin.component';
+import { SignupComponent } from './authentication/signup/signup.component';
 
 export const VIEWS_ROUTES: Route[] = [
   {
@@ -49,6 +52,11 @@ export const VIEWS_ROUTES: Route[] = [
     path: 'favorite',
     component: FavoriteComponent,
     data: { title: 'Favorites' },
+  },
+  {
+    path: 'myorder',
+    component: OrderComponent,
+    data: { title: 'Order' },
   },
   {
     path: 'game',
@@ -89,6 +97,16 @@ export const VIEWS_ROUTES: Route[] = [
     path: 'checkout',
     component: CheckoutComponent,
     data: { title: 'Checkout' },
+  },
+  {
+    path: 'login',
+    component: SigninComponent,
+    data: { title: 'Login' },
+  },
+  {
+    path: 'signup',
+    component: SignupComponent,
+    data: { title: 'SignUp' },
   },
 
 

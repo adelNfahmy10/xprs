@@ -1,19 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { SelectFormInputDirective } from '@core/directive/select-form-input.directive';
 import { CartService } from '@core/services/cart/cart.service';
 import { CheckoutService } from '@core/services/checkout/checkout.service';
-import { timelineData } from '@views/pages/timeline/data';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-checkout',
-  imports: [CommonModule, SelectFormInputDirective],
+  imports: [CommonModule, SelectFormInputDirective, ReactiveFormsModule, FormsModule],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss'
 })
 export class CheckoutComponent implements OnInit{
   private readonly _CartService = inject(CartService)
   private readonly _CheckoutService = inject(CheckoutService)
+  private readonly _FormBuilder = inject(FormBuilder)
+  private readonly _ToastrService = inject(ToastrService)
+  private readonly _Router = inject(Router)
 
   cities: string[] = [
     "10Th Of Ramadan City", "15 Of May City", "Abasya", "Abo Rawash", "ABOU SOMBO",
@@ -43,6 +48,7 @@ export class CheckoutComponent implements OnInit{
     "Live chat",
     "Website"
   ]
+  token = this._CartService.token
   cartProducts = this._CartService.cartProducts
   cartCount = this._CartService.cartCount
   subTotal = this._CartService.subTotal
@@ -53,6 +59,7 @@ export class CheckoutComponent implements OnInit{
   ngOnInit(): void {
     this.getAllCart()
     this.hiddingPaymentMethod()
+    this.getUserInfo()
   }
 
   getAllCart():void{
@@ -61,6 +68,7 @@ export class CheckoutComponent implements OnInit{
         next:(res)=>{
           this._CartService.cartCount.set(res.cartproduct.length)
           this._CartService.cartProducts.set(res.cartproduct)
+          this._CartService.subTotal.set(res.total)
         }
       })
     }
@@ -206,7 +214,6 @@ export class CheckoutComponent implements OnInit{
     });
   }
 
-
   nextStep(step:any):void{
     this.step = step
   }
@@ -214,8 +221,78 @@ export class CheckoutComponent implements OnInit{
   showBilingAddress:boolean = true
   toggleBilingAddress():void{
     this.showBilingAddress = !this.showBilingAddress
+    console.log(this.showBilingAddress);
+
+    if (!this.showBilingAddress) {
+      this.checkoutForm.patchValue({
+        _billing_address: this.checkoutForm.get('_address')?.value,
+        _biling_city: this.checkoutForm.get('_city')?.value
+      });
+    }
   }
 
+  promoCode:string | number = ''
+  paymentMethod:any = {}
 
+  getUserInfo():void{
+    this._CheckoutService.getInfo(this.token()).subscribe({
+      next:(res)=>{
+        console.log(res);
+      }
+    })
+  }
+
+  checkoutForm:FormGroup = this._FormBuilder.group({
+    wafer_cookies: [''],
+    wasla_cookies: [''],
+    cart: [''],
+    code: [''],
+    _name: [''],
+    _email: [''],
+    _phone: [''],
+    promotion: [''],
+    _address: [''],
+    _city: [''],
+    _billing_address: [''],
+    _biling_city:[''],
+    hear: [''],
+    payment_method: [''],
+    preorder_branch: [''],
+    from_mobile: false,
+    R2P: false,
+    QR_code: false,
+    orange_account_number: ['']
+  })
+
+  submitCheckout():void{
+    let data = this.checkoutForm.value
+    data.cart = this.cartId()
+    data.code = this.promoCode
+    data.hear = ''
+    this.paymentMethod = data.payment_method
+
+    this._CheckoutService.addOrder(data).subscribe({
+      next:(res)=>{
+        localStorage.setItem('order_id', res.order.id);
+        if (this.paymentMethod == 0 || this.paymentMethod == 1 || this.paymentMethod == 206) {
+          if (this.paymentMethod == 206) {
+            this._ToastrService.success('One of our team will contact you shortly')
+            console.log('One of our team will contact you shortly');
+          } else {
+            this._ToastrService.success('Order placed successfully!')
+            console.log('Order placed successfully!');
+          }
+
+          const token = localStorage.getItem('xprsToken');
+          if (token) {
+            this._Router.navigate(['/profile/orders']);
+          } else {
+            this._Router.navigate(['/home']);
+          }
+          this.getAllCart()
+        }
+      }
+    })
+  }
 
 }

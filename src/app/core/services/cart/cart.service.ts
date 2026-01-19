@@ -12,6 +12,7 @@ export class CartService {
   cartCount: WritableSignal<number> = signal(0);
   cartProducts: WritableSignal<any[]> = signal([]);
   subTotal: WritableSignal<number> = signal(0);
+  token: WritableSignal<string | null> = signal(localStorage.getItem('xprsToken'));
 
   // ✅ cartId لازم Signal
   cartId = signal<string | null>(localStorage.getItem('xprsCartId'));
@@ -32,12 +33,12 @@ export class CartService {
         this.cartCount.set(res.cartproduct.length);
         this.cartProducts.set(res.cartproduct);
         this.subTotal.set(res.total);
+        this.token.set(localStorage.getItem('xprsToken'));
       })
     );
   }
 
   updateCartProduct(body:any):Observable<any> {
-    // let data = { };
     return this._HttpClient.post(`${environment.baseUrl}cartproducts/`, body);
   }
 
@@ -57,8 +58,6 @@ export class CartService {
   addCartProduct(body:any):Observable<any> {
     return this._HttpClient.post(`${environment.baseUrl}cartproducts/?product_page=true`, body);
   }
-
-
 
   deleteCart(id:any):Observable<any> {
     return this._HttpClient.delete(`${environment.baseUrl}cartproducts/${id}/`);

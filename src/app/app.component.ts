@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, inject, ViewChild, type OnInit } from '@angular/core'
+import { AfterViewInit, Component, CUSTOM_ELEMENTS_SCHEMA, inject, signal, ViewChild, WritableSignal, type OnInit } from '@angular/core'
 import {
   NavigationCancel,
   NavigationEnd,
@@ -28,7 +28,6 @@ import { CartService } from '@core/services/cart/cart.service'
 export class AppComponent implements OnInit{
   private readonly _CartService = inject(CartService)
 
-
   progressRef!: NgProgressRef
   @ViewChild(NgProgressComponent) progressBar!: NgProgressComponent
 
@@ -36,7 +35,8 @@ export class AppComponent implements OnInit{
   private router = inject(Router)
   private _NgxWowService = inject(NgwWowService)
 
-  cartId:string | null = localStorage.getItem('xprsCartId')
+  token = this._CartService.token
+  cartId = this._CartService.cartId
 
 
   constructor() {
@@ -48,7 +48,7 @@ export class AppComponent implements OnInit{
 
   ngOnInit(): void {
     this.titleService.init()
-    if(!this.cartId){
+    if(!this.cartId() && !this.token()){
       this.addCart()
     }
   }
@@ -56,7 +56,11 @@ export class AppComponent implements OnInit{
   addCart():void{
     this._CartService.addCart().subscribe({
       next:(res)=>{
-        localStorage.setItem('xprsCartId', res.id)
+        if(this.token()){
+          localStorage.setItem('userCartId', res.id)
+        } else {
+          localStorage.setItem('xprsCartId', res.id)
+        }
       }
     })
   }
