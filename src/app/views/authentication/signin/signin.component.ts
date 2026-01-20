@@ -23,7 +23,6 @@ export class SigninComponent {
   private readonly _Router = inject(Router)
 
   token = this._CartService.token
-  userData:any
 
   loginForm:FormGroup = this._FormBuilder.group({
     username:[null],
@@ -35,11 +34,11 @@ export class SigninComponent {
 
     this._AuthService.login(data).subscribe({
       next:(res)=>{
-        console.log(res);
         localStorage.setItem('xprsToken', res.token)
-        this._ToastrService.success('Login Successfully!')
         this.token.set(localStorage.getItem('xprsToken'))
         this.getUserInfo()
+
+        this._ToastrService.success('Login Successfully!')
         this._Router.navigate(['/home'])
       },
       error:(err)=>{
@@ -49,19 +48,15 @@ export class SigninComponent {
   }
 
   getUserInfo():void{
-    this._CheckoutService.getInfo(this.token()).subscribe({
-      next:(res)=>{
-        if(this.token()){
-          this.userData = res;
+    if(this.token()){
+      this._CheckoutService.getInfo().subscribe({
+        next:(res)=>{
           localStorage.setItem('userId', res.id )
-          localStorage.setItem('fullName', res.firstname + res.lastname )
-          localStorage.setItem('email', res.email )
-          localStorage.setItem('phone', res.phone )
-          localStorage.setItem('userCartId', res.cartId )
+          localStorage.setItem('fullName', res.firstname + ' ' +res.lastname )
+          localStorage.setItem('userEmail', res.email )
+          localStorage.setItem('userPhone', res.phone )
         }
-      }
-    })
+      })
+    }
   }
-
-
 }

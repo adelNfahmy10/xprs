@@ -1,0 +1,207 @@
+<section class="account-info" id="account-info">
+  <div class="container">
+    <div class="bg-white p-3">
+      <div class="row">
+        <div class="col-md-3">
+          <div class="head-info text-center">
+            <img src="assets/images/account-info-image/avatar.png" class="w-25" alt="avatar">
+            <h4 class="mt-3 mb-0">{{fullName}}</h4>
+            <h5>{{userEmail}}</h5>
+          </div>
+
+          <div class="tabs-info">
+            <div
+              class="nav flex-column nav-pills mt-3"
+              ngbNav
+              #vertical="ngbNav"
+              id="vl-pills-tab"
+              role="tablist"
+              aria-orientation="vertical"
+            >
+              <ng-container ngbNavItem>
+                <a
+                  class="nav-link"
+                  ngbNavLink
+                  id="vl-pills-info-tab"
+                  role="tab"
+                  aria-controls="vl-pills-info"
+                  aria-selected="true"
+                >
+                  <span>Profile Info</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <div
+                    class="tab-pane active show"
+                    id="vl-pills-info"
+                    role="tabpanel"
+                    aria-labelledby="vl-pills-info-tab"
+                  >
+                    <div class="row g-2">
+                      <div class="col-lg-8">
+                        <form class="d-flex flex-column gap-2 border border-1 p-2 rounded-3" [formGroup]="updateUserForm">
+                          <h2 class="main-color fw-bold">General Info</h2>
+
+                          <div class="firstName">
+                            <label for="firstName">First Name</label>
+                            <input formControlName="firstname" class="form-control" type="text" name="firstName" id="firstName">
+                          </div>
+
+                          <div class="lastName">
+                            <label for="lastName">Last Name</label>
+                            <input formControlName="lastname" class="form-control" type="text" name="lastName" id="lastName">
+                          </div>
+
+                          <div class="phone">
+                            <label for="phone">Phone Number</label>
+                            <input formControlName="phone" class="form-control" type="tel" name="phone" id="phone">
+                          </div>
+
+                          <div class="birth">
+                            <label for="birth">Date Of Birth</label>
+                            <div class="row g-2">
+                              <div class="col">
+                                <select class="form-select" (change)="selectDay($event)" [value]="daySelected">
+                                  @for (day of days; track $index) {
+                                    <option [value]="day">{{ day }}</option>
+                                  }
+                                </select>
+                              </div>
+
+                              <div class="col">
+                                <select class="form-select" (change)="selectMonth($event)" [value]="monthSelected">
+                                  @for (month of months; track $index) {
+                                    <option [value]="month">{{ month }}</option>
+                                  }
+                                </select>
+                              </div>
+
+                              <div class="col">
+                                <select class="form-select" (change)="selectYear($event)" [value]="yearSelected">
+                                  @for (year of years; track $index) {
+                                    <option [value]="year">{{ year }}</option>
+                                  }
+                                </select>
+                              </div>
+                            </div>
+
+                          </div>
+
+                          <div class="gender">
+                            <label for="gender">Gender</label>
+                            <select formControlName="gender" class="form-select" id="gender" name="gender">
+                              @for (gender of gender; track $index) {
+                                <option [value]="gender">{{ gender }}</option>
+                              }
+                            </select>
+                          </div>
+
+                          <div class="submit-btn text-center">
+                            <button class="btn main-btn" type="button" (click)="submitUpdateUser()">Save Change</button>
+                          </div>
+                        </form>
+                      </div>
+                      <div class="col-lg-4">
+                        <form class="d-flex flex-column gap-2 border border-1 p-2 rounded-3 h-100" [formGroup]="changePasswordForm">
+                          <h2 class="main-color fw-bold">Login & Security</h2>
+
+                          <div class="oldPassword">
+                            <label for="oldPassword">Old Password</label>
+                            <input formControlName="old_password" class="form-control" type="password" name="oldPassword" id="oldPassword">
+                          </div>
+
+                          <div class="newPassword">
+                            <label for="newPassword">New Password</label>
+                            <input formControlName="new_password1" class="form-control" type="password" name="newPassword" id="newPassword">
+                          </div>
+
+                          <div class="confirmPassword">
+                            <label for="confirmPassword">Confirm Password</label>
+                            <input formControlName="new_password2" class="form-control" type="password" name="confirmPassword" id="confirmPassword">
+                          </div>
+
+                          <div class="submit-btn text-center">
+                            <button class="btn main-btn" type="button" (click)="submitChangePassword()">Change Password</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ng-container>
+
+              <ng-container ngbNavItem>
+                <a
+                  class="nav-link"
+                  ngbNavLink
+                  id="vl-pills-home-tab"
+                  role="tab"
+                  aria-controls="vl-pills-home"
+                  aria-selected="true"
+                >
+                  <span>Favorite</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <div
+                    class="tab-pane active show"
+                    id="vl-pills-home"
+                    role="tabpanel"
+                    aria-labelledby="vl-pills-home-tab"
+                  >
+                    <app-favorite></app-favorite>
+                  </div>
+                </ng-template>
+              </ng-container>
+
+              <ng-container ngbNavItem>
+                <a
+                  class="nav-link"
+                  id="vl-pills-profile-tab"
+                  ngbNavLink
+                  role="tab"
+                  aria-controls="vl-pills-profile"
+                  aria-selected="false"
+                >
+                  <span>Orders</span>
+                </a>
+                <ng-template ngbNavContent>
+                  <div
+                    class="tab-pane show active"
+                    id="vl-pills-profile"
+                    role="tabpanel"
+                    aria-labelledby="vl-pills-profile-tab"
+                  >
+                    <app-order></app-order>
+                  </div>
+                </ng-template>
+              </ng-container>
+
+              <ng-container ngbNavItem>
+                <a
+                  class="nav-link text-danger"
+                  ngbNavLink
+                  id="vl-pills-settings-tab"
+                  role="tab"
+                  aria-controls="vl-pills-settings"
+                  aria-selected="false"
+                  (click)="logout()"
+                >
+                  <span><i class="ri-logout-circle-line fs-18"></i> Logout</span>
+                </a>
+
+              </ng-container>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="col-md-9">
+          <div
+            class="tab-content pt-0"
+            id="vl-pills-tabContent"
+            [ngbNavOutlet]="vertical"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

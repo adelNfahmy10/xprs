@@ -3,6 +3,7 @@ import { OrderService } from '@core/services/order/order.service';
 import { CommonModule } from '@angular/common';
 import { NgbDropdownModule, NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { orderData } from '@views/apps/orders/dat';
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: 'app-order',
@@ -12,18 +13,34 @@ import { orderData } from '@views/apps/orders/dat';
 })
 export class OrderComponent implements OnInit{
   private readonly _OrderService = inject(OrderService)
-  orderList = orderData
+
   allOrders:any[] = []
+  shippingData:any
+  shippingCheck:boolean = false
 
   ngOnInit(): void {
     this.getAllOrders()
+    this.getAllShipping()
   }
 
   getAllOrders():void{
     this._OrderService.getOrders().subscribe({
       next:(res)=>{
         this.allOrders = res
-        console.log(this.allOrders);
+      }
+    })
+  }
+
+  showShipping(check:boolean):void{
+    this.shippingCheck = check
+  }
+
+  getAllShipping():void{
+    this._OrderService.shippingInstruction().subscribe({
+      next:(res)=>{
+        this.shippingData = res
+        console.log(this.shippingData);
+
       }
     })
   }

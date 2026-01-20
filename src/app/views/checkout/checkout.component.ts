@@ -59,7 +59,6 @@ export class CheckoutComponent implements OnInit{
   ngOnInit(): void {
     this.getAllCart()
     this.hiddingPaymentMethod()
-    this.getUserInfo()
   }
 
   getAllCart():void{
@@ -233,14 +232,6 @@ export class CheckoutComponent implements OnInit{
 
   promoCode:string | number = ''
   paymentMethod:any = {}
-
-  getUserInfo():void{
-    this._CheckoutService.getInfo(this.token()).subscribe({
-      next:(res)=>{
-        console.log(res);
-      }
-    })
-  }
 
   checkoutForm:FormGroup = this._FormBuilder.group({
     wafer_cookies: [''],

@@ -18,6 +18,8 @@ import { CheckoutComponent } from './checkout/checkout.component'
 import { OrdersComponent } from './apps/orders/orders.component';
 import { SigninComponent } from './authentication/signin/signin.component';
 import { SignupComponent } from './authentication/signup/signup.component';
+import { AccountInfoComponent } from './account-info/account-info.component';
+import { ShippingInstructionsComponent } from './shipping-instructions/shipping-instructions.component';
 
 export const VIEWS_ROUTES: Route[] = [
   {
@@ -108,6 +110,17 @@ export const VIEWS_ROUTES: Route[] = [
     component: SignupComponent,
     data: { title: 'SignUp' },
   },
+  {
+    path: 'account-info',
+    component: AccountInfoComponent,
+    data: { title: 'Account Info' },
+  },
+  {
+    path: 'shipping-instructions',
+    component: ShippingInstructionsComponent,
+    data: { title: 'Shipping & Delivery instructions' },
+  },
+
 
 
 

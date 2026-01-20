@@ -18,4 +18,8 @@ export class OrderService {
     return this._HttpClient.put(`${environment.baseUrl}orders/${orderId}/`, body)
   }
 
+  shippingInstruction() {
+    return this._HttpClient.get(`${environment.baseUrl}shipping-and-delivery-instructions/`)
+  }
+
 }

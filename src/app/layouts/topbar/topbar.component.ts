@@ -48,6 +48,8 @@ export class TopbarComponent{
   private readonly _ToastrService = inject(ToastrService)
   private readonly _Router = inject(Router)
 
+  token = this._CartService.token
+  fullName: string | null = localStorage.getItem('fullName')
   searchItem: string = '';
   noResults:string = '';
   searchResults: any[] = [];
@@ -240,7 +242,15 @@ export class TopbarComponent{
     }
   }
 
-  logout() {
-    this.store.dispatch(logout())
+  logout():void {
+    localStorage.removeItem('xprsToken')
+    localStorage.removeItem('userId')
+    localStorage.removeItem('fullName')
+    localStorage.removeItem('userEmail')
+    localStorage.removeItem('userPhone')
+    this._Router.navigateByUrl('/home').then(() => {
+      window.location.reload();
+    });
+    // this.store.dispatch(logout())
   }
 }

@@ -13,8 +13,16 @@ export class AuthService {
     return this._HttpClient.post(`${environment.baseUrl}users/login/`, body);
   }
 
-
   register(body:any):Observable<any> {
     return this._HttpClient.post(`${environment.baseUrl}users/me/?from_website=true/`, body);
   }
+
+  updateUser(data:any):Observable<any> {
+    return this._HttpClient.put(`${environment.baseUrl}users/me/`, data);
+  }
+
+  changePassword(data:any):Observable<any> {
+    return this._HttpClient.put(`${environment.baseUrl}users/me/change-password/`, data);
+  }
+
 }

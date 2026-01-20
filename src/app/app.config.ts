@@ -32,6 +32,7 @@ import { DecimalPipe } from '@angular/common'
 import { NgxSpinnerModule } from "ngx-spinner";
 import { loadingInterceptor } from '@core/interceptor/loading.interceptor'
 import { provideAnimations } from '@angular/platform-browser/animations'
+import { headerInterceptor } from '@core/interceptor/header.interceptor'
 
 const scrollConfig: InMemoryScrollingOptions = {
   scrollPositionRestoration: 'top',
@@ -51,7 +52,7 @@ export const appConfig: ApplicationConfig = {
     provideStore(rootReducer, { metaReducers: [localStorageSyncReducer] }),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
     provideEffects(AuthenticationEffects, CalendarEffects),
-    provideHttpClient(withFetch(), withInterceptors([loadingInterceptor])),
+    provideHttpClient(withFetch(), withInterceptors([loadingInterceptor, headerInterceptor])),
     provideToastr(),
     provideAnimations(),
     importProvidersFrom(NgxSpinnerModule)
