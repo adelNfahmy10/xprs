@@ -20,6 +20,12 @@ import { SigninComponent } from './authentication/signin/signin.component';
 import { SignupComponent } from './authentication/signup/signup.component';
 import { AccountInfoComponent } from './account-info/account-info.component';
 import { ShippingInstructionsComponent } from './shipping-instructions/shipping-instructions.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { ShippingPolicyComponent } from './shipping-policy/shipping-policy.component';
+import { ReturnPolicyComponent } from './return-policy/return-policy.component';
+import { FaqsComponent } from './faqs/faqs.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { ContactUsComponent } from './contact-us/contact-us.component';
 
 export const VIEWS_ROUTES: Route[] = [
   {
@@ -119,6 +125,36 @@ export const VIEWS_ROUTES: Route[] = [
     path: 'shipping-instructions',
     component: ShippingInstructionsComponent,
     data: { title: 'Shipping & Delivery instructions' },
+  },
+  {
+    path: 'privacy-policy',
+    component: PrivacyPolicyComponent,
+    data: { title: 'Privacy Policy' },
+  },
+  {
+    path: 'return-policy',
+    component: ReturnPolicyComponent,
+    data: { title: 'Return Policy' },
+  },
+  {
+    path: 'shipping-policy',
+    component: ShippingPolicyComponent,
+    data: { title: 'Shipping Policy' },
+  },
+  {
+    path: 'faqs',
+    component: FaqsComponent,
+    data: { title: 'FAQs' },
+  },
+  {
+    path: 'about-us',
+    component: AboutUsComponent,
+    data: { title: 'About Us' },
+  },
+  {
+    path: 'contact-us',
+    component: ContactUsComponent,
+    data: { title: 'Contact Us' },
   },
 
 

@@ -1,0 +1,21 @@
+<div class="about-us my-3">
+    <div class="container">
+      <div class="bg-white p-3 border-top border-success border-5 rounded-4 shadow-lg">
+        @for (a of aboutData; track $index) {
+          <div class="about-info">
+            <div class="row g-3">
+              <div class="col-md-5">
+                <img [src]="a?.picture" class="about-img rounded-2" [alt]="a?.picture_alt" [title]="a.picture_alt">
+              </div>
+              <div class="col-md-7">
+                <div class="d-flex flex-column justify-content-center h-100">
+                  <h2 class="main-color fw-bold m-0" [innerHTML]="a?.title "></h2>
+                  <div class="text-muted" [innerHTML]="a?.description "></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+</div>

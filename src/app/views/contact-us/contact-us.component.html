@@ -1,0 +1,29 @@
+<div class="contact">
+  <div class="container">
+    <h2>Get In Touch</h2>
+    <p><a routerLink="/stores" title="XPRS Stores">Locate the store nearest to you </a> or fill the form below and we'll get back to you.</p>
+
+    <form >
+
+      <div class="form">
+        <div class="row">
+          <div class="col-md-6">
+            <label>Name</label>
+            <input class="form-control" type="text" name="name" ngModel required>
+          </div>
+          <div class="col-md-6">
+            <label>E-mail</label>
+            <input class="form-control" type="email" name="email" ngModel required>
+          </div>
+        </div>
+        <label>Phone Number</label>
+        <input class="form-control" type="number" name="phone_number" ngModel required>
+        <label>Your Message</label>
+        <textarea class="form-control" rows="10" name="text" ngModel required></textarea>
+
+        <button class="btn btn-success" >SEND A MESSAGE</button>
+      </div>
+
+    </form>
+  </div>
+</div>

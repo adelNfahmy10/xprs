@@ -2,10 +2,11 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core
 import { currentYear } from '../../common/constants'
 import { CategoryService } from '@core/services/category/category.service'
 import { NgbCollapseModule } from '@ng-bootstrap/ng-bootstrap'
+import { RouterLink } from "@angular/router";
 
 @Component({
     selector: 'app-footer',
-    imports: [NgbCollapseModule],
+    imports: [NgbCollapseModule, RouterLink],
     templateUrl: './footer.component.html',
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
