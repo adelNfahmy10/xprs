@@ -36,7 +36,7 @@ export class CartComponent implements OnInit{
   }
 
   getAllCart():void{
-    if(this.cartId){
+    if(this.cartId()){
       this._CartService.getCart(this.cartId()).subscribe({
         next:(res)=>{
           this._CartService.cartCount.set(res.cartproduct.length)
@@ -69,7 +69,7 @@ export class CartComponent implements OnInit{
 
   updateProductCount(item:any):void{
     let data = {
-      cart: this.cartId(),
+      cart: this.cartId() == '0' ? +this.cartId()! : this.cartId(),
       product: item.id,
       product_property: item.product_property,
       quantity: this.quantity

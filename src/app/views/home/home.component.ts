@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit{
   categories:any[] = []
   allFavoriteItems:any[] = []
   cart:any[] = []
-  cartId:string | null = localStorage.getItem('xprsCartId')
+  cartId = this._CartService.cartId
 
   ngOnInit(): void {
     this.getHomeData()
@@ -109,7 +109,7 @@ export class HomeComponent implements OnInit{
       cartItem => cartItem.product?.id === item.id
     );
   }
-  
+
   addToCart(item:any):void{
     const cartItem = this.getCartItem(item);
 
@@ -126,7 +126,7 @@ export class HomeComponent implements OnInit{
 
     const data = {
       product: item.id,
-      cart: this.cartId,
+      cart: this.cartId() == '0' ? +this.cartId()! : this.cartId(),
       quantity: item.quantity || 1,
       product_property: null,
       card: null,
@@ -149,8 +149,8 @@ export class HomeComponent implements OnInit{
   }
 
   getAllCart():void{
-    if(this.cartId){
-      this._CartService.getCart(this.cartId).subscribe({
+    if(this.cartId()){
+      this._CartService.getCart(this.cartId()).subscribe({
         next:(res)=>{
           this.cart = res?.cartproduct || [];
           this._CartService.cartCount.set(res.cartproduct.length)

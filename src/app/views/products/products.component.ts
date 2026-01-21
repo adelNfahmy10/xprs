@@ -26,7 +26,7 @@ export class ProductsComponent implements OnInit{
   private readonly _CategoryService = inject(CategoryService)
 
   cart:any[] = []
-  cartId:string | null = localStorage.getItem('xprsCartId')
+  cartId = this._CartService.cartId
 
   productData:any;
   productSlug:any;
@@ -81,7 +81,7 @@ export class ProductsComponent implements OnInit{
   addToCart():void{
     const data = {
       product: this.productSlug,
-      cart: this.cartId,
+      cart: this.cartId() == '0' ? +this.cartId()! : this.cartId(),
       quantity: this.productData.quantity || 1,
       product_property: null,
       card: null,
@@ -102,8 +102,8 @@ export class ProductsComponent implements OnInit{
   }
 
   getAllCart():void{
-    if(this.cartId){
-      this._CartService.getCart(this.cartId).subscribe({
+    if(this.cartId()){
+      this._CartService.getCart(this.cartId()).subscribe({
         next:(res)=>{
           this.cart = res?.cartproduct || [];
           this._CartService.cartCount.set(res.cartproduct.length)

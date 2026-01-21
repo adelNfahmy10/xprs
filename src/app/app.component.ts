@@ -56,9 +56,7 @@ export class AppComponent implements OnInit{
   addCart():void{
     this._CartService.addCart().subscribe({
       next:(res)=>{
-        if(this.token()){
-          localStorage.setItem('userCartId', res.id)
-        } else {
+        if(!this.token()){
           localStorage.setItem('xprsCartId', res.id)
         }
       }

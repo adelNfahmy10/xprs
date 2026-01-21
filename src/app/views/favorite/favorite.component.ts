@@ -18,7 +18,7 @@ export class FavoriteComponent implements OnInit{
 
   allFavorites: any[] = [];
   cart:any[] = []
-  cartId:string | null = localStorage.getItem('xprsCartId')
+  cartId = this._CartService.cartId
 
   ngOnInit(): void {
     this.getAllCart()
@@ -72,7 +72,7 @@ export class FavoriteComponent implements OnInit{
 
     const data = {
       product: item.id,
-      cart: this.cartId,
+      cart: this.cartId() == '0' ? +this.cartId()! : this.cartId(),
       quantity: item.quantity || 1,
       product_property: null,
       card: null,
@@ -95,8 +95,8 @@ export class FavoriteComponent implements OnInit{
   }
 
   getAllCart():void{
-    if(this.cartId){
-      this._CartService.getCart(this.cartId).subscribe({
+    if(this.cartId()){
+      this._CartService.getCart(this.cartId()).subscribe({
         next:(res)=>{
           this.cart = res?.cartproduct || [];
           this._CartService.cartCount.set(res.cartproduct.length)

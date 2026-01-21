@@ -15,7 +15,7 @@ export class CartService {
   token: WritableSignal<string | null> = signal(localStorage.getItem('xprsToken'));
 
   // ✅ cartId لازم Signal
-  cartId = signal<string | null>(localStorage.getItem('xprsCartId'));
+  cartId = localStorage.getItem('userCartId') ? signal<string | null>(localStorage.getItem('userCartId')) : signal<string | null>(localStorage.getItem('xprsCartId'))
 
   constructor() {
     effect(() => {

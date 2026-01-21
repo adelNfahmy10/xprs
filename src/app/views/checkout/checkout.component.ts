@@ -40,11 +40,11 @@ export class CheckoutComponent implements OnInit{
     "Shubra", "Shubra El Kheima", "Siwa", "sohag City", "Suez", "Taba City", "Tanta", "Tebin", "Torah", "Toshka", "Wadi El Natroun", "Zakazik", "Zamalek"
   ];
   hearAboutUs:string[] = [
-    "WhatsApp",
+    "Whatsapp",
     "Facebook",
-    "instgram",
+    "instagram",
     "Tiktok",
-    "Call Center",
+    "Call center",
     "Live chat",
     "Website"
   ]
@@ -62,7 +62,7 @@ export class CheckoutComponent implements OnInit{
   }
 
   getAllCart():void{
-    if(this.cartId){
+    if(this.cartId()){
       this._CartService.getCart(this.cartId()).subscribe({
         next:(res)=>{
           this._CartService.cartCount.set(res.cartproduct.length)
@@ -257,9 +257,8 @@ export class CheckoutComponent implements OnInit{
 
   submitCheckout():void{
     let data = this.checkoutForm.value
-    data.cart = this.cartId()
+    data.cart = this.cartId() == '0' ? +this.cartId()! : this.cartId(),
     data.code = this.promoCode
-    data.hear = ''
     this.paymentMethod = data.payment_method
 
     this._CheckoutService.addOrder(data).subscribe({
@@ -276,7 +275,7 @@ export class CheckoutComponent implements OnInit{
 
           const token = localStorage.getItem('xprsToken');
           if (token) {
-            this._Router.navigate(['/profile/orders']);
+            this._Router.navigate(['/myorder']);
           } else {
             this._Router.navigate(['/home']);
           }

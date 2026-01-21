@@ -39,12 +39,7 @@ export class OrderComponent implements OnInit{
     this._OrderService.shippingInstruction().subscribe({
       next:(res)=>{
         this.shippingData = res
-        console.log(this.shippingData);
-
       }
     })
   }
-
-
-
 }

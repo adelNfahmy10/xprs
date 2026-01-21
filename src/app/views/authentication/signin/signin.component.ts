@@ -23,6 +23,7 @@ export class SigninComponent {
   private readonly _Router = inject(Router)
 
   token = this._CartService.token
+  cartId = this._CartService.cartId
 
   loginForm:FormGroup = this._FormBuilder.group({
     username:[null],
@@ -36,6 +37,10 @@ export class SigninComponent {
       next:(res)=>{
         localStorage.setItem('xprsToken', res.token)
         this.token.set(localStorage.getItem('xprsToken'))
+        localStorage.setItem('userCartId', '0')
+        this.cartId.set(localStorage.getItem('userCartId'))
+
+        this.getUserCart(this.cartId)
         this.getUserInfo()
 
         this._ToastrService.success('Login Successfully!')
@@ -43,6 +48,16 @@ export class SigninComponent {
       },
       error:(err)=>{
         this._ToastrService.error(err.error.username[0])
+      }
+    })
+  }
+
+  getUserCart(cartId:any):void{
+    this._CartService.getCartCount(cartId).subscribe({
+      next:(res)=>{
+        this._CartService.cartCount.set(res.cartproduct.length);
+        this._CartService.cartProducts.set(res.cartproduct);
+        this._CartService.subTotal.set(res.total);
       }
     })
   }

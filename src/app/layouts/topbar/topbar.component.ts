@@ -55,20 +55,18 @@ export class TopbarComponent{
   searchResults: any[] = [];
   cartCount = this._CartService.cartCount;
   cartProducts = this._CartService.cartProducts;
+  cart:any[] = []
+  cartId = this._CartService.cartId
+  private searchSubject = new Subject<string>();
+  private destroy$ = new Subject<void>();
 
   constructor(@Inject(DOCUMENT) private document: Document & FullScreenTypes) {
     effect(() => {
-      // console.log('Navbar cart count:', this.cartProducts());
+      this.getAllCart()
     });
   }
 
-  private searchSubject = new Subject<string>();
-  private destroy$ = new Subject<void>();
-  cart:any[] = []
-  cartId:string | null = localStorage.getItem('xprsCartId')
-
   ngOnInit(): void {
-
     this.searchSubject
       .pipe(
         debounceTime(300),
@@ -153,17 +151,14 @@ export class TopbarComponent{
   }
 
   getAllCart():void{
-    if(this.cartId){
-      this._CartService.getCart(this.cartId).subscribe({
-        next:(res)=>{
-          this.cart = res?.cartproduct || [];
-          this._CartService.cartCount.set(res.cartproduct.length)
-          this._CartService.cartProducts.set(res.cartproduct)
-        }
-      })
-    }
+    this._CartService.getCart(this.cartId()).subscribe({
+      next:(res)=>{
+        this.cart = res?.cartproduct || [];
+        this._CartService.cartCount.set(res.cartproduct.length)
+        this._CartService.cartProducts.set(res.cartproduct)
+      }
+    })
   }
-
 
   closeSearch():void{
     this.searchResults = []
@@ -175,7 +170,6 @@ export class TopbarComponent{
     this.destroy$.complete();
   }
 
-
   notificationList = notificationsData
   element!: FullScreenTypes
 
@@ -184,8 +178,6 @@ export class TopbarComponent{
 
   router = inject(Router)
   store = inject(Store)
-
-
 
   settingMenu() {
     this.settingsButtonClicked.emit()
@@ -245,6 +237,7 @@ export class TopbarComponent{
   logout():void {
     localStorage.removeItem('xprsToken')
     localStorage.removeItem('userId')
+    localStorage.removeItem('userCartId')
     localStorage.removeItem('fullName')
     localStorage.removeItem('userEmail')
     localStorage.removeItem('userPhone')
