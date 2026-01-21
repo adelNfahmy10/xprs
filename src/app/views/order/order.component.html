@@ -21,20 +21,11 @@
             <table class="table align-middle text-nowrap table-hover table-centered mb-0" >
               <thead class="bg-light-subtle">
                 <tr>
-                  <!-- <th style="width: 20px">
-                    <div class="form-check">
-                      <input
-                        type="checkbox"
-                        class="form-check-input"
-                        id="customCheck1"
-                      />
-                      <label class="form-check-label" for="customCheck1"></label>
-                    </div>
-                  </th> -->
                   <th>Order Id</th>
                   <th>Product(s)</th>
                   <th>Date</th>
                   <th>Amount</th>
+                  <th>Address</th>
                   <th>Status</th>
                   <th>Paid</th>
                 </tr>
@@ -45,41 +36,41 @@
                     <td>{{ item.id }}</td>
                     <td>
                       @for(product of item.orderproducts; track $index){
-                        <div class="d-flex align-items-center gap-2">
+                        <div class="d-flex align-items-center gap-2 mt-1 border-bottom">
                           <div>
                             <img
                               [src]="product.picture"
-                              alt=""
-                              class="avatar-sm rounded-circle"
+                              [alt]="product.name"
+                              class="avatar-md rounded-circle"
                             />
                           </div>
-                          <div>
+                          <div class="d-flex flex-column">
                             <a
                               href="javascript:void(0);"
-                              class="text-dark fw-medium fs-15"
-                              >{{ product.product.name }}</a>
+                              class="main-color fw-bold fs-15"
+                              >{{ product.product.name.slice(0,40)}}...</a>
                             <a
                               href="javascript:void(0);"
-                              class="text-dark fs-10"
+                              class="text-dark fw-medium fs-10"
                               >{{ product.product.category }}</a>
                             <a
                               href="javascript:void(0);"
-                              class="text-dark fs-10"
-                              >{{ product.product.total }} EGP</a>
+                              class="text-dark fw-medium fs-12"
+                              >{{ product.total }} EGP
+                            </a>
                           </div>
                         </div>
                       }
-
                     </td>
                     <td>{{ item.date_placed | date}}</td>
+                    <td>{{ item.total | number}} EGP</td>
                     <td>{{ item._address }}</td>
-                    <td>{{ item.total }}</td>
                     <td>{{ item.status }}</td>
                     <td>
                       <span
                         class="badge text-white fs-11"
                         [ngClass]="
-                          item.paid == true ? 'bg-success' : ''"
+                          item.paid == true ? 'bg-success' : 'bg-warning'"
                         >{{ item.paid ? "Paid" : "Pending" }}</span
                       >
                     </td>
@@ -93,7 +84,7 @@
         <div class="card-footer border-top">
           <nav aria-label="Page navigation example">
             <ngb-pagination
-              [collectionSize]="30"
+              [collectionSize]="1"
               [page]="1"
               class="pagination justify-content-end mb-0"
             >
