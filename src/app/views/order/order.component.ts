@@ -42,4 +42,13 @@ export class OrderComponent implements OnInit{
       }
     })
   }
+
+  cancelResone:string = ''
+  cancelOrder(order:any):void{
+    let data = {
+      status : order.status,
+      reason_for_cancelation: this.cancelResone
+    };
+    this._OrderService.cancelOrder(order.id, data)
+  }
 }

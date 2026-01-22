@@ -58,6 +58,7 @@ export class AppComponent implements OnInit{
       next:(res)=>{
         if(!this.token()){
           localStorage.setItem('xprsCartId', res.id)
+          this.cartId.set(localStorage.getItem('xprsCartId'))
         }
       }
     })

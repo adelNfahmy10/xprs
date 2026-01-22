@@ -28,6 +28,7 @@
                   <th>Address</th>
                   <th>Status</th>
                   <th>Paid</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -73,6 +74,11 @@
                           item.paid == true ? 'bg-success' : 'bg-warning'"
                         >{{ item.paid ? "Paid" : "Pending" }}</span
                       >
+                    </td>
+                    <td>
+                      <div class="text-center">
+                        <i class="ri-delete-bin-line fs-20 text-danger" (click)="cancelOrder(item)"></i>
+                      </div>
                     </td>
                   </tr>
                 }

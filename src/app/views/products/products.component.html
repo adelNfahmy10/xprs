@@ -33,7 +33,7 @@
         <div class="card">
           <div class="card-body">
             <div class="d-flex align-items-center justify-content-between">
-              <div>
+              <div class="position-relative prodcut-info">
                 <h3 class="card-title text-black fs-22 mb-2">{{ productData?.name }}</h3>
                 <h4 class="card-title mb-2">{{ productData?.category?.name }}</h4>
                 @if(productData?.availability == "Out Of Stock"){
@@ -41,6 +41,21 @@
                 } @else if(productData?.availability == 'In Stock') {
                   <span class="badge badge-outline-success">{{productData?.availability}}</span>
                 }
+                <button
+                  type="button"
+                  class="btn avatar-sm fav-btn d-inline-flex align-items-center justify-content-center fs-25 rounded p-3"
+                  (click)="addToFavorite(productData)"
+                  [ngClass]="{
+                    'btn-success' : isFavorite(productData),
+                    'bg-light text-success': !isFavorite(productData)
+                  }"
+                >
+                  <i class="main-color"
+                    [ngClass]="{
+                      'ri-heart-2-fill': isFavorite(productData),
+                      'ri-heart-2-line': !isFavorite(productData)
+                    }"></i>
+                </button>
 
                 <!-- Rate -->
                 @if(productData?.reviews?.length != 0){
@@ -306,7 +321,6 @@
                 {{productData?.is_preorder == true ? 'Pre Order' : 'Already in Cart'}}
               </button>
             }
-
           </div>
         </div>
       </div>
@@ -330,22 +344,6 @@
                           <button
                             type="button"
                             class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
-                            (click)="addToFavorite(item)"
-                            [ngClass]="{
-                              'btn-success' : isFavorite(item),
-                              'bg-light text-success': !isFavorite(item)
-                            }"
-                          >
-                            <i class="main-color"
-                              [ngClass]="{
-                                'ri-heart-2-fill': isFavorite(item),
-                                'ri-heart-2-line': !isFavorite(item)
-                              }"></i>
-                          </button>
-
-                          <button
-                            type="button"
-                            class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
                             (click)="addProductRelatedToCart(item)"
                             [ngClass]="{
                               'btn-success' : isCart(item),
@@ -359,6 +357,21 @@
                               }"></i>
                           </button>
                         }
+                        <button
+                          type="button"
+                          class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
+                          (click)="addToFavorite(item)"
+                          [ngClass]="{
+                            'btn-success' : isFavorite(item),
+                            'bg-light text-success': !isFavorite(item)
+                          }"
+                        >
+                          <i class="main-color"
+                            [ngClass]="{
+                              'ri-heart-2-fill': isFavorite(item),
+                              'ri-heart-2-line': !isFavorite(item)
+                            }"></i>
+                        </button>
                       </span>
                       <span class="position-absolute top-0 end-0 p-1">
                         @if(item?.availability != 'In Stock'){

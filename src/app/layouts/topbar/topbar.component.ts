@@ -62,7 +62,9 @@ export class TopbarComponent{
 
   constructor(@Inject(DOCUMENT) private document: Document & FullScreenTypes) {
     effect(() => {
-      this.getAllCart()
+      if(this.cartId()){
+        this.getAllCart()
+      }
     });
   }
 

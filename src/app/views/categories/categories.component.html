@@ -2,7 +2,7 @@
   <div class="panel">
     <div class="row">
       <div class="col-md-3">
-        <div class="card">
+        <div class="card mb-0">
           <div class="card-header border-bottom">
             <div>
               <!-- <h4 class="card-title">Category Options</h4> -->
@@ -11,6 +11,18 @@
           </div>
 
           <div class="card-body border-light">
+            <div class="d-flex flex-wrap align-items-center gap-1 mb-2">
+              <label class="form-label fw-bold m-0">Sort By : </label>
+              <select class="form-select w-75 px-2 py-1" [(ngModel)]="sort" (change)="sortProducts()">
+                <option value="-id">Newest</option>
+                <option value="stock">Stock</option>
+                <option value="name">Name: A to Z</option>
+                <option value="-name">Name: Z to A</option>
+                <option value="price">Price Low to High</option>
+                <option value="-price">Price High to Low</option>
+              </select>
+            </div>
+
             <form class="d-flex flex-column gap-2">
               <!-- Select Categories -->
               <div class="select-categories">
@@ -29,7 +41,14 @@
                                 @for (subCat of cat.cat_subcategories; track $index) {
                                   <div class="col-md-6">
                                     <div class="d-flex gap-1">
-                                      <input [value]="subCat.id" (change)="onSubCategoryChange($event, cat.id)"  type="checkbox" class="form-check-input"  [id]="'category-' + subCat.id">
+                                      <input
+                                        [value]="subCat.id"
+                                        (change)="onSubCategoryChange($event, cat.id)"
+                                        [checked]="selectedSubCategories.includes(subCat.id)"
+                                        type="checkbox"
+                                        class="form-check-input"
+                                        [id]="'category-' + subCat.id"
+                                      >
                                       <label class="form-check-label" [for]="'category-' + subCat.id">{{subCat.name}}</label>
                                     </div>
                                   </div>
@@ -57,7 +76,15 @@
                           @for (brand of catergoryBrands; track $index) {
                             <div class="col-md-6">
                               <div class="d-flex gap-1">
-                                <input [value]="brand.name" (change)="onBrandsChange($event)" type="checkbox" [id]="'brand-' + brand.id" [name]="'brand-' + brand.name" class="form-check-input">
+                                <input
+                                  [value]="brand.name"
+                                  (change)="onBrandsChange($event)"
+                                  [checked]="selectedBrands.includes(brand.name)"
+                                  type="checkbox"
+                                  [id]="'brand-' + brand.id"
+                                  [name]="'brand-' + brand.name"
+                                  class="form-check-input"
+                                >
                                 <label class="form-check-label"  [for]="'brand-' + brand.id">{{brand.name}}</label>
                               </div>
                             </div>
@@ -84,7 +111,14 @@
                               @for (rams of ramsProduct; track $index) {
                                 <div class="col-md-6">
                                   <div class="d-flex gap-1">
-                                    <input [value]="rams.id" (change)="onRamsChange($event)" type="checkbox" class="form-check-input"  [id]="'category-' + rams.id">
+                                    <input
+                                      [value]="rams.id"
+                                      (change)="onRamsChange($event)"
+                                      [checked]="selectedRams.includes(rams.name)"
+                                      type="checkbox"
+                                      class="form-check-input"
+                                      [id]="'category-' + rams.id"
+                                    >
                                     <label class="form-check-label"  [for]="'category-' + rams.id">{{rams.name}}</label>
                                   </div>
                                 </div>
@@ -112,7 +146,15 @@
                               @for (storage of storageProduct; track $index) {
                                 <div class="col-md-6">
                                   <div class="d-flex gap-1">
-                                    <input [value]="storage.id" (change)="onStorageChange($event)" [id]="'category-' + storage.id" type="radio" id="customRadiocolor2" name="customRadiocolor2" class="form-check-input">
+                                    <input
+                                      [value]="storage.id"
+                                      (change)="onStorageChange($event)"
+                                      [checked]="selectedStorage === storage.id"
+                                      [id]="'category-' + storage.id"
+                                      type="radio" id="customRadiocolor2"
+                                      name="customRadiocolor2"
+                                      class="form-check-input"
+                                    >
                                     <label class="form-check-label"  [for]="'category-' + storage.id">{{storage.name}}</label>
                                   </div>
                                 </div>
@@ -145,7 +187,14 @@
                               @for (processors of processorsProduct; track $index) {
                                 <div class="col-md-6">
                                   <div class="d-flex gap-1">
-                                    <input [value]="processors.id" (change)="onProcessorChange($event)" type="checkbox" class="form-check-input"  [id]="'category-' + processors.id">
+                                    <input
+                                      [value]="processors.id"
+                                      (change)="onProcessorChange($event)"
+                                      [checked]="selectedProcessors.includes(processors.id)"
+                                      type="checkbox"
+                                      class="form-check-input"
+                                      [id]="'category-' + processors.id"
+                                    >
                                     <label class="form-check-label"  [for]="'category-' + processors.id">{{processors.name}}</label>
                                   </div>
                                 </div>
@@ -178,7 +227,14 @@
                               @for (graphics of graphicsCardsproduct; track $index) {
                                 <div class="col-md-6">
                                   <div class="d-flex gap-1">
-                                    <input [value]="graphics.id" (change)="onGraphicChange($event)" type="checkbox" class="form-check-input"  [id]="'category-' + graphics.id">
+                                    <input
+                                      [value]="graphics.id"
+                                      (change)="onGraphicChange($event)"
+                                      [checked]="selectedGraphics.includes(graphics.id)"
+                                      type="checkbox"
+                                      class="form-check-input"
+                                      [id]="'category-' + graphics.id"
+                                    >
                                     <label class="form-check-label"  [for]="'category-' + graphics.id">{{graphics.name}}</label>
                                   </div>
                                 </div>
@@ -221,8 +277,9 @@
             </div>
           </div>
 
-          <div class="card-footer">
-            <a href="javascript:void(0);" class="btn main-bg fw-bold text-dark w-100" (click)="filterProducts()">Filter</a>
+          <div class="card-footer d-flex flex-wrap gap-2">
+            <button class="btn main-btn fw-bold w-100" (click)="filterProducts()">Filter</button>
+            <button class="btn btn-outline-danger w-100" (click)="resetFilters()"> Reset Filters </button>
           </div>
         </div>
       </div>
@@ -233,27 +290,11 @@
             <div class="col-lg-4 col-6">
               <div class="card offer-cart overflow-hidden">
                 <div class="position-relative text-center">
-                  <img [src]="item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0"/>
+                  <img [src]="item?.picture1" [alt]="item?.picture1_alt" [routerLink]="'/product/' + item.id" class="offer-img rounded-0 cr"/>
                   <!-- <img [src]="item?.picture2 ? item?.picture2 : item?.picture1" [alt]="item?.picture1_alt" class="offer-img rounded-0" />
                   <img [src]="item?.picture3 ? item?.picture3 : item?.picture3" [alt]="item?.picture1_alt" class="offer-img rounded-0" /> -->
                   <span class="position-absolute d-flex flex-column gap-1 top-0 start-0 p-1">
-                      @if (item?.availability == 'In Stock') {
-                      <button
-                        type="button"
-                        class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
-                        (click)="addToFavorite(item)"
-                        [ngClass]="{
-                          'btn-success' : isFavorite(item),
-                          'bg-light text-success': !isFavorite(item)
-                        }"
-                      >
-                        <i class="main-color"
-                          [ngClass]="{
-                            'ri-heart-2-fill': isFavorite(item),
-                            'ri-heart-2-line': !isFavorite(item)
-                          }"></i>
-                      </button>
-
+                    @if (item?.availability == 'In Stock') {
                       <button
                         type="button"
                         class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
@@ -270,6 +311,21 @@
                           }"></i>
                       </button>
                     }
+                    <button
+                        type="button"
+                        class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
+                        (click)="addToFavorite(item)"
+                        [ngClass]="{
+                          'btn-success' : isFavorite(item),
+                          'bg-light text-success': !isFavorite(item)
+                        }"
+                      >
+                        <i class="main-color"
+                          [ngClass]="{
+                            'ri-heart-2-fill': isFavorite(item),
+                            'ri-heart-2-line': !isFavorite(item)
+                          }"></i>
+                      </button>
                   </span>
                   <span class="position-absolute top-0 end-0 p-1">
                     @if(item?.availability != 'In Stock'){

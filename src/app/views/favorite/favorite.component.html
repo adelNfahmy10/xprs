@@ -9,22 +9,6 @@
               <span class="position-absolute d-flex flex-column gap-1 top-0 start-0 p-1">
                 @if (item?.availability == 'In Stock') {
                   <button
-                    type="button"
-                    class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
-                    (click)="toggleFavorite(item)"
-                    [ngClass]="{
-                      'btn-success text-light': isFavorite(item),
-                      'bg-success-subtle text-success': !isFavorite(item)
-                    }"
-                  >
-                    <i class="main-color"
-                      [ngClass]="{
-                        'ri-heart-2-fill': isFavorite(item),
-                        'ri-heart-2-line': !isFavorite(item)
-                      }"></i>
-                  </button>
-
-                  <button
                       type="button"
                       class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
                       (click)="addToCart(item)"
@@ -40,6 +24,22 @@
                         }"></i>
                     </button>
                 }
+                <button
+                  type="button"
+                  class="btn avatar-sm d-inline-flex align-items-center justify-content-center fs-20 rounded"
+                  (click)="toggleFavorite(item)"
+                  [ngClass]="{
+                    'btn-success text-light': isFavorite(item),
+                    'bg-success-subtle text-success': !isFavorite(item)
+                  }"
+                >
+                  <i class="main-color"
+                    [ngClass]="{
+                      'ri-heart-2-fill': isFavorite(item),
+                      'ri-heart-2-line': !isFavorite(item)
+                    }"></i>
+                </button>
+
               </span>
               <span class="position-absolute top-0 end-0 p-1">
                 @if(item?.availability != 'In Stock'){

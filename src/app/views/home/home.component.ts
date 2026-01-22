@@ -1,4 +1,4 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, effect, inject, OnInit } from '@angular/core';
 import { Autoplay, EffectCreative, EffectFade, Navigation, Pagination } from 'swiper/modules';
 import { SwiperOptions } from 'swiper/types';
 import { SwiperDirective } from '@component/swiper-directive.component'
@@ -112,6 +112,7 @@ export class HomeComponent implements OnInit{
 
   addToCart(item:any):void{
     const cartItem = this.getCartItem(item);
+    console.log(this.cartId());
 
     // 🟥 لو موجود → احذف
     if (cartItem) {
@@ -176,7 +177,7 @@ export class HomeComponent implements OnInit{
       },
     },
     autoplay: {
-      delay: 5000,
+      delay: 10000,
       disableOnInteraction: false,
       pauseOnMouseEnter: true,
     },
@@ -220,7 +221,7 @@ export class HomeComponent implements OnInit{
     },
 
     autoplay: {
-      delay: 5000,
+      delay: 12000,
       disableOnInteraction: false,
       pauseOnMouseEnter: true,
     },
@@ -260,7 +261,7 @@ export class HomeComponent implements OnInit{
     },
 
     autoplay: {
-      delay: 5000,
+      delay: 15000,
       disableOnInteraction: false,
       pauseOnMouseEnter: true,
     },
@@ -299,7 +300,7 @@ export class HomeComponent implements OnInit{
     },
 
     autoplay: {
-      delay: 5000,
+      delay: 8000,
       disableOnInteraction: false,
       pauseOnMouseEnter: true,
     },
@@ -338,7 +339,7 @@ export class HomeComponent implements OnInit{
     },
 
     autoplay: {
-      delay: 5000,
+      delay: 9000,
       disableOnInteraction: false,
       pauseOnMouseEnter: true,
     },

@@ -214,7 +214,7 @@ export class CategoriesComponent implements OnInit{
     }
   }
 
-  // Brands Select Options
+  // Rams Select Options
   onRamsChange(event: any) {
     const value = event.target.value;
     if (event.target.checked) {
@@ -288,6 +288,79 @@ export class CategoriesComponent implements OnInit{
     });
   }
 
+  sort:string = ''
+  sortProducts(): void {
+    this.page = 1; // reset pagination عند تغيير الترتيب
+
+    this._CategoryService.getProducts(
+      '', // search
+      this.selectedCategories.length ? this.selectedCategories : [this.categoryId],
+      this.selectedSubCategories,
+      this.selectedBrands,
+      this.selectedGraphics,
+      this.selectedProcessors,
+      this.selectedRams,
+      this.selectedStorage,
+      this.sort || '-id', // 👈 هنا التغيير المهم
+      this.pageSize,
+      this.page,
+      this.someRange[0].toString(),
+      this.someRange[1].toString(),
+      '', '', '', '', '', '', '', '', '', ''
+    ).subscribe({
+      next: (res) => {
+        this.productsCategory = res.results;
+        this.totalProducts = res.count || res.results.length;
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+  // reset filters
+  resetFilters(): void {
+
+
+    // reset range
+    this.someRange = [6000, 100000];
+
+    // reset sort & pagination
+    this.sort = '-id';
+    this.page = 1;
+
+    // reload products
+    this._CategoryService.getProducts(
+      '',
+      [this.categoryId],
+      [],
+      [],
+      [],
+      [],
+      [],
+      '',
+      this.sort,
+      this.pageSize,
+      this.page,
+      this.someRange[0].toString(),
+      this.someRange[1].toString(),
+      '', '', '', '', '', '', '', '', '', ''
+    ).subscribe({
+      next: (res) => {
+        this.productsCategory = res.results;
+        this.totalProducts = res.count || res.results.length;
+        this.selectedCategories = [];
+        this.selectedSubCategories = [];
+        this.selectedBrands = [];
+        this.selectedRams = [];
+        this.selectedStorage = '';
+        this.selectedProcessors = [];
+        this.selectedGraphics = [];
+
+      },
+      error: (err) => console.error(err)
+    });
+  }
+
+
   allFavoriteItems:any[] = []
   cart:any[] = []
   cartId = this._CartService.cartId
@@ -312,7 +385,6 @@ export class CategoriesComponent implements OnInit{
     // تحديث localStorage
     localStorage.setItem('myFavProduct', JSON.stringify(this.allFavoriteItems));
   }
-
 
 
   isCart(item: any): boolean {
